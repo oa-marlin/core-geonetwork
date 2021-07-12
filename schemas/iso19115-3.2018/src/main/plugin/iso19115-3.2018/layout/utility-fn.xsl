@@ -7,6 +7,7 @@
   xmlns:mcc="http://standards.iso.org/iso/19115/-3/mcc/1.0"
   xmlns:gn-fn-iso19115-3.2018="http://geonetwork-opensource.org/xsl/functions/profiles/iso19115-3.2018"
   xmlns:gn-fn-metadata="http://geonetwork-opensource.org/xsl/functions/metadata"
+  xmlns:delwp="https://github.com/geonetwork-delwp/iso19115-3.2018"
   exclude-result-prefixes="#all">
 
 

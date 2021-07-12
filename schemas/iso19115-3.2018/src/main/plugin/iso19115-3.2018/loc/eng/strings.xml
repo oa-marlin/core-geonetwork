@@ -26,8 +26,7 @@
   <temporalRef>Temporal information</temporalRef>
   <constraintInfo>Access constraint information</constraintInfo>
   <xml_iso19139>Save this metadata as an ISO19139 XML file</xml_iso19139>
-  <xml_iso19139Tooai_dc>Save this metadata as an OAI Dublin Core XML file
-  </xml_iso19139Tooai_dc>
+  <xml_iso19139Tooai_dc>Save this metadata as an OAI Dublin Core XML file</xml_iso19139Tooai_dc>
   <resourceLineageTab>Lineage</resourceLineageTab>
 
   <advanced>Full</advanced>
@@ -80,4 +79,200 @@
   <spatialExtent>Spatial extent</spatialExtent>
   <freeTextKeywords>Other keywords</freeTextKeywords>
   <noThesaurusName>Keywords</noThesaurusName>
+
+  <!-- DELWP Additions -->
+  <acquisitionInfo>Acquisition Info</acquisitionInfo>
+  <acquisitionInformation>Acquisition Info</acquisitionInformation>
+  <anzlicId>ANZLIC Id</anzlicId>
+  <alternateTitle>Resource Name</alternateTitle>
+  <associatedResources>Associated resources</associatedResources>
+  <bboxesSection>Geographic coverage</bboxesSection>
+  <citationProposal>Citation proposal</citationProposal>
+  <citationProposal-help>This proposal was automatically generated, check if the metadata authors did not specified custom citation requirements.</citationProposal-help>
+  <contact>Metadata Contact</contact>
+  <conceptualConsistency>Conceptual Consistency</conceptualConsistency>
+  <completenessOmission>Missing Data</completenessOmission>
+  <conformity_title>Report Title</conformity_title>
+  <conformity_date>Report Date</conformity_date>
+  <explanation>Comments</explanation>
+  <logicalConsistency>Logical Consistency</logicalConsistency>
+  <linkToPortal>Access to the portal</linkToPortal>
+  <linkToPortal-help>Read here the full details and access to the data.</linkToPortal-help>
+  <metadataInXML>XML</metadataInXML>
+  <notEvaluated>Not evaluated</notEvaluated>
+  <overviews>Overviews</overviews>
+  <pass>Pass</pass>
+  <pointOfContact>Resource Contact</pointOfContact>
+  <providedBy>Provided by</providedBy>
+  <qualityMeasures>Q. measures</qualityMeasures>
+  <resourceIdentification>Resource Identification</resourceIdentification>
+  <resourceQuality>Quality</resourceQuality>
+
+  <source>Source</source>
+  <shareOnSocialSite>Share on social sites</shareOnSocialSite>
+  <viewMode>Views</viewMode>
+
+  <!-- new tabs in default mode -->
+  <resourceCitation>Citation</resourceCitation>
+  <description>Description</description>
+  <resourceContacts>Contacts</resourceContacts>
+  <resourceKeywords>Keywords</resourceKeywords>
+  <projectKeywords>Keywords</projectKeywords>
+  <resourceMaintenance>Maintenance</resourceMaintenance>
+  <projectConstraints>Constraints</projectConstraints>
+  <resourceAcquisitionInfo>Acquisition Info</resourceAcquisitionInfo>
+  <projectAcquisitionInfo>Acquisition Info</projectAcquisitionInfo>
+  <constraints>Constraints</constraints>
+  <resourceConstraints>Constraints</resourceConstraints>
+  <metadataConstraints>Metadata Constraints</metadataConstraints>
+  <projectContacts>Responsibility</projectContacts>
+  <resourceSpatial>Spatial</resourceSpatial>
+  <resourceTemporal>Temporal</resourceTemporal>
+  <distribution_name>Name</distribution_name>
+  <distribution_version>Version</distribution_version>
+  <resourceType>Type</resourceType>
+  <resourceResponsibleParties>Responsibility</resourceResponsibleParties>
+  <resourceLineageTab>Lineage</resourceLineageTab>
+  <resourceFormat>Format</resourceFormat>
+  <resourceFormatNoTitle></resourceFormatNoTitle>
+  <distribution>Distribution</distribution>
+  <resourceExtents>Extents</resourceExtents>
+  <projectExtents>Extents</projectExtents>
+  <rasterDataDetails>Raster Data Details</rasterDataDetails>
+  <rasterTypeDetails>Raster Type Details</rasterTypeDetails>
+  <pointCloudDataDetails>Point Cloud Data Details</pointCloudDataDetails>
+  <contourDataDetails>Contour Data Details</contourDataDetails>
+  <surveyDetails>Survey Details</surveyDetails>
+
+  <useAssociatedResources><span>Add an online resource for distribution using the "<i class="fa fa-link"></i><i class="icon-external-link"></i>Associated resources" panel at the right hand side of the form</span></useAssociatedResources>
+  <useAssociatedResourcesForOperatesOn><span>Select metadata records describing datasets that the service operates on using the "<i class="fa fa-link"></i><i class="icon-external-link"></i>Associated resources" panel at the right hand side of the form. Use the "<i class="fa fa-files-o"></i><i class="icon-external-link"></i>Link to a dataset" menu option.</span></useAssociatedResourcesForOperatesOn>
+
+  <projectPartner>Project Partner</projectPartner>
+  <projectScheduleNumber>RFQ Number</projectScheduleNumber>
+  <projectPartnerAgency>Agency</projectPartnerAgency>
+  <projectPartnerName>Name</projectPartnerName>
+  <projectPartnerPurpose>Purpose</projectPartnerPurpose>
+  <yearOfAcquisition>Year (eg. 2008-9)</yearOfAcquisition>
+
+  <xPixelResolution>X Pixel Resolution</xPixelResolution>
+  <yPixelResolution>Y Pixel Resolution</yPixelResolution>
+  <columns>Number Columns</columns>
+  <rows>Number Rows</rows>
+
+  <supplier>Supplier</supplier>
+
+  <!-- viewer stuff -->
+  <rowResolution>Row Resolution</rowResolution>
+  <colResolution>Column Resolution</colResolution>
+  <details>Details</details>
+  <identifiersAndKeywords>Identifiers and Keywords</identifiersAndKeywords>
+  <resolution>Resolution</resolution>
+  <spatial>Spatial</spatial>
+  <acquisitionDate>Acquisition Date</acquisitionDate>
+  <acquisitionGeneralData>Acquisition Data (Common)</acquisitionGeneralData>
+  <acquisitionRasterDetails>Raster Details</acquisitionRasterDetails>
+  <acquisitionPointCloudDetails>Point Cloud Details</acquisitionPointCloudDetails>
+  <acquisitionContourDetails>Contour Details</acquisitionContourDetails>
+  <acquisitionAerialPhotoDetails>Aerial Photo Details</acquisitionAerialPhotoDetails>
+  <acquisitionInstrument>Instrument</acquisitionInstrument>
+  <aerialSurveyDetails>Aerial Survey Details</aerialSurveyDetails>
+  <aboutTheMetadataRecord>About the Metadata Record</aboutTheMetadataRecord>
+  <metadataStandard>Standard Name</metadataStandard>
+  <metadataProfile>Profile Name</metadataProfile>
+  <metadataProfileVersion>Profile Version</metadataProfileVersion>
+  <metadataProfileDate>Profile Date</metadataProfileDate>
+  <instrumentName>Name</instrumentName>
+  <instrumentType>Type</instrumentType>
+  <platformType>Platform Type</platformType>
+  <contacts>Contacts</contacts>
+  <projectAcquisitionData>Project Acquisition Data</projectAcquisitionData>
+  <contractNumber>Contract Number</contractNumber>
+  <scheduleNumber>Schedule Number</scheduleNumber>
+  <format>Format</format>
+  <acquisitionSatelliteDetails>Satellite Details</acquisitionSatelliteDetails>
+  <acquisitionDEMDetails>DEM Details</acquisitionDEMDetails>
+  <unrectifiedImageFormat>Unrectified Image Format</unrectifiedImageFormat>
+  <rectifiedImageFormat>Rectified Image Format</rectifiedImageFormat>
+  <rawImageFormat>Raw Image Format</rawImageFormat>
+  <completenessCommission>Excess Data</completenessCommission>
+  <nonQuantitativeAttributeCorrectness>Attribute Quality</nonQuantitativeAttributeCorrectness>
+  <absoluteExternalPositionalAccuracy>Positional Accuracy</absoluteExternalPositionalAccuracy>
+  <otherDatasetDetails>Other Dataset Details</otherDatasetDetails>
+  <constraintsOnMetadata>Metadata Constraints</constraintsOnMetadata>
+  <attributes>Attributes</attributes>
+  <temporal>Temporal</temporal>
+  <program>Program</program>
+  <jurisdictionId>Jurisdiction</jurisdictionId>
+  <vsdl>Victorian Spatial Data Library (VSDL) Schema</vsdl>
+  <classification>Classification</classification>
+
+  <custodianIsMandatory><span>You <b>must</b> have a resource custodian! Please select one by searching <i class="fa fa-search"></i> or typing in the box.</span></custodianIsMandatory>
+  <pointOfContactIsMandatory><span>You <b>must</b> have a resource point of contact! Please add one by clicking the plus button and/or selecting <b>Point of contact</b> as the role.</span></pointOfContactIsMandatory>
+  <noRasterTypeDetails><span><b>No</b> raster type details required, so this tab is <i>easy</i> to complete!</span></noRasterTypeDetails>
+
+
+  <!-- SV added -->
+  <!-- MISC -->
+  <individual>Individual contact</individual>
+  <operation>Operation</operation>
+  <resourceLineageInfo>Lineage</resourceLineageInfo>
+
+  <!-- Full Description Report fields -->
+  <!-- prefix fdr -->
+  <fdr_fullDescriptionReport>Full Description Report - </fdr_fullDescriptionReport>
+  <fdr_anzlic>ANZLIC</fdr_anzlic>
+  <fdr_title>Title:</fdr_title>
+  <fdr_spatialExtent>Spatial Extent:</fdr_spatialExtent>
+  <fdr_owner>Owner:</fdr_owner>
+  <fdr_custodian>Custodian:</fdr_custodian>
+  <fdr_dataAccess>Data access:</fdr_dataAccess>
+  <fdr_sourceDataScale>Source Data Scale:</fdr_sourceDataScale>
+  <fdr_masterLibraryGroup>Master Library Group:</fdr_masterLibraryGroup>
+  <fdr_jurisdiction>Jurisdiction:</fdr_jurisdiction>
+  <fdr_custodialBusinessUnit>Custodial Business Unit:</fdr_custodialBusinessUnit>
+  <fdr_custodialProgram>Custodial Program:</fdr_custodialProgram>
+  <fdr_abstract>Abstract:</fdr_abstract>
+  <fdr_purpose>Purpose:</fdr_purpose>
+  <fdr_dataCurrencyInformation>Data Currency Information:</fdr_dataCurrencyInformation>
+  <fdr_dataSetStatus>Data Set Status:</fdr_dataSetStatus>
+  <fdr_dataCollection>Data Collection:</fdr_dataCollection>
+  <fdr_collectionPeriod>Collection Period:</fdr_collectionPeriod>
+  <fdr_updateFrequency>Update Frequency:</fdr_updateFrequency>
+  <fdr_datasetInformation>Dataset Information:</fdr_datasetInformation>
+  <fdr_datasetOrigin>Dataset Origin:</fdr_datasetOrigin>
+  <fdr_originality>Originality:</fdr_originality>
+  <fdr_dataCollectionMethod>Data Collection Method:</fdr_dataCollectionMethod>
+  <fdr_datasetSource>Dataset Source:</fdr_datasetSource>
+  <fdr_datasetProcessingDetails>Dataset Processing Details:</fdr_datasetProcessingDetails>
+  <fdr_positionalAccuracy>Positional Accuracy:</fdr_positionalAccuracy>
+  <fdr_attributeAccuracy>Attribute Accuracy:</fdr_attributeAccuracy>
+  <fdr_logicalConsistency>Logical Consistency:</fdr_logicalConsistency>
+  <fdr_completeness>Completeness:</fdr_completeness>
+  <fdr_access>Access:</fdr_access>
+  <fdr_constraints>Constraints:</fdr_constraints>
+  <fdr_storedDataFormat>Stored Data Format:</fdr_storedDataFormat>
+  <fdr_availableFormatType>Available Format Type:</fdr_availableFormatType>
+  <fdr_quality>Quality:</fdr_quality>
+  <fdr_compliance>Compliance:</fdr_compliance>
+  <fdr_requirements>Requirements:</fdr_requirements>
+  <fdr_validations>Validations:</fdr_validations>
+  <fdr_search>Search:</fdr_search>
+  <fdr_searchWord>Search Word:</fdr_searchWord>
+  <fdr_furtherInformation>Further Information:</fdr_furtherInformation>
+  <fdr_supportingDocumentation>Supporting Documentation:</fdr_supportingDocumentation>
+  <fdr_history>History:</fdr_history>
+  <fdr_stages>Stages:</fdr_stages>
+  <fdr_lastUpdated>Last Updated:</fdr_lastUpdated>
+  <fdr_date>Date:</fdr_date>
+  <fdr_user>User:</fdr_user>
+  <fdr_relatedDatasets>Related Datasets:</fdr_relatedDatasets>
+  <fdr_name>Name:</fdr_name>
+  <fdr_type>Type:</fdr_type>
+  <fdr_description>Description:</fdr_description>
+  <fdr_citations>Citations:</fdr_citations>
+  <fdr_additionalMetadataURL>Additional Metadata URL:</fdr_additionalMetadataURL>
+  <fdr_contacts>Contacts:</fdr_contacts>
+  <fdr_contactName>Contact Name:</fdr_contactName>
+  <fdr_telephone>Telephone:</fdr_telephone>
+  <fdr_contactRole>Contact Role:</fdr_contactRole>
 </strings>

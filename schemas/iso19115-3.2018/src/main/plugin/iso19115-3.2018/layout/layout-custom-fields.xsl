@@ -300,6 +300,65 @@
     <xsl:apply-templates mode="mode-iso19115-3.2018" select="*"/>
   </xsl:template>
 
+  <xsl:template mode="mcp-html" match="cit:contactInfo">
+    <xsl:param name="organisationName"/>
+
+    <ul>
+      <li style="list-style-type: none;"><xsl:value-of select="$organisationName"/></li>
+      <li style="list-style-type: none;"><xsl:value-of select="descendant::cit:deliveryPoint/gco:CharacterString"/></li>
+      <li style="list-style-type: none;"><xsl:value-of select="descendant::cit:city/gco:CharacterString"/></li>
+      <li style="list-style-type: none;"><xsl:value-of select="descendant::cit:administrativeArea/gco:CharacterString"/></li>
+      <li style="list-style-type: none;"><xsl:value-of select="concat(descendant::cit:country/gco:CharacterString,' ',descendant::cit:postalCode/gco:CharacterString)"/></li>
+      <xsl:if test="normalize-space(descendant::cit:electronicMailAddress/gco:CharacterString)">
+        <li style="list-style-type: none;"><xsl:value-of select="concat('Email: ',descendant::cit:electronicMailAddress/gco:CharacterString)"/></li>
+      </xsl:if>
+      <xsl:if test="normalize-space(descendant::cit:phone/cit:CI_Telephone[cit:numberType/cit:CI_TelephoneTypeCode/@codeListValue='voice']/cit:number/gco:CharacterString)">
+        <li style="list-style-type: none;"><xsl:value-of select="concat('Phone: ',descendant::cit:number[../cit:numberType//@codeListValue='voice']/gco:CharacterString)"/></li>
+      </xsl:if>
+    </ul>
+  </xsl:template>
+
+  <!-- XLINK'd mcp:party 
+   eg. <mcp:party xlink:href="http://test.cmar.csiro.au:80/geonetwork/srv/eng/subtemplate?uuid=urn:marlin.csiro.au:person:958_person_organisation&amp;process=undefined">
+         ....
+       </mcp:party>
+  -->
+  <xsl:template mode="mode-iso19115-3.2018" match="cit:party[@xlink:href!='']" priority="33000">
+    <xsl:param name="schema" select="'iso191115-3'" required="no"/>
+    <xsl:param name="labels" select="$labels" required="no"/>
+    <xsl:param name="title" select="'Party'"/>
+
+    <xsl:variable name="organisationName" select="*/cit:name/*"/>
+    <xsl:variable name="role" select="../cit:role/cit:CI_RoleCode/@codeListValue"/>
+    <fieldset>
+      <legend>Party (<xsl:value-of select="$role"/>)</legend>
+      <xsl:apply-templates mode="mcp-html" select="*/cit:individual"/>
+        <!-- NOTE: Show only the first address in the contact info SP Nov. 2015 -->
+      <xsl:apply-templates mode="mcp-html" select="*/cit:contactInfo[1]">
+        <xsl:with-param name="organisationName" select="$organisationName"/>
+      </xsl:apply-templates>
+    </fieldset>
+  </xsl:template>
+
+  <!-- XLINK'd mri:resourceConstraints -->
+  <xsl:template mode="mode-iso19115-3.2018" match="mri:resourceConstraints[@xlink:href!='']" priority="33000">
+    <xsl:param name="schema" select="'iso191115-3'" required="no"/>
+    <xsl:param name="labels" select="$labels" required="no"/>
+    <xsl:variable name="title" select="if (mco:MD_LegalConstraints/mco:reference/cit:CI_Citation/cit:title/gco:CharacterString) then mco:MD_LegalConstraints/mco:reference/cit:CI_Citation/cit:title/gco:CharacterString else 'Unknown license'"/>
+    <xsl:call-template name="render-boxed-element">
+      <xsl:with-param name="label" select="$title"/>
+      <xsl:with-param name="editInfo" select="gn:element"/>
+      <xsl:with-param name="cls" select="local-name()"/>
+      <xsl:with-param name="subTreeSnippet">
+        <ul>
+          <xsl:if test="mco:MD_LegalConstraints/mco:graphic//cit:linkage/gco:CharacterString!=''">
+            <li style="list-style-type: none;"><img src="{mco:MD_LegalConstraints/mco:graphic//cit:linkage/gco:CharacterString}"/></li>
+          </xsl:if>
+          <li style="list-style-type: none;"><a href="{mco:MD_LegalConstraints/mco:reference//cit:linkage/gco:CharacterString}" target="_blank">License Text</a></li>
+        </ul>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
   
   <!--
     Display contact as table when mode is flat (eg. simple view) or if using xsl mode

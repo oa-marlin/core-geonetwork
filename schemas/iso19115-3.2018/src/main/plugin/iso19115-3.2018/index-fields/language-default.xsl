@@ -20,6 +20,7 @@
             xmlns:gco="http://standards.iso.org/iso/19115/-3/gco/1.0"
 						xmlns:java="java:org.fao.geonet.util.XslUtil"
 						xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+            xmlns:delwp="https://github.com/geonetwork-delwp/iso19115-3.2018"
             exclude-result-prefixes="#all">
 
   <xsl:include href="common.xsl"/>

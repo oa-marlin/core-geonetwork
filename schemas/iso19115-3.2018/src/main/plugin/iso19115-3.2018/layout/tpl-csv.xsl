@@ -20,6 +20,7 @@
                 xmlns:gn-fn-core="http://geonetwork-opensource.org/xsl/functions/core"
                 xmlns:gn-fn-iso19115-3.2018="http://geonetwork-opensource.org/xsl/functions/profiles/iso19115-3.2018"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:delwp="https://github.com/geonetwork-delwp/iso19115-3.2018"
                 exclude-result-prefixes="#all" version="2.0">
 
   <xsl:import href="utility-fn.xsl"/>

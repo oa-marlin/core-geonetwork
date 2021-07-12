@@ -8,6 +8,7 @@
                 xmlns:lan="http://standards.iso.org/iso/19115/-3/lan/1.0"
                 xmlns:mcc="http://standards.iso.org/iso/19115/-3/mcc/1.0"
                 xmlns:mrc="http://standards.iso.org/iso/19115/-3/mrc/2.0"
+                xmlns:mac="http://standards.iso.org/iso/19115/-3/mac/2.0"
                 xmlns:mco="http://standards.iso.org/iso/19115/-3/mco/1.0"
                 xmlns:mdb="http://standards.iso.org/iso/19115/-3/mdb/2.0"
                 xmlns:mri="http://standards.iso.org/iso/19115/-3/mri/1.0"
@@ -16,6 +17,7 @@
                 xmlns:mrd="http://standards.iso.org/iso/19115/-3/mrd/1.0"
                 xmlns:mdq="http://standards.iso.org/iso/19157/-2/mdq/1.0"
                 xmlns:gml="http://www.opengis.net/gml/3.2"
+                xmlns:msr="http://standards.iso.org/iso/19115/-3/msr/2.0"
                 xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.1"
                 xmlns:gcx="http://standards.iso.org/iso/19115/-3/gcx/1.0"
                 xmlns:gex="http://standards.iso.org/iso/19115/-3/gex/1.0"
@@ -29,6 +31,7 @@
                 xmlns:gn-fn-iso19115-3.2018="http://geonetwork-opensource.org/xsl/functions/profiles/iso19115-3.2018"
                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                 xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+                xmlns:delwp="https://github.com/geonetwork-delwp/iso19115-3.2018"
                 exclude-result-prefixes="#all">
 
 
@@ -273,6 +276,35 @@
           <xsl:copy-of select="gn-fn-iso19115-3.2018:index-field('identifier', ., $langId)"/>
         </xsl:for-each>
 
+        <!-- DELWP Addition -->
+        <!-- Add ANZLIC ID as a separate field -->
+        <xsl:for-each select="cit:identifier/mcc:MD_Identifier[mcc:authority/cit:CI_Citation/cit:title/gco:CharacterString='ANZLIC Dataset Identifier']/mcc:code">
+          <xsl:copy-of select="gn-fn-iso19115-3.2018:index-field('anzlicid', ., $langId)"/>
+          <xsl:copy-of select="gn-fn-iso19115-3.2018:index-field('databaseid', ., $langId, true(), true())"/>
+        </xsl:for-each>
+
+        <!-- Add Project ID as a separate field -->
+        <xsl:for-each select="cit:identifier/mcc:MD_Identifier[mcc:authority/cit:CI_Citation/cit:title/gco:CharacterString='DELWP Rastermeta Project Identifier']/mcc:code">
+          <xsl:copy-of select="gn-fn-iso19115-3.2018:index-field('projectid', ., $langId)"/>
+          <xsl:copy-of select="gn-fn-iso19115-3.2018:index-field('databaseid', ., $langId, true(), true())"/>
+        </xsl:for-each>
+ 
+        <!-- Add vsdl schema as a separate field -->
+        <xsl:for-each select="cit:identifier/mcc:MD_Identifier[contains(mcc:description/gco:CharacterString,'VSDL')]/mcc:code">
+          <xsl:copy-of select="gn-fn-iso19115-3.2018:index-field('vsdlschema', ., $langId)"/>
+        </xsl:for-each>
+ 
+        <!-- Add metashare jurisdiction as a separate field -->
+        <xsl:for-each select="cit:identifier/mcc:MD_Identifier[contains(mcc:description/gco:CharacterString,'Jurisdiction')]/mcc:code">
+          <xsl:copy-of select="gn-fn-iso19115-3.2018:index-field('jurisdiction', ., $langId)"/>
+        </xsl:for-each>
+
+         <!-- Add DELWP resource owner - selects org of first owner, because some have additional owner  -->                      
+        <xsl:for-each select="cit:citedResponsibleParty[cit:CI_Responsibility/cit:role/cit:CI_RoleCode/@codeListValue = 'owner']/cit:CI_Responsibility/cit:party/cit:CI_Organisation/cit:name">  
+          <xsl:copy-of select="gn-fn-iso19115-3.2018:index-field('resOwner', ., $langId, true(), true())"/>
+        </xsl:for-each>
+        <!-- END DELWP Addition -->
+
         <xsl:for-each select="cit:title">
           <xsl:copy-of select="gn-fn-iso19115-3.2018:index-field('title', ., $langId)"/>
         </xsl:for-each>
@@ -331,6 +363,10 @@
 
       <xsl:for-each select="mri:abstract">
         <xsl:copy-of select="gn-fn-iso19115-3.2018:index-field('abstract', ., $langId)"/>
+      </xsl:for-each>
+
+      <xsl:for-each select="mri:spatialRepresentationType">
+        <xsl:copy-of select="gn-fn-iso19115-3.2018:index-field('spatialRepresentationType', mcc:MD_SpatialRepresentationTypeCode/@codeListValue, $langId)"/>
       </xsl:for-each>
 
       <xsl:for-each select="mri:credit">
@@ -640,6 +676,14 @@
           <Field name="{$fieldPrefix}UseLimitation"
                  string="{concat('link|',string(@xlink:href), '|', string(.))}" store="true" index="true"/>
         </xsl:for-each>
+
+        <!-- DELWP Addition -->
+        <!-- Add separate field for DELWP res constraints - not indexed -->
+        <xsl:for-each select="mco:MD_SecurityConstraints/mco:classification">                                                     
+          <xsl:copy-of select="gn-fn-iso19115-3.2018:index-field('resClassification', mco:MD_ClassificationCode/@codeListValue, $langId
+, true(), false())"/>
+        </xsl:for-each>
+        <!-- END DELWP Addition -->
       </xsl:for-each>
 
 
@@ -675,7 +719,71 @@
 
     </xsl:for-each>
 
+    <!-- DELWP Addition -->
+    <!-- Add DELWP grid resolution -->                                                                             
+    <xsl:for-each select="$metadata/mdb:spatialRepresentationInfo//msr:MD_Dimension">                                                                                     
+      
+      <xsl:choose>
+        <!-- handle row resolution -->
+        <xsl:when test="msr:dimensionName/msr:MD_DimensionNameTypeCode/@codeListValue = 'row'">
+          <xsl:variable name="distanceVal" select="string(msr:resolution/*)"/>
+          <xsl:variable name="distanceUom" select="string(msr:resolution/*/@uom)"/>
 
+          <!-- <xsl:variable name="rowResolution" select="concat($distanceVal, $distanceUom)"/> -->
+
+          <Field name="rowResolution" string="{concat($distanceVal, $distanceUom)}" store="true" index="false"/>
+          <!-- <xsl:copy-of select="gn-fn-iso19115-3.2018:index-field('rowResolution', $rowResolution, $langId, true(), true())"/> -->
+        </xsl:when>
+        <!-- handle column resolution -->
+        <xsl:when test="msr:dimensionName/msr:MD_DimensionNameTypeCode/@codeListValue = 'column'">
+          <xsl:variable name="distanceVal" select="string(msr:resolution/*)"/>
+          <xsl:variable name="distanceUom" select="string(msr:resolution/*/@uom)"/>
+
+          <!-- <xsl:variable name="columnResolution" select="concat($distanceVal, $distanceUom)"/> -->
+
+          <Field name="columnResolution" string="{concat($distanceVal, $distanceUom)}" store="true" index="false"/>
+          <!-- <xsl:copy-of select="gn-fn-iso19115-3.2018:index-field('columnResolution', $columnResolution, $langId, true(), true())"/> -->
+        </xsl:when>
+      </xsl:choose>
+    </xsl:for-each>   
+
+    <!-- Add DELWP LiDAR fields to index -->
+    <xsl:for-each select="$metadata/mdb:acquisitionInformation//delwp:MD_PointCloudDetails">
+
+      <!-- get footprintSize -->
+      <xsl:variable name="footprintVal" select="string(delwp:footprintSize/*)"/>
+      <xsl:variable name="footprintUom" select="string(delwp:footprintSize/*/@uom)"/>
+      <Field name="footprintSize" string="{concat($footprintVal, $footprintUom)}" store="true" index="false"/>
+      
+      <!-- get pointDensityTarget -->
+      <xsl:variable name="pointDensityTargetVal" select="string(delwp:pointDensityTarget/*)"/>
+      <xsl:variable name="pointDensityTargetUom" select="string(delwp:pointDensityTarget/*/@uom)"/>
+      <Field name="pointDensityTarget" string="{concat($pointDensityTargetVal, $pointDensityTargetUom)}" store="true" index="false"/>
+
+      <!-- get pointDensityActual -->
+      <xsl:variable name="pointDensityActualVal" select="string(delwp:pointDensityActual/*)"/>
+      <xsl:variable name="pointDensityActualUom" select="string(delwp:pointDensityActual/*/@uom)"/>
+      <Field name="pointDensityActual" string="{concat($pointDensityActualVal, $pointDensityActualUom)}" store="true" index="false"/>
+
+      <!-- get pointSpacingTarget -->
+      <xsl:variable name="pointSpacingTargetVal" select="string(delwp:pointSpacingTarget/*)"/>
+      <xsl:variable name="pointSpacingTargetUom" select="string(delwp:pointSpacingTarget/*/@uom)"/>
+      <Field name="pointSpacingTarget" string="{concat($pointSpacingTargetVal, $pointSpacingTargetUom)}" store="true" index="false"/>
+
+      <!-- get pointSpacingActual -->
+      <xsl:variable name="pointSpacingActualVal" select="string(delwp:pointSpacingActual/*)"/>
+      <xsl:variable name="pointSpacingActualUom" select="string(delwp:pointSpacingActual/*/@uom)"/>
+      <Field name="pointSpacingActual" string="{concat($pointSpacingActualVal, $pointSpacingActualUom)}" store="true" index="false"/>
+
+    </xsl:for-each> 
+    
+    <!-- Add DELWP metadata constraints - not indexed -->                                                                                           
+    <xsl:for-each select="$metadata/mdb:metadataConstraints/*">                                                                                     
+      <xsl:for-each select="mco:classification">                                                                                                    
+        <xsl:copy-of select="gn-fn-iso19115-3.2018:index-field('mdClassification', mco:MD_ClassificationCode/@codeListValue, $langId, true(), true())"/>
+      </xsl:for-each>                                                                                                                               
+    </xsl:for-each>    
+    <!-- END DELWP Addition -->
 
     <xsl:for-each select="$metadata/mdb:distributionInfo/mrd:MD_Distribution">
       <xsl:for-each select="mrd:distributionFormat/mrd:MD_Format/
@@ -928,7 +1036,17 @@
       <Field  name="hassource" string="{string(@uuidref)}" store="false" index="true"/>
     </xsl:for-each>
 
-
+    <!-- DELWP Addition -->
+    <xsl:for-each select="$metadata/mdb:acquisitionInformation/mac:MI_AcquisitionInformation">
+      <xsl:variable name="assembly" select="mac:operation/mac:MI_Operation/mac:otherProperty/gco:Record/delwp:datasetDetails/delwp:MD_DatasetDetails/delwp:assembly/delwp:MD_AssemblyCode/@codeListValue"/>
+      <xsl:if test="$assembly != 'Not Entered' and $assembly != 'Unknown'">
+        <Field  name="rasterAssemblyType" string="{$assembly}" store="false" index="true"/>
+      </xsl:if>
+      <Field  name="rasterType" string="{mac:scope/mcc:MD_Scope/mcc:level/mcc:MD_ScopeCode/@codeListValue}" store="false" index="true"/>
+      <Field  name="sensorType" string="{mac:instrument/mac:MI_Sensor/mac:type/text()}" store="false" index="true"/>
+      <Field  name="platformType" string="{mac:operation/mac:MI_Operation/mac:otherProperty/gco:Record/delwp:datasetDetails/delwp:MD_DatasetDetails/delwp:platformType/delwp:MD_PlatformTypeCode/@codeListValue}" store="false" index="true"/>
+    </xsl:for-each>
+    <!-- END DEWLP Addition -->
 
 
     <!-- Metadata scope -->

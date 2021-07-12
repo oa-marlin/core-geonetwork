@@ -22,6 +22,7 @@
             xmlns:gn-fn-iso19115-3.2018="http://geonetwork-opensource.org/xsl/functions/profiles/iso19115-3.2018"
             xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
             xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+            xmlns:delwp="https://github.com/geonetwork-delwp/iso19115-3.2018"
             exclude-result-prefixes="#all">
 
   <xsl:include href="common.xsl"/>

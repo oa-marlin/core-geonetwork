@@ -20,6 +20,7 @@
   xmlns:gn-fn-metadata="http://geonetwork-opensource.org/xsl/functions/metadata"
   xmlns:gn-fn-iso19139="http://geonetwork-opensource.org/xsl/functions/profiles/iso19139"
   xmlns:saxon="http://saxon.sf.net/" extension-element-prefixes="saxon"
+  xmlns:delwp="https://github.com/geonetwork-delwp/iso19115-3.2018"
   exclude-result-prefixes="#all">
 
   <xsl:include href="evaluate.xsl"/>

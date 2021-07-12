@@ -28,6 +28,7 @@
                 xmlns:xlink="http://www.w3.org/1999/xlink"
                 xmlns:gn="http://www.fao.org/geonetwork"
                 xmlns:saxon="http://saxon.sf.net/"
+                xmlns:delwp="https://github.com/geonetwork-delwp/iso19115-3.2018"
                 extension-element-prefixes="saxon"
                 exclude-result-prefixes="#all">
 

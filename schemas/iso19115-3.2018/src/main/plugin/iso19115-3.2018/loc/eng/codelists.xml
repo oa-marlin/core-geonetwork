@@ -30,11 +30,11 @@
            xmlns:gcx="http://standards.iso.org/iso/19115/-3/gcx/1.0"
            xmlns:gex="http://standards.iso.org/iso/19115/-3/gex/1.0"
            xmlns:lan="http://standards.iso.org/iso/19115/-3/lan/1.0"
-           xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.1"
+           xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.0"
            xmlns:mas="http://standards.iso.org/iso/19115/-3/mas/1.0"
            xmlns:mcc="http://standards.iso.org/iso/19115/-3/mcc/1.0"
            xmlns:mco="http://standards.iso.org/iso/19115/-3/mco/1.0"
-           xmlns:mda="http://standards.iso.org/iso/19115/-3/mda/1.0"
+           xmlns:mda="http://standards.iso.org/iso/19115/-3/mda/2.0"
            xmlns:mdb="http://standards.iso.org/iso/19115/-3/mdb/2.0"
            xmlns:mds="http://standards.iso.org/iso/19115/-3/mds/2.0"
            xmlns:reg="http://standards.iso.org/iso/19135/-2/reg/1.0"
@@ -52,6 +52,7 @@
            xmlns:mac="http://standards.iso.org/iso/19115/-3/mac/2.0"
            xmlns:gco="http://standards.iso.org/iso/19115/-3/gco/1.0"
            xmlns:gml="http://www.opengis.net/gml/3.2"
+           xmlns:delwp="https://github.com/geonetwork-delwp/iso19115-3.2018"
            xmlns:xlink="http://www.w3.org/1999/xlink"
            xsi:noNamespaceSchemaLocation="../../../../../../../schema-labels.xsd">
 
@@ -505,6 +506,12 @@
         resource
       </description>
     </entry>
+    <!-- DELWP extensions -->
+    <entry>
+      <code>supplier</code>
+      <label>Supplier</label>
+      <description>Party who supplied the data</description>
+    </entry>
   </codelist>
   <codelist name="mdq:DQ_EvaluationMethodTypeCode">
     <entry>
@@ -532,6 +539,8 @@
     </entry>
   </codelist>
   <codelist name="mri:DS_AssociationTypeCode" alias="associationType">
+    <!-- DELWP Restriction - no association types except isComposedOf are permitted -->
+    <!--
     <entry>
       <code>crossReference</code>
       <label>Cross reference</label>
@@ -556,12 +565,14 @@
         three-dimensional images
       </description>
     </entry>
+    -->
     <entry>
       <code>isComposedOf</code>
       <label>Is composed of</label>
       <description>Reference to resources that are parts of this resource
       </description>
     </entry>
+    <!--
     <entry>
       <code>collectiveTitle</code>
       <label>Collective Title</label>
@@ -587,9 +598,10 @@
       <label>Revision Of</label>
       <description>Resource is a revision of associated resource</description>
     </entry>
+    -->
   </codelist>
-
   <codelist name="mri:DS_InitiativeTypeCode" alias="initiativeType">
+    <!--
     <entry>
       <code>campaign</code>
       <label>Campaign</label>
@@ -651,11 +663,13 @@
       <label>Program</label>
       <description>Specific planned activity</description>
     </entry>
+    -->
     <entry>
       <code>project</code>
       <label>Project</label>
       <description>Organized undertaking, research, or development</description>
     </entry>
+    <!--
     <entry>
       <code>study</code>
       <label>Study</label>
@@ -671,6 +685,12 @@
       <label>Trial</label>
       <description>Process of testing to discover or demonstrate something
       </description>
+    </entry>
+    -->
+    <entry>
+      <code>product</code>
+      <label>Product</label>
+      <description>Data product produced by organisation</description>
     </entry>
   </codelist>
   <codelist name="gfc:FC_RoleType">
@@ -1542,26 +1562,25 @@
       <description>With trust</description>
     </entry>
   </codelist>
-
   <codelist name="mcc:MD_ScopeCode">
-    <entry>
+    <entry hideInEditMode="true">
       <code>attribute</code>
       <label>Attribute</label>
       <description>Information applies to the attribute class</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>attributeType</code>
       <label>Attribute type</label>
       <description>Information applies to the characteristic of a feature
       </description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>collectionHardware</code>
       <label>Collection hardware</label>
       <description>Information applies to the collection hardware class
       </description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>collectionSession</code>
       <label>Collection session</label>
       <description>Information applies to the collection session</description>
@@ -1571,48 +1590,48 @@
       <label>Dataset</label>
       <description>Information applies to the dataset</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>series</code>
       <label>Series</label>
       <description>Information applies to the series</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>nonGeographicDataset</code>
       <label>Non geographic dataset</label>
       <description>Information applies to non-geographic data</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>dimensionGroup</code>
       <label>Dimension group</label>
       <description>Information applies to a dimension group</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>feature</code>
       <label>Feature</label>
       <description>Information applies to a feature</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>featureType</code>
       <label>Feature type</label>
       <description>Information applies to a feature type</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>propertyType</code>
       <label>Property type</label>
       <description>Information applies to a property type</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>fieldSession</code>
       <label>Field session</label>
       <description>Information applies to a field session</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>software</code>
       <label>Software</label>
       <description>Information applies to a computer program or routine
       </description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>service</code>
       <label>Service</label>
       <description>Information applies to a capability which a service provider
@@ -1620,67 +1639,67 @@
         interfaces that define a behaviour, such as a use case
       </description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>model</code>
       <label>Model</label>
       <description>Information applies to a copy or imitation of an existing or
         hypothetical object
       </description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>tile</code>
       <label>Tile</label>
       <description>Information applies to a tile, a spatial subset of geographic
         data
       </description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>metadata</code>
       <label>Metadata</label>
       <description>Information applies to metadata</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>initiative</code>
       <label>Initiative</label>
       <description>Information applies to an initiative</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>sample</code>
       <label>Sample</label>
       <description>Information applies to a sample</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>document</code>
       <label>Document</label>
       <description>Information applies to a document</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>repository</code>
       <label>Repository</label>
       <description>Information applies to a repository</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>aggregate</code>
       <label>Aggregate</label>
       <description>Information applies to an aggregate resource</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>product</code>
       <label>Product</label>
       <description>Metadata describing an ISO 19131 data product specification
       </description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>collection</code>
       <label>Collection</label>
       <description>Information applies to an unstructured set</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>coverage</code>
       <label>Coverage</label>
       <description>Information applies to a coverage</description>
     </entry>
-    <entry>
+    <entry hideInEditMode="true">
       <code>application</code>
       <label>Application</label>
       <description>Information resource hosted on a specific set of hardware and
@@ -1702,6 +1721,25 @@
       <code>interactiveMap</code>
       <label>Interactive map</label>
       <description></description>
+    </entry>
+    <!-- delwp extensions -->
+    <entry>
+      <code>project</code>
+      <label>Project</label>
+      <description>Information applies to a project
+      </description>
+    </entry>
+    <entry>
+      <code>mosaic</code>
+      <label>Mosaic</label>
+      <description>Information applies to a mosaic
+      </description>
+    </entry>
+    <entry>
+      <code>dataSource</code>
+      <label>Data Source</label>
+      <description>Information applies to a data source
+      </description>
     </entry>
   </codelist>
   <codelist name="mcc:MD_SpatialRepresentationTypeCode">
@@ -1739,6 +1777,23 @@
       <code>video</code>
       <label>Video</label>
       <description>Scene from a video recording</description>
+    </entry>
+    <!-- DELWP extensions -->
+    <entry>
+      <code>pointCloud</code>
+      <label>Point Cloud</label>
+      <description>Point cloud data from scanners such as LIDAR</description>
+    </entry>
+    <entry>
+      <code>contour</code>
+      <label>Contours</label>
+      <description>Contour data from a Digital Elevation Model (DEM)</description>
+    </entry>
+    <!-- delwp extensions -->
+    <entry>
+      <code>view</code>
+      <label>View</label>
+      <description>Data view</description>
     </entry>
   </codelist>
   <codelist name="mri:MD_TopicCategoryCode" alias="topicCategory">
@@ -2938,4 +2993,1075 @@
       <label>Unknown</label>
     </entry>
   </codelist>
+
+<!-- DELWP Extensions -->
+  <codelist name="delwp:MD_MethodCode">
+    <entry>
+      <code>NotEntered</code>
+      <label>Not Entered</label>
+      <description>Not Entered</description>
+    </entry>
+    <entry>
+      <code>Captured</code>
+      <label>Captured</label>
+      <description>Captured</description>
+    </entry>
+    <entry>
+      <code>Purchased</code>
+      <label>Purchased</label>
+      <description>Purchased</description>
+    </entry>
+    <entry>
+      <code>Copied</code>
+      <label>Copied</label>
+      <description>Copied</description>
+    </entry>
+    <entry>
+      <code>Unknown</code>
+      <label>Unknown</label>
+      <description>Unknown</description>
+    </entry>
+  </codelist>
+
+<codelist name="delwp:MD_PlatformTypeCode">
+<entry>
+   <code>NotEntered</code>
+   <label>Not Entered</label>
+   <description>Not Entered</description>
+</entry>
+<entry>
+   <code>Satellite</code>
+   <label>Satellite</label>
+   <description>Satellite</description>
+</entry>
+<entry>
+   <code>Aerial</code>
+   <label>Aerial</label>
+   <description>Aerial</description>
+</entry>
+<entry>
+   <code>Ground</code>
+   <label>Ground</label>
+   <description>Ground</description>
+</entry>
+<entry>
+   <code>Unknown</code>
+   <label>Unknown</label>
+   <description>Unknown</description>
+</entry>
+<entry>
+   <code>Water</code>
+   <label>Water</label>
+   <description>Water</description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_PlatformCode">
+<entry>
+   <code>NotEntered</code>
+   <label>Not Entered</label>
+   <description>Not Entered</description>
+</entry>
+<entry>
+   <code>ASTER</code>
+   <label>ASTER</label>
+   <description>ASTER</description>
+</entry>
+<entry>
+   <code>COSMOS</code>
+   <label>COSMOS</label>
+   <description>COSMOS</description>
+</entry>
+<entry>
+   <code>ERS2</code>
+   <label>ERS2</label>
+   <description>ERS2</description>
+</entry>
+<entry>
+   <code>Landsat-1</code>
+   <label>Landsat-1</label>
+   <description>Landsat-1</description>
+</entry>
+<entry>
+   <code>Landsat-2</code>
+   <label>Landsat-2</label>
+   <description>Landsat-2</description>
+</entry>
+<entry>
+   <code>Landsat-3</code>
+   <label>Landsat-3</label>
+   <description>Landsat-3</description>
+</entry>
+<entry>
+   <code>Landsat-4</code>
+   <label>Landsat-4</label>
+   <description>Landsat-4</description>
+</entry>
+<entry>
+   <code>Landsat-5</code>
+   <label>Landsat-5</label>
+   <description>Landsat-5</description>
+</entry>
+<entry>
+   <code>Landsat-7</code>
+   <label>Landsat-7</label>
+   <description>Landsat-7</description>
+</entry>
+<entry>
+   <code>SPOT</code>
+   <label>SPOT</label>
+   <description>SPOT</description>
+</entry>
+<entry>
+   <code>SPOT-1</code>
+   <label>SPOT-1</label>
+   <description>SPOT-1</description>
+</entry>
+<entry>
+   <code>SPOT-2</code>
+   <label>SPOT-2</label>
+   <description>SPOT-2</description>
+</entry>
+<entry>
+   <code>SPOT-3</code>
+   <label>SPOT-3</label>
+   <description>SPOT-3</description>
+</entry>
+<entry>
+   <code>SPOT-4</code>
+   <label>SPOT-4</label>
+   <description>SPOT-4</description>
+</entry>
+<entry>
+   <code>SPOT-5</code>
+   <label>SPOT-5</label>
+   <description>SPOT-5</description>
+</entry>
+<entry>
+   <code>FixedWingAircraft</code>
+   <label>Fixed Wing Aircraft</label>
+   <description>Fixed Wing Aircraft</description>
+</entry>
+<entry>
+   <code>TERRA</code>
+   <label>TERRA</label>
+   <description>TERRA</description>
+</entry>
+<entry>
+   <code>Unknown</code>
+   <label>Unknown</label>
+   <description>Unknown</description>
+</entry>
+<entry>
+   <code>RapidEye</code>
+   <label>RapidEye</label>
+   <description>RapidEye</description>
+</entry>
+<entry>
+   <code>Quickbird</code>
+   <label>Quickbird</label>
+   <description>Quickbird</description>
+</entry>
+<entry>
+   <code>GeoEye</code>
+   <label>GeoEye</label>
+   <description>GeoEye</description>
+</entry>
+<entry>
+   <code>Worldview1</code>
+   <label>Worldview 1</label>
+   <description>Worldview 1</description>
+</entry>
+<entry>
+   <code>Worldview2</code>
+   <label>Worldview 2</label>
+   <description>Worldview 2</description>
+</entry>
+<entry>
+   <code>SPOT-6</code>
+   <label>SPOT-6</label>
+   <description>SPOT-6</description>
+</entry>
+<entry>
+   <code>Pleiades1A</code>
+   <label>Pleiades 1A</label>
+   <description>Pleiades 1A</description>
+</entry>
+<entry>
+   <code>Pleiades1B</code>
+   <label>Pleiades 1B</label>
+   <description>Pleiades 1B</description>
+</entry>
+<entry>
+   <code>Landsat-8</code>
+   <label>Landsat-8</label>
+   <description>Landsat-8</description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_TileSizeCode">
+<entry>
+   <code>NotEntered</code>
+   <label>Not Entered</label>
+   <description>Not Entered</description>
+</entry>
+<entry>
+   <code>450M</code>
+   <label>450 m</label>
+   <description>450 m</description>
+</entry>
+<entry>
+   <code>0.5Km</code>
+   <label>0.5 km</label>
+   <description>0.5 km</description>
+</entry>
+<entry>
+   <code>1Km</code>
+   <label>1 km</label>
+   <description>1 km</description>
+</entry>
+<entry>
+   <code>1.25Km</code>
+   <label>1.25 km</label>
+   <description>1.25 km</description>
+</entry>
+<entry>
+   <code>1.5Km</code>
+   <label>1.5 km</label>
+   <description>1.5 km</description>
+</entry>
+<entry>
+   <code>2Km</code>
+   <label>2 km</label>
+   <description>2 km</description>
+</entry>
+<entry>
+   <code>3Km</code>
+   <label>3 km</label>
+   <description>3 km</description>
+</entry>
+<entry>
+   <code>3.5Km</code>
+   <label>3.5 km</label>
+   <description>3.5 km</description>
+</entry>
+<entry>
+   <code>5Km</code>
+   <label>5 km</label>
+   <description>5 km</description>
+</entry>
+<entry>
+   <code>20Km</code>
+   <label>20 km</label>
+   <description>20 km</description>
+</entry>
+<entry>
+   <code>OriginalFrames</code>
+   <label>Original Frames</label>
+   <description>Original Frames</description>
+</entry>
+<entry>
+   <code>1:1millionMapsheet</code>
+   <label>1:1million mapsheet</label>
+   <description>1:1million mapsheet</description>
+</entry>
+<entry>
+   <code>HalfScene</code>
+   <label>Half Scene</label>
+   <description>Half Scene</description>
+</entry>
+<entry>
+   <code>PartScene</code>
+   <label>Part Scene</label>
+   <description>Part Scene</description>
+</entry>
+<entry>
+   <code>QuarterScene</code>
+   <label>Quarter Scene</label>
+   <description>Quarter Scene</description>
+</entry>
+<entry>
+   <code>UnRecorded</code>
+   <label>UnRecorded</label>
+   <description>UnRecorded</description>
+</entry>
+<entry>
+   <code>WholeScene</code>
+   <label>Whole Scene</label>
+   <description>Whole Scene</description>
+</entry>
+<entry>
+   <code>Mosaic</code>
+   <label>Mosaic</label>
+   <description>Mosaic</description>
+</entry>
+<entry>
+   <code>NotApplicable</code>
+   <label>Not Applicable</label>
+   <description>Not Applicable</description>
+</entry>
+<entry>
+   <code>Unknown</code>
+   <label>Unknown</label>
+   <description>Unknown</description>
+</entry>
+<entry>
+   <code>200M</code>
+   <label>200 m</label>
+   <description>200 m</description>
+</entry>
+<entry>
+   <code>25Km</code>
+   <label>25 km</label>
+   <description>25 km</description>
+</entry>
+<entry>
+   <code>10Km</code>
+   <label>10 km</label>
+   <description>10 km</description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_AssemblyCode">
+<entry>
+   <code>NotEntered</code>
+   <label>Not Entered</label>
+   <description>Not Entered</description>
+</entry>
+<entry>
+   <code>Single</code>
+   <label>Single</label>
+   <description>Single</description>
+</entry>
+<entry>
+   <code>Fused</code>
+   <label>Fused</label>
+   <description>Fused</description>
+</entry>
+<entry>
+   <code>Mosaic</code>
+   <label>Mosaic</label>
+   <description>Mosaic</description>
+</entry>
+<entry>
+   <code>Unknown</code>
+   <label>Unknown</label>
+   <description>Unknown</description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_RasterTypeCode">
+<entry>
+   <code>DigitalHeightModel</code>
+   <label>Digital Height Model</label>
+   <description>Digital Height Model</description>
+</entry>
+<entry>
+   <code>BuildingHeightModel</code>
+   <label>Building Height Model</label>
+   <description>Building Height Model</description>
+</entry>
+<entry>
+   <code>DEM</code>
+   <label>DEM</label>
+   <description>DEM</description>
+</entry>
+<entry>
+   <code>Satellite</code>
+   <label>Satellite</label>
+   <description>Satellite</description>
+</entry>
+<entry>
+   <code>AerialPhoto</code>
+   <label>Aerial Photo</label>
+   <description>Aerial Photo</description>
+</entry>
+<entry>
+   <code>NotEntered</code>
+   <label>Not Entered</label>
+   <description>Not Entered</description>
+</entry>
+<entry>
+   <code>Intensity</code>
+   <label>Intensity</label>
+   <description>Intensity</description>
+</entry>
+<entry>
+   <code>DigitalSurfaceModel</code>
+   <label>Digital Surface Model</label>
+   <description>Digital Surface Model</description>
+</entry>
+<entry>
+   <code>Slope</code>
+   <label>Slope</label>
+   <description>Slope</description>
+</entry>
+<entry>
+   <code>CanopyHeightModel</code>
+   <label>Canopy Height Model</label>
+   <description>Canopy Height Model</description>
+</entry>
+<entry>
+   <code>FractionalCoverCount</code>
+   <label>Fractional Cover Count</label>
+   <description>Fractional Cover Count</description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_SeamlessnessCode">
+<entry>
+   <code>NotEntered</code>
+   <label>Not Entered</label>
+   <description>Not Entered</description>
+</entry>
+<entry>
+   <code>Partial</code>
+   <label>Partial</label>
+   <description>Partial</description>
+</entry>
+<entry>
+   <code>Full</code>
+   <label>Full</label>
+   <description>Full</description>
+</entry>
+<entry>
+   <code>NotApplicable</code>
+   <label>Not Applicable</label>
+   <description>Not Applicable</description>
+</entry>
+<entry>
+   <code>Unknown</code>
+   <label>Unknown</label>
+   <description>Unknown</description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_RectificationTypeCode">
+<entry>
+   <code>NotEntered</code>
+   <label>Not Entered</label>
+   <description>Not Entered</description>
+</entry>
+<entry>
+   <code>FastLook</code>
+   <label>FastLook</label>
+   <description>FastLook</description>
+</entry>
+<entry>
+   <code>NotRectified</code>
+   <label>Not Rectified</label>
+   <description>Not Rectified</description>
+</entry>
+<entry>
+   <code>Orthorectified</code>
+   <label>Orthorectified</label>
+   <description>Orthorectified</description>
+</entry>
+<entry>
+   <code>UnRecorded</code>
+   <label>UnRecorded</label>
+   <description>UnRecorded</description>
+</entry>
+<entry>
+   <code>Unknown</code>
+   <label>Unknown</label>
+   <description>Unknown</description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_BandListCode">
+<entry>
+   <code>NotEntered</code>
+   <label>Not Entered</label>
+   <description>Not Entered</description>
+</entry>
+<entry>
+   <code>1</code>
+   <label>1</label>
+   <description>1</description>
+</entry>
+<entry>
+   <code>1,2,3</code>
+   <label>1,2,3</label>
+   <description>1,2,3</description>
+</entry>
+<entry>
+   <code>1,2,3,4</code>
+   <label>1,2,3,4</label>
+   <description>1,2,3,4</description>
+</entry>
+<entry>
+   <code>1,2,3,4,5</code>
+   <label>1,2,3,4,5</label>
+   <description>1,2,3,4,5</description>
+</entry>
+<entry>
+   <code>1,2,3,4,5,6</code>
+   <label>1,2,3,4,5,6</label>
+   <description>1,2,3,4,5,6</description>
+</entry>
+<entry>
+   <code>1,2,3,4,5,6,7</code>
+   <label>1,2,3,4,5,6,7</label>
+   <description>1,2,3,4,5,6,7</description>
+</entry>
+<entry>
+   <code>1,2,3,4,5,6H,6L,7,8</code>
+   <label>1,2,3,4,5,6H,6L,7,8</label>
+   <description>1,2,3,4,5,6H,6L,7,8</description>
+</entry>
+<entry>
+   <code>1,2,3,4,5,7</code>
+   <label>1,2,3,4,5,7</label>
+   <description>1,2,3,4,5,7</description>
+</entry>
+<entry>
+   <code>1-14</code>
+   <label>1-14</label>
+   <description>1-14</description>
+</entry>
+<entry>
+   <code>2</code>
+   <label>2</label>
+   <description>2</description>
+</entry>
+<entry>
+   <code>2,3,4,5</code>
+   <label>2,3,4,5</label>
+   <description>2,3,4,5</description>
+</entry>
+<entry>
+   <code>2,3,4,5,6,7</code>
+   <label>2,3,4,5,6,7</label>
+   <description>2,3,4,5,6,7</description>
+</entry>
+<entry>
+   <code>2,3,4,5,7</code>
+   <label>2,3,4,5,7</label>
+   <description>2,3,4,5,7</description>
+</entry>
+<entry>
+   <code>2,3,4,7</code>
+   <label>2,3,4,7</label>
+   <description>2,3,4,7</description>
+</entry>
+<entry>
+   <code>2,4,5,7</code>
+   <label>2,4,5,7</label>
+   <description>2,4,5,7</description>
+</entry>
+<entry>
+   <code>3,4,5</code>
+   <label>3,4,5</label>
+   <description>3,4,5</description>
+</entry>
+<entry>
+   <code>3,4,5,7</code>
+   <label>3,4,5,7</label>
+   <description>3,4,5,7</description>
+</entry>
+<entry>
+   <code>C-Band</code>
+   <label>C-Band</label>
+   <description>C-Band</description>
+</entry>
+<entry>
+   <code>PAN</code>
+   <label>PAN</label>
+   <description>PAN</description>
+</entry>
+<entry>
+   <code>PAN,1,2,3,4</code>
+   <label>PAN,1,2,3,4</label>
+   <description>PAN,1,2,3,4</description>
+</entry>
+<entry>
+   <code>C-Band</code>
+   <label>C-Band</label>
+   <description>C-Band</description>
+</entry>
+<entry>
+   <code>1</code>
+   <label>1</label>
+   <description>1</description>
+</entry>
+<entry>
+   <code>Unknown</code>
+   <label>Unknown</label>
+   <description>Unknown</description>
+</entry>
+<entry>
+   <code>X-Band</code>
+   <label>X-Band</label>
+   <description>X-Band</description>
+</entry>
+<entry>
+   <code>L-Band</code>
+   <label>L-Band</label>
+   <description>L-Band</description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_ResamplingKernelCode">
+<entry>
+   <code>NotEntered</code>
+   <label>Not Entered</label>
+   <description>Not Entered</description>
+</entry>
+<entry>
+   <code>CubicConvolution</code>
+   <label>Cubic Convolution</label>
+   <description>Cubic Convolution</description>
+</entry>
+<entry>
+   <code>DS8</code>
+   <label>DS8</label>
+   <description>DS8</description>
+</entry>
+<entry>
+   <code>NearestNeighbour</code>
+   <label>Nearest Neighbour</label>
+   <description>Nearest Neighbour</description>
+</entry>
+<entry>
+   <code>Restoration(ESRI)</code>
+   <label>Restoration(ESRI)</label>
+   <description>Restoration(ESRI)</description>
+</entry>
+<entry>
+   <code>UnRecorded</code>
+   <label>UnRecorded</label>
+   <description>UnRecorded</description>
+</entry>
+<entry>
+   <code>NotApplicable</code>
+   <label>Not Applicable</label>
+   <description>Not Applicable</description>
+</entry>
+<entry>
+   <code>Unknown</code>
+   <label>Unknown</label>
+   <description>Unknown</description>
+</entry>
+<entry>
+   <code>Bilinear</code>
+   <label>Bilinear</label>
+   <description>Bilinear</description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_RunOrientationCode">
+<entry>
+   <code>NotEntered</code>
+   <label>Not Entered</label>
+   <description>Not Entered</description>
+</entry>
+<entry>
+   <code>E-W</code>
+   <label>E-W</label>
+   <description>E-W</description>
+</entry>
+<entry>
+   <code>E-WAndN-S</code>
+   <label>E-W and N-S</label>
+   <description>E-W and N-S</description>
+</entry>
+<entry>
+   <code>NE-SW</code>
+   <label>NE-SW</label>
+   <description>NE-SW</description>
+</entry>
+<entry>
+   <code>N-S</code>
+   <label>N-S</label>
+   <description>N-S</description>
+</entry>
+<entry>
+   <code>NW-SE</code>
+   <label>NW-SE</label>
+   <description>NW-SE</description>
+</entry>
+<entry>
+   <code>NE-SW,E-W</code>
+   <label>NE-SW, E-W</label>
+   <description>NE-SW, E-W</description>
+</entry>
+<entry>
+   <code>Unknown</code>
+   <label>Unknown</label>
+   <description>Unknown</description>
+</entry>
+<entry>
+   <code>Non-Cardinal</code>
+   <label>Non-Cardinal</label>
+   <description>Non-Cardinal</description>
+</entry>
+<entry>
+   <code>Various</code>
+   <label>Various</label>
+   <description>Various</description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_FlyingHeightUnitCode">
+<entry>
+   <code>NotEntered</code>
+   <label>Not Entered</label>
+   <description>Not Entered</description>
+</entry>
+<entry>
+   <code>AglFeet</code>
+   <label>agl feet</label>
+   <description>agl feet</description>
+</entry>
+<entry>
+   <code>AglMetre</code>
+   <label>agl metre</label>
+   <description>agl metre</description>
+</entry>
+<entry>
+   <code>AslFeet</code>
+   <label>asl feet</label>
+   <description>asl feet</description>
+</entry>
+<entry>
+   <code>AslMetre</code>
+   <label>asl metre</label>
+   <description>asl metre</description>
+</entry>
+<entry>
+   <code>Unknown</code>
+   <label>Unknown</label>
+   <description>Unknown</description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_ProcessingLevelCode">
+<entry>
+   <code>NotEntered</code>
+   <label>Not Entered</label>
+   <description>Not Entered</description>
+</entry>
+<entry>
+   <code>ACRESMap-Oriented</code>
+   <label>ACRES Map-Oriented</label>
+   <description>ACRES Map-Oriented</description>
+</entry>
+<entry>
+   <code>ACRESOrtho-Corrected</code>
+   <label>ACRES Ortho-Corrected</label>
+   <description>ACRES Ortho-Corrected</description>
+</entry>
+<entry>
+   <code>ACRESPath-Image</code>
+   <label>ACRES Path-Image</label>
+   <description>ACRES Path-Image</description>
+</entry>
+<entry>
+   <code>ACRESSystematicGeo-Correction</code>
+   <label>ACRES Systematic Geo-Correction</label>
+   <description>ACRES Systematic Geo-Correction</description>
+</entry>
+<entry>
+   <code>ASTERLevel-1A</code>
+   <label>ASTER Level-1A</label>
+   <description>ASTER Level-1A</description>
+</entry>
+<entry>
+   <code>ASTERLevel-2</code>
+   <label>ASTER Level-2</label>
+   <description>ASTER Level-2</description>
+</entry>
+<entry>
+   <code>Ortho-Corrected</code>
+   <label>Ortho-Corrected</label>
+   <description>Ortho-Corrected</description>
+</entry>
+<entry>
+   <code>SAR-PRI</code>
+   <label>SAR-PRI</label>
+   <description>SAR-PRI</description>
+</entry>
+<entry>
+   <code>SAR-SGF</code>
+   <label>SAR-SGF</label>
+   <description>SAR-SGF</description>
+</entry>
+<entry>
+   <code>SAR-SLC</code>
+   <label>SAR-SLC</label>
+   <description>SAR-SLC</description>
+</entry>
+<entry>
+   <code>SPOTLevel-1</code>
+   <label>SPOT Level-1</label>
+   <description>SPOT Level-1</description>
+</entry>
+<entry>
+   <code>SPOTLevel-10</code>
+   <label>SPOT Level-10</label>
+   <description>SPOT Level-10</description>
+</entry>
+<entry>
+   <code>SPOTLevel-1A</code>
+   <label>SPOT Level-1A</label>
+   <description>SPOT Level-1A</description>
+</entry>
+<entry>
+   <code>SPOTLevel-5</code>
+   <label>SPOT Level-5</label>
+   <description>SPOT Level-5</description>
+</entry>
+<entry>
+   <code>SPOTLevel-6</code>
+   <label>SPOT Level-6</label>
+   <description>SPOT Level-6</description>
+</entry>
+<entry>
+   <code>SPOTLevel-8</code>
+   <label>SPOT Level-8</label>
+   <description>SPOT Level-8</description>
+</entry>
+<entry>
+   <code>SPOTLevel-9</code>
+   <label>SPOT Level-9</label>
+   <description>SPOT Level-9</description>
+</entry>
+<entry>
+   <code>UnRecorded</code>
+   <label>UnRecorded</label>
+   <description>UnRecorded</description>
+</entry>
+<entry>
+   <code>Unknown</code>
+   <label>Unknown</label>
+   <description>Unknown</description>
+</entry>
+<entry>
+   <code>RapidEyeLevel1A</code>
+   <label>RapidEye Level 1A</label>
+   <description>RapidEye Level 1A</description>
+</entry>
+<entry>
+   <code>RapidEyeLevel3B</code>
+   <label>RapidEye Level 3B</label>
+   <description>RapidEye Level 3B</description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_AtmosphericCorrectionCode">
+<entry>
+   <code>NotEntered</code>
+   <label>Not Entered</label>
+   <description>Not Entered</description>
+</entry>
+<entry>
+   <code>None</code>
+   <label>None</label>
+   <description>None</description>
+</entry>
+<entry>
+   <code>AtCor2</code>
+   <label>AtCor2</label>
+   <description>AtCor2</description>
+</entry>
+<entry>
+   <code>AtCor3</code>
+   <label>AtCor3</label>
+   <description>AtCor3</description>
+</entry>
+<entry>
+   <code>Calibration-AGO</code>
+   <label>Calibration-AGO</label>
+   <description>Calibration-AGO</description>
+</entry>
+<entry>
+   <code>Unknown</code>
+   <label>Unknown</label>
+   <description>Unknown</description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_PhotoTypeCode">
+<entry>
+   <code>Analog</code>
+   <label>Analog</label>
+   <description>Analog</description>
+</entry>
+<entry>
+   <code>Digital</code>
+   <label>Digital</label>
+   <description>Digital</description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_LensCode">
+<entry>
+   <code>NotEntered</code>
+   <label>Not Entered</label>
+   <description>Not Entered</description>
+</entry>
+<entry>
+   <code>13123</code>
+   <label>13123</label>
+   <description>13123</description>
+</entry>
+<entry>
+   <code>13149&amp;13237</code>
+   <label>13149 &amp; 13237</label>
+   <description>13149 &amp; 13237</description>
+</entry>
+<entry>
+   <code>13237</code>
+   <label>13237</label>
+   <description>13237</description>
+</entry>
+<entry>
+   <code>271084</code>
+   <label>271084</label>
+   <description>271084</description>
+</entry>
+<entry>
+   <code>13244</code>
+   <label>13244</label>
+   <description>13244</description>
+</entry>
+<entry>
+   <code>Unknown</code>
+   <label>Unknown</label>
+   <description>Unknown</description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_DEMCreatorCode">
+<entry>
+   <code>NotEntered</code>
+   <label>Not Entered</label>
+   <description>Not Entered</description>
+</entry>
+<entry>
+   <code>Supplier</code>
+   <label>Supplier</label>
+   <description>Supplier</description>
+</entry>
+<entry>
+   <code>CIP</code>
+   <label>CIP</label>
+   <description>CIP</description>
+</entry>
+<entry>
+   <code>Unknown</code>
+   <label>Unknown</label>
+   <description>Unknown</description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_EllipsoidVerticalDatumCode">
+<entry>
+   <code>AUSGEOID98</code>
+   <label>AUSGEOID98</label>
+   <description></description>
+</entry>
+<entry>
+   <code>AUSGEOID09</code>
+   <label>AUSGEOID09</label>
+   <description></description>
+</entry>
+<entry>
+   <code>AUSGEOID2020</code>
+   <label>AUSGEOID2020</label>
+   <description></description>
+</entry>
+<entry>
+   <code>MELBOURNEGEOID08</code>
+   <label>MELBOURNEGEOID08</label>
+   <description></description>
+</entry>
+<entry>
+   <code>GRS80Ellipsoidal(ITRF1992)</code>
+   <label>GRS80 Ellipsoidal (ITRF 1992)</label>
+   <description></description>
+</entry>
+<entry>
+   <code>GRS80Ellipsoidal(ITRF2005)</code>
+   <label>GRS80 Ellipsoidal (ITRF 2005)</label>
+   <description></description>
+</entry>
+<entry>
+   <code>GRS80Ellipsoidal(ITRF2008)</code>
+   <label>GRS80 Ellipsoidal (ITRF 2008)</label>
+   <description></description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_GeoidVerticalDatumCode">
+<entry>
+   <code>AUSGEOID98</code>
+   <label>AUSGEOID98</label>
+   <description></description>
+</entry>
+<entry>
+   <code>AUSGEOID09</code>
+   <label>AUSGEOID09</label>
+   <description></description>
+</entry>
+<entry>
+   <code>AUSGEOID2020</code>
+   <label>AUSGEOID2020</label>
+   <description></description>
+</entry>
+<entry>
+   <code>MELBOURNEGEOID08</code>
+   <label>MELBOURNEGEOID08</label>
+   <description></description>
+</entry>
+<entry>
+   <code>GRS80Ellipsoidal(ITRF1992)</code>
+   <label>GRS80 Ellipsoidal (ITRF 1992)</label>
+   <description></description>
+</entry>
+<entry>
+   <code>GRS80Ellipsoidal(ITRF2005)</code>
+   <label>GRS80 Ellipsoidal (ITRF 2005)</label>
+   <description></description>
+</entry>
+<entry>
+   <code>GRS80Ellipsoidal(ITRF2008)</code>
+   <label>GRS80 Ellipsoidal (ITRF 2008)</label>
+   <description></description>
+</entry>
+</codelist>
+
+<codelist name="delwp:MD_EllipsoidFormatCode">
+<entry>
+   <code>LAS1.3</code>
+   <label>LAS 1.3</label>
+   <description></description>
+</entry>
+<entry>
+   <code>LAS1.2ClassificationLevel1</code>
+   <label>LAS 1.2 Classification Level 1</label>
+   <description></description>
+</entry>
+<entry>
+   <code>LAS1.3,WaveformPackets</code>
+   <label>LAS 1.3, Waveform Packets</label>
+   <description></description>
+</entry>
+<entry>
+   <code>LAS1.2</code>
+   <label>LAS 1.2</label>
+   <description></description>
+</entry>
+<entry>
+   <code>LAS1.2 Classification Level 2</code>
+   <label>LAS 1.2 Classification Level 2</label>
+   <description></description>
+</entry>
+<entry>
+   <code>LAS1.2-Class(ModelKeyPoints,Non-Ground)</code>
+   <label>LAS 1.2 - Class(Model Key Points, Non-Ground)</label>
+   <description></description>
+</entry>
+</codelist>
 </codelists>

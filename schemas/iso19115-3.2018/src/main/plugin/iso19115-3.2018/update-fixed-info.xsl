@@ -16,6 +16,7 @@
   xmlns:dqc="http://standards.iso.org/iso/19157/-2/dqc/1.0"
   xmlns:mdq="http://standards.iso.org/iso/19157/-2/mdq/1.0"
   xmlns:gfc="http://standards.iso.org/iso/19110/gfc/1.1"
+  xmlns:delwp="https://github.com/geonetwork-delwp/iso19115-3.2018"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:gn-fn-iso19115-3.2018="http://geonetwork-opensource.org/xsl/functions/profiles/iso19115-3.2018"
   xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -97,8 +98,49 @@
       <xsl:apply-templates select="mdb:defaultLocale"/>
       <xsl:apply-templates select="mdb:parentMetadata"/>
       <xsl:apply-templates select="mdb:metadataScope"/>
+      <!--
       <xsl:apply-templates select="mdb:contact"/>
-
+      -->
+      <xsl:choose>
+        <!-- If no originator then add current user as originator -->
+        <xsl:when test="/root/env/created">
+          <mdb:contact>
+            <cit:CI_Responsibility>
+              <cit:role>
+                <cit:CI_RoleCode codeList="{concat($codelistloc,'#CI_RoleCode')}" codeListValue="originator">originator</cit:CI_RoleCode>
+              </cit:role>
+              <xsl:call-template name="addCurrentUserAsParty"/>
+            </cit:CI_Responsibility>
+          </mdb:contact>
+        </xsl:when>
+        <!-- Add current user as processor, then process everything except the 
+             existing processor which will be excluded from the output
+             document - this is to ensure that only the latest user is
+             added as a processor - note: Marlin administrator is excluded from 
+             this role -->
+        <xsl:otherwise>
+          <xsl:choose>
+            <xsl:when test="/root/env/user/details/username!='admin'">
+              <!-- admin does not replace a processor -->
+              <mdb:contact>
+                <cit:CI_Responsibility>
+                  <cit:role>
+                    <cit:CI_RoleCode codeList="{concat($codelistloc,'#CI_RoleCode')}" codeListValue="processor">processor</cit:CI_RoleCode>
+                  </cit:role>
+                  <xsl:call-template name="addCurrentUserAsParty"/>
+                </cit:CI_Responsibility>
+              </mdb:contact>
+              <!-- copy any other metadata contacts with the exception of processors and 
+                   pointOfContact so we make sure that IDC is point of contact -->
+              <xsl:apply-templates select="mdb:contact[not(cit:CI_Responsibility/cit:role/cit:CI_RoleCode='processor' or cit:CI_Responsibility/cit:role/cit:CI_RoleCode='pointOfContact')]"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <!-- admin does not replace a processor, so add IDC and then grab all mdb:contact except pointOfContact -->
+              <xsl:apply-templates select="mdb:contact[cit:CI_Responsibility/cit:role/cit:CI_RoleCode!='pointOfContact']"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:otherwise>
+      </xsl:choose>
 
       <xsl:variable name="isCreationDateAvailable"
                     select="mdb:dateInfo/*[cit:dateType/*/@codeListValue = 'creation']"/>
@@ -215,6 +257,130 @@
       <xsl:apply-templates select="mdb:applicationSchemaInfo"/>
       <xsl:apply-templates select="mdb:metadataMaintenance"/>
       <xsl:apply-templates select="mdb:acquisitionInformation"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <!-- ================================================================= -->
+
+  <xsl:template name="addCurrentUserAsParty">
+    <cit:party>
+      <cit:CI_Organisation>
+        <cit:name>
+          <gco:CharacterString><xsl:value-of select="/root/env/user/details/organisation"/></gco:CharacterString>
+        </cit:name>
+        <cit:individual>
+          <cit:CI_Individual>
+            <cit:name>
+              <gco:CharacterString><xsl:value-of select="concat(/root/env/user/details/surname,', ',/root/env/user/details/firstname)"/></gco:CharacterString>
+            </cit:name>
+          </cit:CI_Individual>
+        </cit:individual>
+      </cit:CI_Organisation>
+    </cit:party>
+  </xsl:template>
+
+  <!-- ================================================================= -->
+
+  <xsl:template match="cit:CI_Citation[name(..)='mri:citation']">
+    <xsl:copy>
+      <xsl:apply-templates select="cit:title"/>
+      <xsl:apply-templates select="cit:alternateTitle"/>
+      <xsl:apply-templates select="cit:date"/>
+      <xsl:apply-templates select="cit:edition"/>
+      <xsl:apply-templates select="cit:editionDate"/>
+      <xsl:apply-templates select="cit:identifier"/>
+      <xsl:if test="count(cit:citedResponsibleParty/cit:CI_Responsibility/cit:role/cit:CI_RoleCode[@codeListValue='custodian'])=0">
+        <cit:citedResponsibleParty>
+          <cit:CI_Responsibility>
+            <cit:role>
+              <cit:CI_RoleCode codeList="{concat($codelistloc,'#CI_RoleCode')}"
+                               codeListValue="custodian">custodian</cit:CI_RoleCode>
+            </cit:role>
+          </cit:CI_Responsibility>
+        </cit:citedResponsibleParty>
+      </xsl:if>
+      <xsl:apply-templates select="cit:citedResponsibleParty"/>
+      <xsl:apply-templates select="cit:presentationForm"/>
+      <xsl:apply-templates select="cit:series"/>
+      <xsl:apply-templates select="cit:otherCitationDetails"/>
+      <xsl:apply-templates select="cit:ISBN"/>
+      <xsl:apply-templates select="cit:ISSN"/>
+      <xsl:apply-templates select="cit:onlineResource"/>
+      <xsl:apply-templates select="cit:graphic"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <!-- ================================================================= -->
+
+  <!-- Match delwp:MD_RasterDetails, add in the required raster type detail elements,
+       prolly a better way to do this? Eg. Offer a choice element in the template? -->
+  <xsl:template match="delwp:MD_RasterDetails">
+    <xsl:copy>
+      <xsl:variable name="rasterType" select="delwp:type/delwp:MD_RasterTypeCode/@codeListValue"/>
+      <xsl:apply-templates select="delwp:type"/>
+      <xsl:apply-templates select="delwp:seamlessness"/>
+      <xsl:apply-templates select="delwp:rectificationType"/>
+      <xsl:apply-templates select="delwp:numberOfBands"/>
+      <xsl:apply-templates select="delwp:bandList"/>
+      <xsl:apply-templates select="delwp:resamplingKernel"/>
+      <xsl:apply-templates select="delwp:platform"/>
+      <xsl:apply-templates select="delwp:rectificationNotes"/>
+      <xsl:choose>
+        <xsl:when test="$rasterType='AerialPhoto'">
+          <xsl:choose>
+            <xsl:when test="delwp:rasterTypeSpecificProperties/delwp:MD_RasterTypeSpecificProperties/delwp:aerialPhoto">
+              <xsl:copy-of select="delwp:rasterTypeSpecificProperties"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <delwp:rasterTypeSpecificProperties>
+                <delwp:MD_RasterTypeSpecificProperties>
+                  <delwp:aerialPhoto>
+                    <delwp:MD_AerialPhoto>
+                      <delwp:photoType>
+                        <delwp:MD_PhotoTypeCode codeList="{concat($codelistloc,'#MD_PhotoTypeCode')}" codeListValue="Digital"/>
+                      </delwp:photoType>
+                    </delwp:MD_AerialPhoto>
+                  </delwp:aerialPhoto>
+                </delwp:MD_RasterTypeSpecificProperties>
+              </delwp:rasterTypeSpecificProperties>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:when>
+        <xsl:when test="$rasterType='Satellite'">
+          <xsl:choose>
+            <xsl:when test="delwp:rasterTypeSpecificProperties/delwp:MD_RasterTypeSpecificProperties/delwp:satellite">
+              <xsl:copy-of select="delwp:rasterTypeSpecificProperties"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <delwp:rasterTypeSpecificProperties>
+                <delwp:MD_RasterTypeSpecificProperties>
+                  <delwp:satellite>
+                    <delwp:MD_Satellite>
+                    </delwp:MD_Satellite>
+                  </delwp:satellite>
+                </delwp:MD_RasterTypeSpecificProperties>
+              </delwp:rasterTypeSpecificProperties>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:when>
+        <xsl:when test="$rasterType='DEM'">
+          <xsl:choose>
+            <xsl:when test="delwp:rasterTypeSpecificProperties/delwp:MD_RasterTypeSpecificProperties/delwp:dem">
+              <xsl:copy-of select="delwp:rasterTypeSpecificProperties"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <delwp:rasterTypeSpecificProperties>
+                <delwp:MD_RasterTypeSpecificProperties>
+                  <delwp:dem>
+                    <delwp:MD_DEM>
+                    </delwp:MD_DEM>
+                  </delwp:dem>
+                </delwp:MD_RasterTypeSpecificProperties>
+              </delwp:rasterTypeSpecificProperties>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:when>
+      </xsl:choose>
     </xsl:copy>
   </xsl:template>
 

@@ -18,6 +18,7 @@
   xmlns:gn="http://www.fao.org/geonetwork"
   xmlns:gn-fn-core="http://geonetwork-opensource.org/xsl/functions/core"
   xmlns:gn-fn-iso19139="http://geonetwork-opensource.org/xsl/functions/profiles/iso19139"
+  xmlns:delwp="https://github.com/geonetwork-delwp/iso19115-3.2018"
   xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
 
   <xsl:include href="utility-fn.xsl"/>

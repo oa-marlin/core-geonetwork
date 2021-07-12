@@ -5,6 +5,7 @@
                 xmlns:gco="http://standards.iso.org/iso/19115/-3/gco/1.0"
                 xmlns:lan="http://standards.iso.org/iso/19115/-3/lan/1.0"
                 xmlns:mcc="http://standards.iso.org/iso/19115/-3/mcc/1.0"
+                xmlns:mac="http://standards.iso.org/iso/19115/-3/mac/2.0"
                 xmlns:mrc="http://standards.iso.org/iso/19115/-3/mrc/2.0"
                 xmlns:mco="http://standards.iso.org/iso/19115/-3/mco/1.0"
                 xmlns:mdb="http://standards.iso.org/iso/19115/-3/mdb/2.0"
@@ -20,7 +21,8 @@
                 xmlns:geonet="http://www.fao.org/geonetwork"
                 xmlns:util="java:org.fao.geonet.util.XslUtil"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+                xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+                xmlns:delwp="https://github.com/geonetwork-delwp/iso19115-3.2018">
 
   <!-- Subtemplate indexing
 
@@ -108,6 +110,18 @@
     <xsl:call-template name="subtemplate-common-fields"/>
   </xsl:template>
 
+  <!-- DELWP Addition -->
+  <xsl:template mode="index" match="mac:MI_Sensor">
+    <xsl:variable name="platformType" select="mac:identifier/mcc:MD_Identifier/mcc:code/gco:CharacterString"/>
+    <xsl:variable name="sensorName" select="mac:citation/cit:CI_Citation/cit:title/gco:CharacterString"/>
+    <Field name="sensorName" string="{$sensorName}" store="true" index="true"/>
+    <Field name="platformType" string="{$platformType}" store="true" index="true"/>
+    <Field name="sensorType" string="{mac:type/gco:CharacterString}" store="true" index="true"/>
+    <Field name="_title" string="{concat($platformType,': ',$sensorName)}" store="true" index="true"/>
+    <xsl:call-template name="subtemplate-common-fields"/>
+  </xsl:template>
+  <!-- END DELWP Addition -->
+  
   <xsl:template mode="index"
                 match="mcc:MD_BrowseGraphic[count(ancestor::node()) =  1]">
 

@@ -44,4 +44,7 @@
              schemaLocation="schema/standards.iso.org/19135/-2/reg/1.0/reg.xsd"/>
   <xs:import namespace="http://www.opengis.net/gml/3.2"
              schemaLocation="schema/others/ISO19136/gml.xsd"/>
+  <!-- Add delwp -->
+  <xs:import namespace="https://github.com/geonetwork-delwp/iso19115-3.2018"
+             schemaLocation="schema/others/delwp/delwp.xsd"/>
 </xs:schema>

@@ -5,11 +5,11 @@
         xmlns:gcx="http://standards.iso.org/iso/19115/-3/gcx/1.0"
         xmlns:gex="http://standards.iso.org/iso/19115/-3/gex/1.0"
         xmlns:lan="http://standards.iso.org/iso/19115/-3/lan/1.0"
-        xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.1"
+        xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.0"
         xmlns:mas="http://standards.iso.org/iso/19115/-3/mas/1.0"
         xmlns:mcc="http://standards.iso.org/iso/19115/-3/mcc/1.0"
         xmlns:mco="http://standards.iso.org/iso/19115/-3/mco/1.0"
-        xmlns:mda="http://standards.iso.org/iso/19115/-3/mda/1.0"
+        xmlns:mda="http://standards.iso.org/iso/19115/-3/mda/2.0"
         xmlns:mdb="http://standards.iso.org/iso/19115/-3/mdb/2.0"
         xmlns:mds="http://standards.iso.org/iso/19115/-3/mds/2.0"
         xmlns:reg="http://standards.iso.org/iso/19135/-2/reg/1.0"
@@ -27,6 +27,7 @@
         xmlns:mac="http://standards.iso.org/iso/19115/-3/mac/2.0"
         xmlns:gco="http://standards.iso.org/iso/19115/-3/gco/1.0"
         xmlns:gml="http://www.opengis.net/gml/3.2"
+        xmlns:delwp="https://github.com/geonetwork-delwp/iso19115-3.2018"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         xsi:noNamespaceSchemaLocation="../../../../../../../schema-labels.xsd">
   <element name="gco:Distance">
@@ -87,7 +88,7 @@
     <condition></condition>
   </element>
   <element name="mac:instrument">
-    <label>Instrument</label>
+    <label>Sensor</label>
     <description></description>
     <condition></condition>
   </element>
@@ -96,8 +97,18 @@
     <description></description>
     <condition></condition>
   </element>
+  <element name="mac:MI_Operation">
+    <label>Operation</label>
+    <description></description>
+    <condition></condition>
+  </element>
   <element name="mac:platform">
     <label>Platform</label>
+    <description></description>
+    <condition></condition>
+  </element>
+  <element name="mac:status">
+    <label>Status</label>
     <description></description>
     <condition></condition>
   </element>
@@ -108,6 +119,16 @@
   </element>
   <element name="mac:objective">
     <label>Objective</label>
+    <description></description>
+    <condition></condition>
+  </element>
+  <element name="mac:scope">
+    <label>Scope</label>
+    <description></description>
+    <condition></condition>
+  </element>
+  <element name="mac:otherProperty">
+    <label>Other properties</label>
     <description></description>
     <condition></condition>
   </element>
@@ -123,62 +144,26 @@
   </element>
   <element name="mac:averageAirTemperature">
     <label>Air temperature average</label>
-    <description>Average air temperature along the flight pass during the photo flight.</description>
+    <description></description>
     <condition></condition>
   </element>
   <element name="mac:maxRelativeHumidity">
     <label>Maximum of relative humidity</label>
-    <description>Maximum relative humidity along the flight pass during the photo flight.</description>
+    <description></description>
     <condition></condition>
   </element>
   <element name="mac:maxAltitude">
     <label>Maximum altitude</label>
-    <description>Maximum altitude during the photo flight.</description>
+    <description></description>
     <condition></condition>
   </element>
   <element name="mac:meterologicalConditions">
     <label>Meterological conditions</label>
-    <description>Meteorological conditions in the photo flight area, in particular clouds, snow and wind.</description>
+    <description></description>
     <condition></condition>
   </element>
   <element name="mac:MI_Instrument">
     <label>Instrument</label>
-    <description>Characteristics of the measuring instrument</description>
-    <condition></condition>
-  </element>
-  <element name="mac:MI_Operation">
-    <label>Operation</label>
-    <description>Designations for the operation used to acquire the dataset
-    </description>
-    <condition></condition>
-  </element>
-  <element name="mac:status">
-    <label>Status</label>
-    <description></description>
-    <condition></condition>
-  </element>
-  <element name="mac:childOperation">
-    <label>Child operation</label>
-    <description></description>
-    <condition></condition>
-  </element>
-  <element name="mac:parentOperation">
-    <label>Parent operation</label>
-    <description></description>
-    <condition></condition>
-  </element>
-  <element name="mac:plan">
-    <label>Plan</label>
-    <description></description>
-    <condition></condition>
-  </element>
-  <element name="mac:significantEvent">
-    <label>Significant event</label>
-    <description></description>
-    <condition></condition>
-  </element>
-  <element name="mac:satisfiedRequirement">
-    <label>Satisfied requirement</label>
     <description></description>
     <condition></condition>
   </element>
@@ -186,6 +171,11 @@
     <label>Citation</label>
     <description></description>
     <condition></condition>
+  </element>
+  <element name="cit:citedResponsibleParty" context="/mdb:MD_Metadata/mdb:acquisitionInformation/mac:MI_AcquisitionInformation/mac:operation/mac:MI_Operation/mac:citation/cit:CI_Citation/cit:citedResponsibleParty">
+    <label>Supplier</label>
+    <description>Party that supplied the data used in the project</description>
+    <condition>mandatory</condition>
   </element>
   <element name="mac:identifier">
     <label>Identifier</label>
@@ -197,10 +187,10 @@
     <description></description>
     <condition></condition>
   </element>
-  <element name="mac:description">
-    <label>Description</label>
-    <description></description>
-    <condition></condition>
+  <element name="mac:description" context="mac:MI_Operation">
+    <label>Program</label>
+    <description>Program under which data has been collected</description>
+    <condition>mandatory</condition>
   </element>
   <element name="mac:mountedOn">
     <label>Mounted on</label>
@@ -209,8 +199,7 @@
   </element>
   <element name="mac:MI_Requirement">
     <label>Requirement</label>
-    <description>Requirement to be satisfied by the planned data acquisition
-    </description>
+    <description></description>
     <condition></condition>
   </element>
   <element name="mac:recipient">
@@ -230,7 +219,7 @@
   </element>
   <element name="mac:requestedDate">
     <label>Requested date</label>
-    <description>Range of date validity</description>
+    <description></description>
     <condition></condition>
   </element>
   <element name="mac:MI_RequestedDate">
@@ -410,7 +399,7 @@
     <condition></condition>
   </element>
   <element name="mdb:resourceScope" id="40.0">
-    <label>Resource scope</label>
+    <label>Resource Type</label>
     <description iso="true">Code for the scope.</description>
     <condition>mandatory</condition>
   </element>
@@ -600,12 +589,12 @@
     <description iso="true">Degree of detail in the grid dataset</description>
     <condition>optional</condition>
     <helper relAtt="uom">
-      <option value="1" title="second">seconds</option>
-      <option value="1" title="minute">minutes</option>
-      <option value="1" title="hour">hours</option>
-      <option value="1" title="day">days</option>
-      <option value="1" title="month">months</option>
-      <option value="1" title="year">years</option>
+      <option value="1" title="cm">1 cm</option>
+      <option value="10" title="cm">10 cm</option>
+      <option value="15" title="cm">15 cm</option>
+      <option value="20" title="cm">20 cm</option>
+      <option value="25" title="cm">25 cm</option>
+      <option value="30" title="cm">30 cm</option>
     </helper>
   </element>
   <element name="msr:dimensionTitle" id="174.0">
@@ -1285,13 +1274,6 @@
       role
     </description>
   </element>
-  <element name="cit:partyIdentifier">
-    <label>Identifier for the party</label>
-    <description/>
-  </element>
-  <element name="cit:role" id="377.0">
-    <label>Role</label>
-  </element>
   <element name="cit:role" id="377.0" context="cit:CI_Responsibility">
     <label>Role</label>
     <description>Function performed by the responsible party</description>
@@ -1383,11 +1365,6 @@
     <condition/>
   </element>
   <element name="mri:MD_ScopeCode">
-    <label>Scope code</label>
-    <description>Class of information to which the referencing entity applies
-    </description>
-  </element>
-  <element name="mcc:MD_ScopeCode">
     <label>Scope code</label>
     <description>Class of information to which the referencing entity applies
     </description>
@@ -1995,6 +1972,12 @@
       Example: "DCW" as an alternative title for "Digital Chart of the World
     </description>
   </element>
+  <element name="cit:alternateTitle" id="777.1"
+           context="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:alternateTitle">
+    <label>Resource Name</label>
+    <description>Name of the resource</description>
+    <condition>mandatory</condition>
+  </element>
   <element name="mrd:amendmentNumber" id="287.0">
     <label>Amendment number</label>
     <description>Amendment number of the format version</description>
@@ -2153,7 +2136,7 @@
     <label>Classification system</label>
     <description>Name of the classification system</description>
   </element>
-  <element name="mrc:cloudCoverPercentage" id="248.0">
+  <element name="mri:cloudCoverPercentage" id="248.0">
     <label>Cloud cover percentage</label>
     <description>Area of the dataset obscured by clouds, expressed as a
       percentage of the
@@ -2525,7 +2508,7 @@
     <help></help>
     <condition>optional</condition>
   </element>
-  <element name="gex:description" id="335.0" context="gex:EX_Extent">
+  <element name="gex:description" id="335.0">
     <label>Description</label>
     <description>Spatial and temporal extent for the referring object
     </description>
@@ -2618,17 +2601,8 @@
     <condition>mandatory</condition>
   </element>
   <element name="mri:distance" id="61.0">
-    <label>Spatial resolution</label>
-    <description>Ground sample distance</description>
-    <condition>Provide a distance if no equivalent Scale is documented</condition>
-    <helper relAtt="uom">
-      <option value="0.10" title="cm">10 cm</option>
-      <option value="0.25" title="cm">25 cm</option>
-      <option value="0.50" title="cm">50 cm</option>
-      <option value="1" title="m">1 m</option>
-      <option value="30" title="m">30 m</option>
-      <option value="100" title="m">100 m</option>
-    </helper>
+    <label>Horizontal Accuracy</label>
+    <description>Horizontal Accuracy eg. 1.0m</description>
   </element>
   <element name="mrd:distributionFormat" id="271.0">
     <label>Distribution format</label>
@@ -3049,6 +3023,16 @@
     </description>
     <condition>mandatory</condition>
   </element>
+  <element name="mri:individualName" id="375.0">
+    <label>Individual name</label>
+    <description>Name of the responsible person- surname, given name, title
+      separated by a
+      delimiter
+    </description>
+    <_condition>Conditional / organisationName and positionName not
+      documented?
+    </_condition>
+  </element>
   <element name="mri:initiativeType" id="66.5">
     <label>Initiative Type</label>
     <description>Type of initiative under which the aggregate dataset was
@@ -3288,15 +3272,6 @@
     <label>Name</label>
     <description>Role name</description>
   </element>
-  <element name="cit:name" context="cit:CI_Organisation" id="376.0">
-    <label>Organisation name</label>
-    <description>Name of the responsible organization</description>
-    <condition>conditional</condition>
-  </element>
-  <element name="cit:name" context="cit:CI_Individual" id="375.0">
-    <label>Individual name</label>
-    <description>Name of the responsible person- surname, given name, title</description>
-  </element>
   <element name="cit:name">
     <label>Name</label>
     <description/>
@@ -3304,7 +3279,7 @@
   <element name="mri:nameOfMeasure" id="100.0">
     <label>Name of measure</label>
     <description>Name of the test applied to the data</description>
-    <!-- ISO19138 Data quality basic measures Annex C - under revision ISO
+    <!-- ISO19138 Data quality basic measures Annex C - under revision ISO 
       19157 http://www.iso.org/iso/fr/catalogue_detail.htm?csnumber=32575 -->
     <helper rel="mri:measureDescription">
       <option value="">-- Completeness --</option>
@@ -3729,6 +3704,11 @@
       distributor
     </description>
   </element>
+  <element name="mri:organisationName" id="376.0">
+    <label>Organisation name</label>
+    <description>Name of the responsible organization</description>
+    <condition>conditional</condition>
+  </element>
   <element name="mri:orientationParameterAvailability" id="172.0">
     <label>Orientation parameter availability</label>
     <description>Indication of whether or not orientation parameters are
@@ -3758,8 +3738,10 @@
   </element>
   <element name="mco:otherConstraints" id="72.0">
     <label>Other constraints</label>
-    <description>Other restrictions and legal prerequisites for accessing and using the
-      resource</description>
+    <description>Other restrictions and legal prerequisites for accessing and
+      using the
+      resource
+    </description>
     <condition>conditional</condition>
   </element>
   <element name="cit:page" id="416.0">
@@ -3883,22 +3865,8 @@
   <element name="cit:protocol" id="398.0" alias="protocol">
     <label>Protocol</label>
     <description>Connection protocol to be used</description>
-    <helper>
-      <!--<option value="WWW:LINK">Web link (URL)</option>
-      <option value="WWW:LINK-1.0-http&#45;&#45;publication-URL">Main publication link</option>
-      <option value="WWW:LINK-1.0-http&#45;&#45;metadata-URL">Point of truth URL of this metadata record</option>
-      <option value="FILE">Download (file)</option>
-      <option value="COPYFILE">Download (copy)</option>
-      <option value="DB">Download (database)</option>
-      <option value="WWW:DOWNLOAD-1.0-link&#45;&#45;download">Download (link)</option>
-      <option value="NETWORK:LINK">Download (visible path)</option>
-      <option value="OGC:WFS">Download (WFS)</option>
-      <option value="OGC:WCS">Download (WCS)</option>
-      <option value="OGC:WMS">View (WMS)</option>
-      <option value="OGC:WMTS">View (WMTS)</option>
-      <option value="OGC:WPS">OGC-WPS Web Processing Service</option>
-      <option value="OGC:OWS-C">View (OWS Context)</option>-->
-
+    <helper sort="true">
+<!--
       <option value="OGC:CSW">OGC-CSW Catalogue Service for the Web
       </option>
       <option value="OGC:KML">OGC-KML Keyhole Markup Language
@@ -3916,25 +3884,29 @@
       <option value="OGC:SAS">OGC-SAS Sensor Alert Service</option>
       <option value="OGC:WCS">OGC-WCS Web Coverage Service</option>
       <option value="OGC:WCTS">OGC-WCTS Web Coordinate Transformation Service</option>
+-->
       <option value="OGC:WFS">OGC-WFS Web Feature Service</option>
-      <option value="INSPIRE Atom">INSPIRE Atom</option>
       <option value="OGC:WMS">OGC-WMS Web Map Service</option>
+<!--
       <option value="OGC:WMTS">OGC-WMS Web Map Tile Service</option>
       <option value="OGC:WNS">OGC-WNS Web Notification Service</option>
       <option value="OGC:WPS">OGC-WPS Web Processing Service</option>
+-->
       <option value="WWW:DOWNLOAD-1.0-ftp--download">File for download through FTP</option>
       <option value="WWW:DOWNLOAD-1.0-http--download">File for download</option>
+<!--
       <option value="ESRI:REST">ESRI REST Service</option>
-      <option value="ESRI:REST-TILED">ESRI REST Tiled Service</option>
       <option value="FILE:GEO">GIS file</option>
       <option value="FILE:RASTER">GIS RASTER file</option>
-      <option value="WWW:LINK-1.0-http--link" default="">Web address (URL)</option>
-      <option value="WWW:LINK-1.0-http--rss">RSS News feed (URL)</option>
+-->
+      <option value="WWW:LINK-1.0-http--link" default="">Web address of a resource (URL)</option>
+      <option value="WWW:LINK-1.0-http--download-raster-footprint" default="">Raster Footprint (URL)</option>
+<!--
       <option value="DB:POSTGIS">PostGIS database table</option>
       <option value="DB:ORACLE">ORACLE database table</option>
-      <option value="WWW:LINK-1.0-http--opendap">OPeNDAP URL</option>
       <option value="RBNB:DATATURBINE">Data Turbine</option>
       <option value="UKST">Unknown Service Type</option>
+-->
     </helper>
   </element>
   <element name="mri:purpose" id="26.0">
@@ -3942,6 +3914,7 @@
     <description>Summary of the intentions with which the resource(s) was
       developed
     </description>
+    <condition>mandatory</condition>
   </element>
   <element name="mrc:radiometricCalibrationDataAvailability" id="252.0">
     <label>Radiometric calibration data availability</label>
@@ -4044,8 +4017,8 @@
     <description>Degree of detail in the grid dataset</description>
   </element>
   <element name="mri:vertical">
-    <label>Vertical sampling distance</label>
-    <description>Vertical sampling distance</description>
+    <label>Vertical Accuracy</label>
+    <description>Vertical accuracy eg. 1.0</description>
   </element>
   <element name="mri:angularDistance">
     <label>Angular sampling measure</label>
@@ -4300,116 +4273,61 @@
     </description>
   </element>
   <element name="cit:title" id="285.0"
-           context="/mdb:MD_Metadata/mdb:distributionInfo/mrd:MD_Distribution/mrd:distributionFormat/mrd:MD_Format/mrd:formatSpecificationCitation/cit:CI_Citation/cit:title">
+           context="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceFormat/mrd:MD_Format/mrd:formatSpecificationCitation/cit:CI_Citation/cit:title">
     <label>Format name</label>
-    <description>Name of the data transfer format(s)</description>
+    <description>Name of the data format(s)</description>
     <help>File or link format name</help>
     <helper>
-      <option value="Text">Text</option>
-      <option value="XLS">XLS</option>
-      <option value="ESRI Shapefile">ESRI Shapefile</option>
-      <option value="Mapinfo MIF/MID">Mapinfo MIF/MID</option>
-      <option value="Mapinfo TAB">Mapinfo TAB</option>
-      <option value="KML">KML</option>
-      <option value="GML">GML</option>
-      <option value="XYZ Ascii">XYZ Ascii</option>
-      <option value="NetCDF">NetCDF</option>
-      <option value="GeoTIFF">GeoTIFF</option>
-      <option value="TIFF">TIFF</option>
-      <option value="ECW">ECW</option>
-      <option value="JPEG2000">JPEG2000</option>
-      <option value="ZIP">ZIP</option>
-      <option value="PDF">PDF</option>
-      <option value="PNG">PNG</option>
-      <option value="JPEG">JPEG</option>
-      <option value="OGC:WMC">OGC:WMC</option>
-      <option value="OGC:OWS-C">OGC OWS Context</option>
+<option value="LAS 1.2 - Class(Model Key Points, Non-Ground)">LAS 1.2 - Class(Model Key Points, Non-Ground)</option>
+<option value="LAS 1.2">LAS 1.2</option>
+<option value="LAS 1.2, XYZI Ascii">LAS 1.2, XYZI Ascii</option>
+<option value="XYZ Ascii, ESRI Ascii, TIFF">XYZ Ascii, ESRI Ascii, TIFF</option>
+<option value="BIL">BIL</option>
+<option value="ECW">ECW</option>
+<option value="ECW,ERS,TAB">ECW,ERS,TAB</option>
+<option value="ECW,TIFF">ECW,TIFF</option>
+<option value="TIFF,TAB,ECW,ERS">TIFF,TAB,ECW,ERS</option>
+<option value="JPEG2000">JPEG2000</option>
+<option value="TIFF">TIFF</option>
+<option value="TIFF,ECW">TIFF,ECW</option>
+<option value="TIFF,ECW,TAB">TIFF,ECW,TAB</option>
+<option value="TIFF,ERS,TFW,JP2">TIFF,ERS,TFW,JP2</option>
+<option value="XYZ ASCII">XYZ ASCII</option>
+<option value="XYZI ASCII">XYZI ASCII</option>
+<option value="Shapefile">Shapefile</option>
+<option value="Shapefile, DXF">Shapefile, DXF</option>
+<option value="DXF">DXF</option>
+<option value="MapInfo TAB">MapInfo TAB</option>
+<option value="DXF, DWG">DXF, DWG</option>
+<option value="Shapefile, MapInfo TAB">Shapefile, MapInfo TAB</option>
+<option value="ACRES">ACRES</option>
+<option value="ACRES (OLD)">ACRES (OLD)</option>
+<option value="AMIRA">AMIRA</option>
+<option value="BSQ">BSQ</option>
+<option value="DIMAP">DIMAP</option>
+<option value="Imagine">Imagine</option>
+<option value="ERMapper">ERMapper</option>
+<option value="ERMapper and Imagine">ERMapper and Imagine</option>
+<option value="FLASHBAK">FLASHBAK</option>
+<option value="MicroBRIAN">MicroBRIAN</option>
+<option value="MicroBRIAN and ERMapper">MicroBRIAN and ERMapper</option>
+<option value="Not Applicable">Not Applicable</option>
+<option value="Other">Other</option>
+<option value="UnRecorded">UnRecorded</option>
+<option value="ESRI Ascii">ESRI Ascii</option>
+<option value="XYZ Ascii, ESRI Ascii">XYZ Ascii, ESRI Ascii</option>
+<option value="LAS 1.2 - Class(Ground, Unclassified)">LAS 1.2 - Class(Ground, Unclassified)</option>
+<option value="LAS 1.2 - Class(Ground, Unclassified), XYZI Ascii">LAS 1.2 - Class(Ground, Unclassified), XYZI Ascii</option>
+<option value="LAS 1.2 Classification Level 1">LAS 1.2 Classification Level 1</option>
+<option value="LAS 1.2 Classification Level 2">LAS 1.2 Classification Level 2</option>
+<option value="XYZ ASCII, TIFF">XYZ ASCII, TIFF</option>
+<option value="GeoTIF">GeoTIF</option>
+<option value="LAS 1.2 Classification Level 1, XYZI ASCII">LAS 1.2 Classification Level 1, XYZI ASCII</option>
+<option value="LAS 1.2 Classification Level 2, XYZI ASCII">LAS 1.2 Classification Level 2, XYZI ASCII</option>
+<option value="LAS 1.3, Waveform Packets">LAS 1.3, Waveform Packets</option>
+<option value="LAS 1.3">LAS 1.3</option> 
     </helper>
   </element>
-
-  <element name="cit:title" id="360.0"
-           context="/mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_DomainConsistency/mdq:result/mdq:DQ_ConformanceResult/mdq:specification/cit:CI_Citation/cit:title">
-    <label>Specification</label>
-    <description></description>
-    <help></help>
-    <helper editorMode="radio_linebreak"
-            displayIf="ancestor::node()[name()='mdb:MD_Metadata']/mdb:identificationInfo/mri:MD_DataIdentification">
-      <option value="COMMISSION REGULATION (EU) No 1089/2010 of 23 November 2010 implementing Directive 2007/2/EC of the European Parliament and of the Council as regards interoperability of spatial data sets and services">
-        COMMISSION REGULATION (EU) No 1089/2010 of 23 November 2010 implementing
-        Directive 2007/2/EC of the European Parliament and of the Council as
-        regards interoperability of spatial data sets and services
-      </option>
-      <option value="INSPIRE Data Specification on Administrative Units - Guidelines v3.0.1">
-        Guide INSPIRE sur les unités administratives
-      </option>
-      <option value="INSPIRE Data Specification on Cadastral Parcels - Guidelines v 3.0.1">
-        Guide INSPIRE sur les parcelles cadastrales
-      </option>
-      <option value="INSPIRE Data Specification on Geographical Names - Guidelines v 3.0.1">
-        Guide INSPIRE sur les dénominations géographiques
-      </option>
-      <option value="INSPIRE Data Specification on Hydrography - Guidelines v 3.0.1">
-        Guide INSPIRE sur l’hydrographie
-      </option>
-      <option value="INSPIRE Data Specification on Protected Sites - Guidelines v 3.1.0">
-        Guide INSPIRE sur les sites protégés
-      </option>
-      <option value="INSPIRE Data Specification on Transport Networks - Guidelines v 3.1.0">
-        Guide INSPIRE sur les réseaux de transport
-      </option>
-      <option value="INSPIRE Data Specification on Addresses - Guidelines v 3.0.1">
-        Guide INSPIRE sur les adresses
-      </option>
-      <option value="INSPIRE Specification on Coordinate Reference Systems - Guidelines v 3.1">
-        Guide INSPIRE sur les référentiels de coordonnées
-      </option>
-      <option value="INSPIRE Specification on Geographical Grid Systems - Guidelines v 3.0.1">
-        Guide INSPIRE sur les systèmes de maillage géographique
-      </option>
-    </helper>
-    <helper editorMode="radio_linebreak"
-            displayIf="ancestor::node()[name()='mdb:MD_Metadata']/mdb:identificationInfo/srv:SV_ServiceIdentification">
-      <option value="RÈGLEMENT (UE) N° 976/2009">Règlement service en réseau
-        INSPIRE (service de recherche et de consultation) - RÈGLEMENT (UE) N°
-        976/2009
-      </option>
-      <option value="RÈGLEMENT (UE) N° 1088/2010">Règlement service en réseau
-        INSPIRE (service de téléchargement et de transformation) - RÈGLEMENT
-        (UE) N° 1088/2010
-      </option>
-      <option value="Technical Guidance for the implementation of INSPIRE Discovery Services – v.3.1">
-        Guide INSPIRE sur les services de recherche
-      </option>
-      <option value="Technical Guidance for the implementation of INSPIRE View Services - v3.1 – part 4">
-        Guide INSPIRE sur les services de consultation – profil ISO 19128 (WMS)
-      </option>
-      <option value="Technical Guidance for the implementation of INSPIRE View Services - v3.1 – part 5">
-        Guide INSPIRE sur les services de consultation – profil ISO WMTS 1.0.0
-      </option>
-      <option value="Technical Guidance for the INSPIRE Schema Transformation Network Service - v3.0">
-        Guide INSPIRE sur les services de transformation de schéma
-      </option>
-      <option value="Technical Guidance for the implementation of INSPIRE Download Services – level1 - v3.0">
-        Guide INSPIRE sur les services de téléchargement – classe de conformité
-        1 (ATOM pré-défini)
-      </option>
-      <option value="Technical Guidance for the implementation of INSPIRE Download Services – level2 - v3.0">
-        Guide INSPIRE sur les services de téléchargement – classe de conformité
-        2 (WFS pré-défini)
-      </option>
-      <option value="Technical Guidance for the implementation of INSPIRE Download Services – level3 - v3.0">
-        Guide INSPIRE sur les services de téléchargement – classe de conformité
-        3 (WFS direct)
-      </option>
-    </helper>
-  </element>
-
-  <element name="cit:title" id="360.0"
-           context="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:title">
-    <label>Title</label>
-    <description>Name by which the cited resource is known</description>
-  </element>
-
   <element name="cit:title" id="360.0">
     <label>Title</label>
     <description>Name by which the cited resource is known</description>
@@ -4551,15 +4469,12 @@
       resource
     </description>
   </element>
-  <element name="mco:useLimitation" id="99.0"
-           context="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceConstraints/mco:MD_Constraints/mco:useLimitation">
-    <label>Challenge expert score</label>
-    <description>Assign an overall product quality score with respect to the objectives and explain why.</description>
-  </element>
   <element name="mco:useLimitation" id="99.0">
     <label>Use limitation</label>
-    <description>Limitation affecting the fitness for use of the resource. Example, _not to be
-            used for navigation_</description>
+    <description>Limitation affecting the fitness for use of the resource.
+      Example, _not to be
+      used for navigation_
+    </description>
   </element>
   <element name="mco:constraintApplicationScope" id="100.0">
     <label>Constraint application scope</label>
@@ -4595,11 +4510,13 @@
       and legal prerequisites for obtaining and using the resource or metadata
     </description>
   </element>
-  <element name="mdq:value" id="137.0" context="/mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_DomainConsistency/mdq:result/mdq:DQ_QuantitativeResult/mdq:value">
+  <element name="mdq:value" id="137.0" context="mdq:DQ_QuantitativeResult">
     <condition>mandatory</condition>
     <label>Value</label>
-    <description>Quantitative value or values, content determined by the evaluation procedure
-            used</description>
+    <description>Quantitative value or values, content determined by the
+      evaluation procedure
+      used
+    </description>
   </element>
   <element name="mdq:value">
     <label>Value</label>
@@ -4795,6 +4712,14 @@
     <label>Time position</label>
     <description/>
   </element>
+  <element name="gml:timePosition" id="71000.0" context="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:extent/gex:EX_Extent/gex:temporalElement/gex:EX_TemporalExtent/gex:extent/gml:TimePeriod/gml:begin/gml:TimeInstant/gml:timePosition">
+    <label>Start Date</label>
+    <description>Start of dataset temporal extent</description>
+  </element>
+  <element name="gml:timePosition" id="71001.0" context="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:extent/gex:EX_Extent/gex:temporalElement/gex:EX_TemporalExtent/gex:extent/gml:TimePeriod/gml:end/gml:TimeInstant/gml:timePosition">
+    <label>End Date</label>
+    <description>End of dataset temporal extent</description>
+  </element>
   <element name="gml:TimePeriod">
     <label>Time period</label>
     <description/>
@@ -4885,22 +4810,16 @@
       nameSpace and name attributes of GeneralName may be 'OGC' and 'catalogue'
     </description>
     <helper>
-      <option value="OGC:WMS">OGC Web Map Service</option>
-      <option value="OGC:WMTS">OGC Web Map Tile Service</option>
-      <option value="OGC:WFS">OGC Web Feature Service</option>
-      <option value="OGC:WCS">OGC Web Coverage Service</option>
-      <option value="OGC:WPS">OGC Web Processing Service</option>
-      <option value="atom:feed">ATOM feed</option>
-      <!--INSPIRE Service type defined in MD IR / 1.3.1 Spatial data service
-        type <option value="discovery">Discovery Service (discovery)</option> <option
-        value="view">View Service (view)</option> <option value="download">Download
-        Service (download)</option> <option value="transformation">Transformation
-        Service (transformation)</option> <option value="other">Other Services (other)</option> -->
-      <!--<option value="OGC:WMS">OGC Web Map Service (OGC:WMS)</option>
+      <option value="OGC:WMS">OGC Web Map Service (OGC:WMS)</option>
       <option value="OGC:WFS">OGC Web Feature Service (OGC:WFS)</option>
       <option value="OGC:WCS">OGC Web Coverage Service (OGC:WCS)</option>
       <option value="W3C:HTML:DOWNLOAD">Download (W3C:HTML:DOWNLOAD)</option>
-      <option value="W3C:HTML:LINK">Information (W3C:HTML:LINK)</option>-->
+      <option value="W3C:HTML:LINK">Information (W3C:HTML:LINK)</option>
+      <!--INSPIRE Service type defined in MD IR / 1.3.1 Spatial data service 
+        type <option value="discovery">Discovery Service (discovery)</option> <option 
+        value="view">View Service (view)</option> <option value="download">Download 
+        Service (download)</option> <option value="transformation">Transformation 
+        Service (transformation)</option> <option value="other">Other Services (other)</option> -->
     </helper>
   </element>
   <element name="srv:serviceTypeVersion">
@@ -5152,10 +5071,6 @@
     <label>Language</label>
     <description>Language code</description>
   </element>
-  <element name="lan:LanguageCode">
-    <label>ISO Language code</label>
-    <description>Language code</description>
-  </element>
   <element name="mri:LanguageCode">
     <label>ISO Language code</label>
     <description>Language code</description>
@@ -5265,16 +5180,6 @@
   <element name="mri:CI_RoleCode">
     <label>Role code</label>
     <description/>
-  </element>
-  <element name="cit:CI_RoleCode">
-    <label>Role code</label>
-    <description/>
-  </element>
-  <element name="mcc:MD_SpatialRepresentationTypeCode">
-    <label>Spatial Representation Type</label>
-  </element>
-  <element name="mcc:MD_ProgressCode">
-    <label>Status</label>
   </element>
   <element name="gco:TM_PeriodDuration">
     <label>Period duration</label>
@@ -5416,22 +5321,6 @@
     <label>Date</label>
     <description>Catalogue date</description>
   </element>
-  <element name="cat:name">
-    <label>Name</label>
-    <description>Feature catalogue name</description>
-  </element>
-  <element name="cat:scope">
-    <label>Scope</label>
-    <description>Scope definition</description>
-  </element>
-  <element name="cat:versionNumber">
-    <label>Version</label>
-    <description>Catalogue version</description>
-  </element>
-  <element name="cat:versionDate">
-    <label>Date</label>
-    <description>Catalogue date</description>
-  </element>
   <element name="gfc:producer">
     <label>Catalogue producer</label>
     <description>Catalogue responsible</description>
@@ -5452,18 +5341,6 @@
     <label>Property name</label>
     <description></description>
   </element>
-  <element name="cat:characterSet">
-    <label>Character set</label>
-    <description></description>
-  </element>
-  <element name="cat:language">
-    <label>Language</label>
-    <description></description>
-  </element>
-  <element name="cat:locale">
-    <label>Language (locale)</label>
-    <description></description>
-  </element>
   <element name="gfc:carrierOfCharacteristics">
     <label>Elements</label>
     <description>Association, attribute, operation, ...</description>
@@ -5473,10 +5350,6 @@
     <description>Property definition</description>
   </element>
   <element name="gfc:fieldOfApplication">
-    <label>Field of application</label>
-    <description>Field of application</description>
-  </element>
-  <element name="cat:fieldOfApplication">
     <label>Field of application</label>
     <description>Field of application</description>
   </element>
@@ -5713,204 +5586,357 @@
     <label>Item status</label>
     <description></description>
   </element>
-  <element name="mmi:MD_MaintenanceFrequencyCode">
-    <label>Maintenance Frequency</label>
+  <element name="delwp:method">
+    <label>Method</label>
+    <description></description>
   </element>
-  <element name="mco:MD_RestrictionCode" context="mco:accessConstraints">
-    <label>Access constraints</label>
+  <element name="delwp:partner">
+    <label>Partner</label>
+    <description></description>
   </element>
-  <element name="gco:RecordType">
-    <label>Record type</label>
+  <element name="delwp:purpose">
+    <label>Purpose</label>
+    <description></description>
   </element>
-  <element name="msr:MD_DimensionNameTypeCode">
-    <label>Name</label>
+  <element name="delwp:projectPartner">
+    <label>Project Partner</label>
+    <description></description>
   </element>
-  <element name="mrc:MD_CoverageContentTypeCode">
-    <label>Coverage content</label>
+  <element name="delwp:MD_ProjectPartner">
+    <label>Project Partner</label>
+    <description></description>
   </element>
-  <element name="gml:UnitDefinition">
-    <label>Unit definition</label>
+  <element name="delwp:platformType">
+    <label>Platform Type</label>
+    <description></description>
   </element>
-  <element name="mrc:MI_CoverageDescription">
-    <label>Coverage description (with range elements)</label>
-    <description>information about the content of a coverage, including the description of specific range elements</description>
+  <element name="delwp:assembly">
+    <label>Assembly</label>
+    <description></description>
   </element>
-  <element name="mrc:MI_RangeElementDescription">
-    <label>Range element description</label>
-    <description>eg. storage_meth</description>
+  <element name="delwp:tileSize">
+    <label>Tile Size</label>
+    <description></description>
   </element>
-  <element name="mrc:definition">
+  <element name="delwp:type">
+    <label>Raster Type</label>
+    <description></description>
+  </element>
+  <element name="delwp:seamlessness">
+    <label>Seamlessness</label>
+    <description></description>
+  </element>
+  <element name="delwp:rectificationType">
+    <label>Rectification Type</label>
+    <description></description>
+  </element>
+  <element name="delwp:numberOfBands">
+    <label>Number of Bands</label>
+    <description></description>
+  </element>
+  <element name="delwp:bandList">
+    <label>Band List</label>
+    <description></description>
+  </element>
+  <element name="delwp:resamplingKernel">
+    <label>Resampling Kernel</label>
+    <description></description>
+  </element>
+  <element name="delwp:platform">
+    <label>Platform Name</label>
+    <description></description>
+  </element>
+  <element name="delwp:rectificationNotes">
+    <label>Rectification Notes</label>
+    <description></description>
+  </element>
+  <element name="delwp:interval">
+    <label>Contour Interval</label>
+    <description></description>
+    <helper relAtt="uom">
+      <option value="10" title="m">10 m</option>
+      <option value="25" title="m">25 m</option>
+      <option value="50" title="m">50 m</option>
+      <option value="100" title="m">100 m</option>
+    </helper>
+  </element>
+  <element name="delwp:pulseMode">
+    <label>Pulse Mode</label>
+    <description></description>
+  </element>
+  <element name="delwp:returnType">
+    <label>Return Type</label>
+    <description></description>
+  </element>
+  <element name="delwp:scanRate">
+    <label>Scan Rate (Hz)</label>
+    <description></description>
+  </element>
+  <element name="delwp:scanFrequency">
+    <label>Scan Frequency (kHz)</label>
+    <description></description>
+  </element>
+  <element name="delwp:scanAngle">
+    <label>Scan Angle (degrees)</label>
+    <description></description>
+  </element>
+  <element name="delwp:footprintSize">
+    <label>Footprint Size (m)</label>
+    <description></description>
+  </element>
+  <element name="delwp:pointDensityTarget">
+    <label>Point Density Target (pts/m2)</label>
+    <description></description>
+  </element>
+  <element name="delwp:pointDensityActual">
+    <label>Point Density Actual (pts/m2)</label>
+    <description></description>
+  </element>
+  <element name="delwp:pointSpacingTarget">
+    <label>Point Spacing Target (pts/m)</label>
+    <description></description>
+  </element>
+  <element name="delwp:pointSpacingActual">
+    <label>Point Spacing Actual (pts/m)</label>
+    <description></description>
+  </element>
+  <element name="delwp:ellipsoidProvided">
+    <label>Ellipsoid Provided</label>
+    <description></description>
+  </element>
+  <element name="delwp:ellipsoidVerticalDatum">
+    <label>Ellipsoid Vertical Datum</label>
+    <description></description>
+  </element>
+  <element name="delwp:ellipsoidFormat">
+    <label>Ellipsoid Format</label>
+    <description></description>
+  </element>
+  <element name="delwp:geoidVerticalDatum">
+    <label>Geoid Vertical Datum</label>
+    <description></description>
+  </element>
+  <element name="delwp:additionalAdjustments">
+    <label>Additional Adjustments</label>
+    <description></description>
+  </element>
+  <element name="delwp:environmentalConditions">
+    <label>Environmental Conditions</label>
+    <description></description>
+  </element>
+  <element name="delwp:tidalConditions">
+    <label>Tidal Conditions</label>
+    <description></description>
+  </element>
+  <element name="delwp:runs">
+    <label>Runs</label>
+    <description></description>
+  </element>
+  <element name="delwp:runOrientation">
+    <label>Run Orientation</label>
+    <description></description>
+  </element>
+  <element name="delwp:sideOverlap">
+    <label>Side Overlap</label>
+    <description></description>
+  </element>
+  <element name="delwp:forwardOverlap">
+    <label>Forward Overlap</label>
+    <description></description>
+  </element>
+  <element name="delwp:flyingHeightUnit">
+    <label>Flying Height Unit</label>
+    <description></description>
+  </element>
+  <element name="delwp:flightHeight">
+    <label>Flight Height</label>
+    <description></description>
+  </element>
+  <element name="delwp:gpsControlled">
+    <label>GPS Controlled</label>
+    <description></description>
+  </element>
+  <element name="delwp:ins">
+    <label>INS</label>
+    <description></description>
+  </element>
+  <element name="delwp:aerialSurveyDetails">
+    <label>Aerial Survey Details</label>
+    <description></description>
+  </element>
+  <element name="delwp:MD_AerialSurveyDetails">
+    <label>Aerial Survey Details</label>
+    <description></description>
+  </element>
+  <element name="delwp:photoType">
+    <label>Photo Type</label>
+    <description></description>
+  </element>
+  <element name="delwp:lens">
+    <label>Lens</label>
+    <description></description>
+  </element>
+  <element name="delwp:filmNumber">
+    <label>Film Number</label>
+    <description></description>
+  </element>
+  <element name="delwp:atmosphericCorrection">
+    <label>Atmospheric Correction</label>
+    <description></description>
+  </element>
+  <element name="delwp:processingLevel">
+    <label>Processing Level</label>
+    <description></description>
+  </element>
+  <element name="delwp:nadir">
+    <label>Nadir</label>
+    <description></description>
+  </element>
+  <element name="delwp:classification">
+    <label>Classification</label>
+    <description></description>
+  </element>
+  <element name="delwp:MD_Classification">
+    <label>Classification</label>
+    <description></description>
+  </element>
+  <element name="delwp:classLevel">
+    <label>Class Level</label>
+    <description></description>
+  </element>
+  <element name="delwp:otherClass">
+    <label>Other Classification</label>
+    <description></description>
+  </element>
+  <element name="delwp:classAccuracy">
+    <label>Classification Accuracy</label>
+    <description></description>
+  </element>
+  <element name="delwp:class0">
+    <label>Class 0 - Unclassified</label>
+    <description></description>
+  </element>
+  <element name="delwp:class1">
+    <label>Class 1 - Default</label>
+    <description></description>
+  </element>
+  <element name="delwp:class2">
+    <label>Class 2 - Ground</label>
+    <description></description>
+  </element>
+  <element name="delwp:class3">
+    <label>Class 3 - Low Vegetation</label>
+    <description></description>
+  </element>
+  <element name="delwp:class4">
+    <label>Class 4 - Medium Vegetation</label>
+    <description></description>
+  </element>
+  <element name="delwp:class5">
+    <label>Class 5 - High Vegetation</label>
+    <description></description>
+  </element>
+  <element name="delwp:class6">
+    <label>Class 6 - Buildings/Structures</label>
+    <description></description>
+  </element>
+  <element name="delwp:class7">
+    <label>Class 7 - Low/High Points</label>
+    <description></description>
+  </element>
+  <element name="delwp:class8">
+    <label>Class 8 - Model Key Points</label>
+    <description></description>
+  </element>
+  <element name="delwp:class9">
+    <label>Class 9- Water</label>
+    <description></description>
+  </element>
+  <element name="delwp:class10">
+    <label>Class 10 - Bridge</label>
+    <description></description>
+  </element>
+  <element name="delwp:class12">
+    <label>Class 12 - Flightline Overlap Points</label>
+    <description></description>
+  </element>
+  <element name="delwp:demCreator">
+    <label>DEM Creator</label>
+    <description></description>
+  </element>
+  <element name="delwp:swathWidth">
+    <label>Swath Width</label>
+    <description></description>
+  </element>
+  <element name="delwp:MD_Attribute">
+    <label>Attribute</label>
+    <description></description>
+  </element>
+  <element name="delwp:name">
+    <label>Column Name</label>
+    <description></description>
+  </element>
+  <element name="delwp:obligation">
+    <label>Obligation</label>
+    <description></description>
+  </element>
+  <element name="delwp:unique">
+    <label>Unique</label>
+    <description></description>
+  </element>
+  <element name="delwp:dataType">
+    <label>Data Type</label>
+    <description></description>
+  </element>
+  <element name="delwp:dataLength">
+    <label>Data Length</label>
+    <description></description>
+  </element>
+  <element name="delwp:dataPrecision">
+    <label>Data Precision</label>
+    <description></description>
+  </element>
+  <element name="delwp:dataScale">
+    <label>Data Scale</label>
+    <description></description>
+  </element>
+  <element name="delwp:refTabOwnerName">
+    <label>Reference Table Owner</label>
+    <description></description>
+  </element>
+  <element name="delwp:refTabTableName">
+    <label>Reference Table Name</label>
+    <description></description>
+  </element>
+  <element name="delwp:refTabCodeColumnName">
+    <label>Reference Table Code Column Name</label>
+    <description></description>
+  </element>
+  <element name="delwp:shortColumnName">
+    <label>Short Column Name</label>
+    <description></description>
+  </element>
+  <element name="delwp:definition">
     <label>Definition</label>
-    <description>Designation associated with a set of range elements. eg. "Indicates the sample storage method used."</description>
-  </element>
-  <element name="mrc:rangeElement">
-    <label>Range element</label>
-    <description>Specific range elements, i.e. range elements associated with a name and their definition. eg. "frozen: Samples are kept frozen.", "room temperature, dry: Samples are kept at room temperature, unsealed."</description>
-  </element>
-  <element name="mac:MI_EnvironmentalRecord">
-    <label>Environmental record</label>
-    <description>Information about the environmental conditions during the acquisition</description>
-  </element>
-  <element name="mac:solarAzimuth">
-    <label>Solar azimuth</label>
-    <description>Clockwise angle in degrees from north to the centre of the sun’s disc.
-      Note: This angle is calculated from the nadir point of the sensor, not at the centre point of the image</description>
-  </element>
-  <element name="mac:solarElevation">
-    <label>Solar elevation</label>
-    <description>Angle between the horizon and the centre of the Sun’s disk</description>
-  </element>
-  <element name="mac:MI_Objective">
-    <label>Objective</label>
-    <description>Describes the characteristics, spatial and temporal extent of the intended object to be observed
-    </description>
-  </element>
-  <element name="mac:function">
-    <label>Function</label>
     <description></description>
   </element>
-  <element name="mac:extent">
-    <label>Extent</label>
+  <element name="delwp:controlPoints">
+    <label>Control Points</label>
     <description></description>
   </element>
-  <element name="mac:sensingInstrument">
-    <label>Sensing instrument</label>
+  <element name="mrc:cloudCoverPercentage">
+    <label>Cloud Cover Percentage</label>
     <description></description>
-  </element>
-  <element name="mac:pass">
-    <label>Pass</label>
-    <description></description>
-  </element>
-  <element name="mac:content">
-    <label>Content</label>
-    <description></description>
-  </element>
-  <element name="mac:context">
-    <label>Context</label>
-    <description>Meaning of the event</description>
-  </element>
-  <element name="mac:MI_PlatformPass">
-    <label>Platform pass</label>
-    <description>Identification of collection coverage.</description>
-  </element>
-  <element name="mac:MI_Platform">
-    <label>Platform</label>
-    <description>Designations for the platform used to acquire the dataset
-    </description>
-  </element>
-  <element name="mac:MI_Plan">
-    <label>Plan</label>
-    <description>Designations for the planning information related to meeting the data acquisition requirements
-    </description>
-  </element>
-  <element name="mac:sponsor">
-    <label>Sponsor</label>
-    <description></description>
-  </element>
-  <element name="mac:MI_InstrumentationEventList">
-    <label>Instrumentation event list</label>
-    <description>List of events related to platform/ instrument/sensor
-    </description>
-  </element>
-  <element name="mac:relatedEvent">
-    <label>Related event</label>
-    <description></description>
-  </element>
-  <element name="mac:revisionHistory">
-    <label>Revision history</label>
-    <description></description>
-  </element>
-  <element name="mac:MI_Revision">
-    <label>Revision</label>
-    <description>History of the revision of an event</description>
-  </element>
-  <element name="mac:author">
-    <label>Author</label>
-    <description></description>
-  </element>
-  <element name="mac:locale">
-    <label>Language (locale)</label>
-    <description></description>
-  </element>
-  <element name="mac:metadataConstraints">
-    <label>Metadata constraints</label>
-    <description></description>
-  </element>
-  <element name="mac:instrumentationEvent">
-    <label>Instrumentation event</label>
-    <description>An event related to a platform/instrument/sensor</description>
-  </element>
-  <element name="mac:MI_InstrumentationEvent">
-    <label>Instrumentation event</label>
-    <description></description>
-  </element>
-  <element name="mac:otherPropertyType">
-    <label>Other property type</label>
-    <description></description>
-  </element>
-  <element name="mac:otherProperty">
-    <label>Other property</label>
-    <description></description>
-  </element>
-  <element name="mac:sensor">
-    <label>Sensor</label>
-    <description></description>
-  </element>
-  <element name="mac:history">
-    <label>History</label>
-    <description></description>
-  </element>
-  <element name="mac:hosted">
-    <label>Hosted</label>
-    <description></description>
-  </element>
-  <element name="mac:objectiveOccurence">
-    <label>Objective occurence</label>
-    <description></description>
-  </element>
-  <element name="mac:trigger">
-    <label>Trigger</label>
-    <description></description>
-  </element>
-  <element name="mac:sequence">
-    <label>Sequence</label>
-    <description>Relative time ordering of the event</description>
-  </element>
-  <element name="mac:time">
-    <label>Time</label>
-    <description></description>
-  </element>
-  <element name="mac:relatedPass">
-    <label>Related pass</label>
-    <description></description>
-  </element>
-  <element name="mac:relatedSensor">
-    <label>Related sensor</label>
-    <description></description>
-  </element>
-  <element name="mac:expectedObjective">
-    <label>Expected objective</label>
-    <description></description>
-  </element>
-  <element name="mac:MI_Event">
-    <label>Event</label>
-    <description>Identification of a significant collection point within an operation
-    </description>
   </element>
   <element name="mac:MI_Sensor">
     <label>Sensor</label>
-    <description>Specific type of instrument </description>
-  </element>
-  <element name="mac:priority">
-    <label>Priority</label>
-    <description>Priority applied to the target</description>
-  </element>
-  <element name="msr:scope">
-    <label>Scope</label>
     <description></description>
   </element>
-  <element name="mac:scope">
-    <label>Scope</label>
-    <description>The specific data to which the acquisition information applies</description>
+  <element name="mcc:code" id="72000.0" context="/mdb:MD_Metadata/mdb:referenceSystemInfo/mrs:MD_ReferenceSystem/mrs:referenceSystemIdentifier/mcc:MD_Identifier/mcc:code">
+    <label>Reference System</label>
+    <description>The spatial reference system used for coordinates in the dataset.</description>
+    <helper>
+      <option value="MGA Zone 55 GDA94">MGA Zone 55 GDA94</option>
+    </helper>
   </element>
 </labels>
