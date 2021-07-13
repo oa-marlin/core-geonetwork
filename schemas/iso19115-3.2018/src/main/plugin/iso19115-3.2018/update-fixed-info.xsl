@@ -31,6 +31,8 @@
   <xsl:include href="convert/functions.xsl"/>
   <xsl:include href="layout/utility-fn.xsl"/>
 
+  <xsl:variable name="codelistloc" select="'http://standards.iso.org/iso/19115/resources/Codelist/cat/codelists.xml'"/>
+
   <xsl:variable name="editorConfig"
                 select="document('layout/config-editor.xml')"/>
 
