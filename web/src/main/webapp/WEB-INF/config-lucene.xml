@@ -190,6 +190,27 @@
       <field name="featureTypes" tagName="featureTypes"/>
       <field name="versionIdentifier" tagName="versionIdentifier"/>
       <field name="_draft" tagName="draft"/>
+      <!-- DELWP Addition -->
+      <field name="resOwner" tagName="resOwner"/>
+      <field name="altTitle" tagName="altTitle"/>
+      <field name="mdClassification" tagName="mdClassification"/>
+      <field name="resClassification" tagName="resClassification"/>
+      <field name="anzlicid" tagName="anzlicid"/>
+
+      <!-- res fields for datashare -->
+      <field name="horizontalAccuracy" tagName="horizontalAccuracy"/>
+      <field name="verticalAccuracy" tagName="verticalAccuracy"/>
+
+      <field name="columnResolution" tagName="columnResolution"/>
+      <field name="rowResolution" tagName="rowResolution"/>
+
+      <!-- point cloud fields for LiDAR -->
+      <field name="footprintSize" tagName="footprintSize"/>
+      <field name="pointDensityTarget" tagName="pointDensityTarget"/>
+      <field name="pointDensityActual" tagName="pointDensityActual"/>
+      <field name="pointSpacingTarget" tagName="pointSpacingTarget"/>
+      <field name="pointSpacingActual" tagName="pointSpacingActual"/>
+      <!-- END DELWP Addition -->
     </dumpFields>
   </search>
 
