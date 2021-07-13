@@ -257,6 +257,9 @@ public class MetadataSchema {
      */
 
     public boolean isSimpleElement(String elem, String parent) throws Exception {
+        // DELWP Addition - gco:Record takes type definition from xsi:type attribute - override schema giving it a simple type 
+        if (elem.equals("gco:Record")) return false;
+        // END DELWP Addition
         String type = getElementType(elem, parent);
         return type != null && !hmTypes.containsKey(type);
     }

@@ -256,13 +256,25 @@ public class EditLib {
         addChildToParent(mdSchema, targetElement, childToAdd, qname, removeExisting);
     }
 
+    private String getElementType(MetadataSchema mdSchema, Element md, String parent) throws Exception {
+        String xsiTypeAttribute = md.getAttributeValue("type", Geonet.Namespaces.XSI);
+        if (xsiTypeAttribute != null) {
+          return xsiTypeAttribute;
+        } else {
+          return mdSchema.getElementType(md.getQualifiedName(), parent);
+        }
+    }
+
     private void addChildToParent(MetadataSchema mdSchema, Element targetElement, Element childToAdd, String qname, boolean removeExisting) throws Exception {
         LOGGER_ADD_ELEMENT.debug( "#### - child qname = {}", qname);
 
         String parentName = getParentNameFromChild(targetElement);
         LOGGER_ADD_ELEMENT.debug("#### - parent name for type retrieval = {}", parentName);
 
-        String typeName = mdSchema.getElementType(targetElement.getQualifiedName(), parentName);
+        // DELWP Addition - handle gco:Record which can take type from xsi:type attribute on parent 
+        //String typeName = mdSchema.getElementType(targetElement.getQualifiedName(), parentName);
+        String typeName = getElementType(mdSchema, targetElement, parentName);
+        // END DELWP Addition
         LOGGER_ADD_ELEMENT.debug("#### - type name = {}", typeName);
 
         MetadataType type = mdSchema.getTypeInfo(typeName);
@@ -975,7 +987,10 @@ public class EditLib {
             return;
         }
 
-        MetadataType type = schema.getTypeInfo(schema.getElementType(elemName, parentName));
+        // DELWP Addition - handle gco:Record which can take type from xsi:type attribute on parent 
+        //MetadataType type = schema.getTypeInfo(schema.getElementType(elemName, parentName));
+        MetadataType type = schema.getTypeInfo(getElementType(schema, element, parentName));
+        // END DELWP Addition
         boolean hasSuggestion = sugg.hasSuggestion(elemName, type.getElementList());
 //        List<String> elementSuggestion = sugg.getSuggestedElements(elemName);
 //        boolean hasSuggestion = elementSuggestion.size() != 0;
@@ -1170,7 +1185,10 @@ public class EditLib {
         String name = md.getQualifiedName();
         String parentName = getParentNameFromChild(md);
         MetadataSchema mdSchema = scm.getSchema(schema);
-        String typeName = mdSchema.getElementType(name, parentName);
+        // DELWP Addition - handle gco:Record which can take type from xsi:type attribute on parent 
+        //String typeName = mdSchema.getElementType(name, parentName);
+        String typeName = getElementType(mdSchema, md, parentName);
+        // END DELWP Addition
         MetadataType thisType = mdSchema.getTypeInfo(typeName);
 
         if (thisType.hasContainers) {
@@ -1334,7 +1352,10 @@ public class EditLib {
         LOGGER_EXPAND_ELEMENT.debug("elemName = {}", elemName);
         LOGGER_EXPAND_ELEMENT.debug("parentName = {}", parentName);
 
-        String elemType = schema.getElementType(elemName, parentName);
+        // DELWP Addition - handle gco:Record which can take type from xsi:type attribute on parent 
+        //String elemType = schema.getElementType(elemName, parentName);
+        String elemType = getElementType(schema, md, parentName);
+        // END DELWP Addition
         LOGGER_EXPAND_ELEMENT.debug("elemType = {}", elemType);
 
         Element elem = md.getChild(Edit.RootChild.ELEMENT, Edit.NAMESPACE);
@@ -1543,8 +1564,11 @@ public class EditLib {
 
         String elemName = elem.getQualifiedName();
         String parentName = getParentNameFromChild(elem);
-
-        String elemType = mds.getElementType(elemName, parentName);
+ 
+        // DELWP Addition - handle gco:Record which can take type from xsi:type attribute on parent 
+        //String elemType = mds.getElementType(elemName, parentName);
+        String elemType = getElementType(mds, elem, parentName);
+        // END DELWP Addition
         return mds.getTypeInfo(elemType);
     }
 
