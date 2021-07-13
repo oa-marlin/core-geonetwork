@@ -110,7 +110,7 @@
     <!-- DELWP Additions -->
     <for name="delwp:partner" addDirective="data-gn-directory-entry-selector">
       <directiveAttributes
-            data-schema="iso19115-3"
+            data-schema="iso19115-3.2018"
             data-template-add-action="false"
             data-search-action="true"
             data-popup-action="true"
@@ -120,7 +120,7 @@
     </for>
     <for name="cit:party" addDirective="data-gn-directory-entry-selector">
       <directiveAttributes
-            data-schema="iso19115-3"
+            data-schema="iso19115-3.2018"
             data-template-add-action="false"
             data-search-action="true"
             data-popup-action="true"
@@ -130,7 +130,7 @@
     </for>
     <for name="mac:instrument" addDirective="data-gn-directory-entry-selector">
       <directiveAttributes
-            data-schema="iso19115-3"
+            data-schema="iso19115-3.2018"
             data-template-add-action="false"
             data-search-action="true"
             data-popup-action="true"
@@ -140,7 +140,7 @@
     </for>
     <for name="mdb:contact" addDirective="data-gn-directory-entry-selector">
       <directiveAttributes
-              data-schema="iso19115-3"
+              data-schema="iso19115-3.2018"
               data-template-add-action="false"
               data-template-type="contact"
               data-filter='{"_root": "cit:CI_Responsibility"}'
@@ -148,7 +148,7 @@
     </for>
     <for name="mri:pointOfContact" addDirective="data-gn-directory-entry-selector">
       <directiveAttributes
-              data-schema="iso19115-3"
+              data-schema="iso19115-3.2018"
               data-template-add-action="true"
               data-template-type="contact"
               data-filter='{"_root": "cit:CI_Responsibility"}'
@@ -156,7 +156,7 @@
     </for>
     <for name="mri:resourceConstraints" addDirective="data-gn-directory-entry-selector">
       <directiveAttributes
-              data-schema="iso19115-3"
+              data-schema="iso19115-3.2018"
               data-template-add-action="false"
               data-template-type="constraint"
               data-filter='{"_root": "mco:MD_LegalConstraints"}'
@@ -164,7 +164,7 @@
     </for>
     <for name="mrd:distributor" addDirective="data-gn-directory-entry-selector">
       <directiveAttributes
-              data-schema="iso19115-3"
+              data-schema="iso19115-3.2018"
               data-template-add-action="true"
               data-template-type="contact"
               data-filter='{"_root": "cit:CI_Responsibility"}'
@@ -172,7 +172,7 @@
     </for>
     <for name="mrl:processor" addDirective="data-gn-directory-entry-selector">
       <directiveAttributes
-              data-schema="iso19115-3"
+              data-schema="iso19115-3.2018"
               data-template-add-action="true"
               data-template-type="contact"
               data-filter='{"_root": "cit:CI_Responsibility"}'
@@ -180,7 +180,7 @@
     </for>
     <for name="cit:citedResponsibleParty" addDirective="data-gn-directory-entry-selector">
       <directiveAttributes
-              data-schema="iso19115-3"
+              data-schema="iso19115-3.2018"
               data-template-add-action="true"
               data-template-type="author"
               data-filter='{"_root": "cit:CI_Responsibility"}'
@@ -191,7 +191,7 @@
       <directiveAttributes
               data-include="xpath::string-join(mdb:MD_Metadata/mdb:identificationInfo//mri:thesaurusName/*/cit:identifier/*/mcc:code/gcx:Anchor/concat('-', substring-after(text()[. != ''], 'geonetwork.thesaurus.')), ',')"
               data-allow-free-text-keywords="false"
-              data-transformation="to-iso19115-3-keyword"/>
+              data-transformation="to-iso19115-3.2018-keyword"/>
     </for>
   </fields>
 
