@@ -153,7 +153,7 @@ goog.require('gn_alert');
             'sortBy': 'denominatorAsc',
             'sortOrder': 'reverse'
           }],
-          'sortBy': 'relevance',
+          'sortBy': 'changeDate',
           'resultViewTpls': [{
             'tplUrl': '../../catalog/components/' +
                 'search/resultsview/partials/viewtemplates/grid.html',
@@ -166,7 +166,7 @@ goog.require('gn_alert');
             'icon': 'fa-bars'
           }],
           'resultTemplate': '../../catalog/components/' +
-              'search/resultsview/partials/viewtemplates/grid.html',
+              'search/resultsview/partials/viewtemplates/list.html',
           'formatter': {
             'list': [{
               'label': 'defaultView',
