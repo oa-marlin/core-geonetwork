@@ -17,23 +17,31 @@
                 xmlns:mex="http://standards.iso.org/iso/19115/-3/mex/1.0"
                 xmlns:msr="http://standards.iso.org/iso/19115/-3/msr/2.0"
                 xmlns:mrd="http://standards.iso.org/iso/19115/-3/mrd/1.0"
-                xmlns:mmi="http://standards.iso.org/iso/19115/-3/mmi/1.0"
                 xmlns:mdq="http://standards.iso.org/iso/19157/-2/mdq/1.0"
-                xmlns:gml="http://www.opengis.net/gml"
-                xmlns:gml32="http://www.opengis.net/gml/3.2"
-                xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.1"
+                xmlns:gml="http://www.opengis.net/gml/3.2"
+                xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.0"
                 xmlns:gcx="http://standards.iso.org/iso/19115/-3/gcx/1.0"
                 xmlns:gex="http://standards.iso.org/iso/19115/-3/gex/1.0"
                 xmlns:gfc="http://standards.iso.org/iso/19110/gfc/1.1"
-                xmlns:delwp="https://github.com/geonetwork-delwp/iso19115-3.2018"
-                xmlns:util="java:org.fao.geonet.util.XslUtil"
+
+                xmlns:mmi="http://standards.iso.org/iso/19115/-3/mmi/1.0" 
+                xmlns:mac="http://standards.iso.org/iso/19115/-3/mac/2.0" 
+                xmlns:delwp="https://github.com/geonetwork-delwp/iso19115-3.2018" 
+
+                xmlns:java="java:org.fao.geonet.util.XslUtil"
+
                 xmlns:tr="java:org.fao.geonet.api.records.formatters.SchemaLocalizations"
                 xmlns:gn-fn-render="http://geonetwork-opensource.org/xsl/functions/render"
-                xmlns:gn-fn-iso19115-3.2018="http://geonetwork-opensource.org/xsl/functions/profiles/iso19115-3.2018"
+                xmlns:gn-fn-iso19115-3="http://geonetwork-opensource.org/xsl/functions/profiles/iso19115-3"
                 xmlns:gn-fn-metadata="http://geonetwork-opensource.org/xsl/functions/metadata"
                 xmlns:saxon="http://saxon.sf.net/"
                 extension-element-prefixes="saxon"
                 exclude-result-prefixes="#all">
+
+
+                <!-- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  -->
+
+
   <!-- This formatter render an ISO19139 record based on the
   editor configuration file.
 
@@ -45,6 +53,8 @@
   3 levels of priority are defined: 100, 50, none
 
   -->
+  <xsl:output method="html" version="4.0"
+encoding="UTF-8" indent="yes"/>
 
 
   <!-- Load the editor configuration to be able
@@ -60,28 +70,28 @@
   <xsl:include href="../../layout/evaluate.xsl"/>
   <xsl:include href="../../layout/utility-tpl-multilingual.xsl"/>
   <xsl:include href="../../layout/utility-fn.xsl"/>
+  <xsl:include href="../../update-fixed-info-subtemplate.xsl"/>
 
   <!-- The core formatter XSL layout based on the editor configuration -->
-  <xsl:include href="sharedFormatterDir/xslt/render-layout.xsl"/>
-  <!--<xsl:include href="../../../../../data/formatter/xslt/render-layout.xsl"/>-->
+  <xsl:include href="sharedFormatterDir/xslt/render-layout.xsl"/> 
+  
+  <!-- <xsl:include href="../../../../../data/formatter/xslt/render-layout.xsl"/> -->
 
   <!-- Define the metadata to be loaded for this schema plugin-->
   <xsl:variable name="metadata"
                 select="/root/mdb:MD_Metadata"/>
 
-  <xsl:variable name="langId" select="gn-fn-iso19115-3.2018:getLangId($metadata, $language)"/>
-
+  <xsl:variable name="langId" select="gn-fn-iso19115-3:getLangId($metadata, $language)"/>
 
   <!-- Ignore some fields displayed in header or in right column -->
   <xsl:template mode="render-field"
-                match="mri:graphicOverview|mri:abstract|mdb:identificationInfo/*/mri:citation/*/cit:title"
-                priority="2000"/>
-
+                match="mri:graphicOverview|mri:abstract|mdb:identificationInfo/*/mri:citation/*/cit:title|mri:associatedResource"
+                priority="2000" />
 
   <!-- Specific schema rendering -->
   <xsl:template mode="getMetadataTitle" match="mdb:MD_Metadata">
     <xsl:for-each select="mdb:identificationInfo/*/mri:citation/*/cit:title">
-      <xsl:call-template name="get-iso19115-3.2018-localised">
+      <xsl:call-template name="get-iso19115-3-localised">
         <xsl:with-param name="langId" select="$langId"/>
       </xsl:call-template>
     </xsl:for-each>
@@ -89,7 +99,7 @@
 
   <xsl:template mode="getMetadataAbstract" match="mdb:MD_Metadata">
     <xsl:for-each select="mdb:identificationInfo/*/mri:abstract">
-      <xsl:call-template name="get-iso19115-3.2018-localised">
+      <xsl:call-template name="get-iso19115-3-localised">
         <xsl:with-param name="langId" select="$langId"/>
       </xsl:call-template>
     </xsl:for-each>
@@ -108,49 +118,142 @@
     </h4>
 
     <xsl:for-each select="mdb:identificationInfo/*/mri:graphicOverview/*">
-      <img class="gn-img-thumbnail img-thumbnail center-block"
-           src="{mcc:fileName/*|mcc:linkage//cit:linkage/*}"/>
 
-      <xsl:for-each select="mcc:fileDescription|mcc:linkage//cit:description">
-        <div class="gn-img-thumbnail-caption">
-          <xsl:call-template name="get-iso19115-3.2018-localised">
-            <xsl:with-param name="langId" select="$langId"/>
-          </xsl:call-template>
-        </div>
-      </xsl:for-each>
-      <br/>
+      <xsl:choose>
+        <xsl:when test="mcc:fileName[@gco:nilReason='inapplicable'] and mcc:linkage">
+
+          <img class="gn-img-thumbnail img-thumbnail center-block"
+            src="{mcc:linkage/cit:CI_OnlineResource/cit:linkage/*}"/>
+          
+          <xsl:for-each select="mcc:linkage/cit:CI_OnlineResource/cit:description">
+            <div class="gn-img-thumbnail-caption">
+              <xsl:call-template name="get-iso19115-3-localised">
+                <xsl:with-param name="langId" select="$langId"/>
+              </xsl:call-template>
+            </div>
+          </xsl:for-each>
+          <br/>
+
+        </xsl:when>
+        <xsl:otherwise>
+
+          <div>
+            <img data-gn-img-modal="mdView.current.record.overviews[{position()-1}]"
+                  class="gn-img-thumbnail img-thumbnail"
+                  alt="{mcc:fileDescription}"
+                  data-ng-src="{mcc:fileName/*}"/>
+          </div>
+          
+          <xsl:for-each select="mcc:fileDescription">
+            <div class="gn-img-thumbnail-caption">
+              <xsl:call-template name="get-iso19115-3-localised">
+                <xsl:with-param name="langId" select="$langId"/>
+              </xsl:call-template>
+            </div>
+          </xsl:for-each>
+          <br/>
+
+        </xsl:otherwise>
+      </xsl:choose>
 
     </xsl:for-each>
+
+    <!-- Add associated resource section -->
+    <xsl:if test="count(*//mri:associatedResource) > 0">
+      <section class="gn-md-side-associated">
+        <style type="text/css">
+          .assoc-table {
+            table-layout: fixed; 
+            width: 100%; 
+            font-size: 12px;
+            border: 1px solid rgb(221, 221, 221);
+          }
+          .assoc-table td {
+            border: 1px solid rgb(221, 221, 221);
+          }
+          .assoc-table tr td div {
+            word-wrap: break-word; 
+            overflow-wrap:break-word;
+            margin: 5px;
+          }
+          .assoc-item:hover {
+            background-color: rgb(230, 230, 230);
+          }
+        </style>
+        <h4>
+          <i class="fa fa-fw fa-link">&#160;</i>
+          <span><xsl:value-of select="$schemaStrings/associatedResources"/></span>
+        </h4>
+        <table class="assoc-table">
+            <tr>
+              <th  style="width:40%;">
+                <span style=" margin-left: 5px">Resource</span>
+              </th>
+              <th  style="width:30%;">
+                <span style="margin-left: 5px">Relationship</span>
+              </th>
+              <th style="width:30%;">
+                <span style="margin-left: 5px">Link</span>
+              </th>
+            </tr>
+            
+            <xsl:for-each select="*//mri:associatedResource">
+
+              <tr class="assoc-item">
+                <td>
+                  <div>
+                    <xsl:apply-templates mode="render-value" select="mri:MD_AssociatedResource/mri:metadataReference/cit:CI_Citation/cit:title" />
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <xsl:apply-templates mode="render-value" select="mri:MD_AssociatedResource/mri:associationType/mri:DS_AssociationTypeCode/@codeListValue" />
+                  </div>
+                </td>
+                <td>
+                    <i class="fa fa-fw fa-external-link" style="margin-left: 5px">&#160;</i><a target="blank" href="{*//cit:CI_OnlineResource/cit:linkage}">Resource</a>
+                </td>
+              </tr>
+
+            </xsl:for-each>
+          </table>
+
+      </section>
+    </xsl:if>
+
   </xsl:template>
 
-
   <xsl:template mode="getMetadataHeader" match="mdb:MD_Metadata">
-    <xsl:variable name="scopeAndName" select="if (mdb:identificationInfo/*/mri:citation//cit:alternateTitle) then
-        concat(mdb:metadataScope/*/mdb:resourceScope/mcc:MD_ScopeCode/@codeListValue,': ',mdb:identificationInfo/*/mri:citation//cit:alternateTitle) else
-        mdb:metadataScope/*/mdb:resourceScope/mcc:MD_ScopeCode/@codeListValue"/>
-
-    <div class="alert alert-info" style="text-transform:capitalize;text-align:center;font-weight:bold;">
-      <xsl:value-of select="$scopeAndName"/>
-    </div>
-
     <div class="alert alert-info"
         itemprop="description"
         itemscope="itemscope"
         itemtype="http://schema.org/description">
-      <xsl:for-each select="mdb:identificationInfo/*/mri:abstract">
-        <xsl:call-template name="get-iso19115-3.2018-localised">
-          <xsl:with-param name="langId" select="$langId"/>
-        </xsl:call-template>
-      </xsl:for-each>
+        <pre style="
+          font: inherit; 
+          background-color: inherit; 
+          border: none; 
+          color: inherit; 
+          overflow-x: auto;
+          white-space: pre-line;
+          word-break: keep-all;
+          padding: 0;
+          margin: 0;">
+            <xsl:for-each select="mdb:identificationInfo/*/mri:abstract">
+            <xsl:call-template name="get-iso19115-3-localised">
+              <xsl:with-param name="langId" select="$langId"/>
+            </xsl:call-template>
+          </xsl:for-each>
+        </pre>
+      
     </div>
 
-
-    <!-- Citation -->
+<!-- 
+    <!- - Citation - ->
     <table class="table">
       <tr class="active">
         <td>
           <div class="pull-left text-muted">
-            <i class="fa fa-quote-left fa-2x">&#160;</i>
+            <i class="fa fa-quote-left fa-4x">&#160;</i>
           </div>
         </td>
         <td>
@@ -158,11 +261,9 @@
             <xsl:value-of select="$schemaStrings/citationProposal"/>
           </em><br/>
 
-          <!-- Owners, Custodians or Authors -->
+          <!- - Custodians - ->
           <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact/
-                              *[cit:role/*/@codeListValue = ('owner', 'author')]|
-                  mdb:identificationInfo/*/mri:citation/*/cit:citedResponsibleParty/
-                              *[cit:role/*/@codeListValue = ('owner', 'author')]">
+                                  *[cit:role/*/@codeListValue = ('custodian', 'author')]">
             <xsl:variable name="name"
                           select="normalize-space(.//cit:individual/*/cit:name[1])"/>
 
@@ -173,45 +274,45 @@
             <xsl:if test="position() != last()">&#160;-&#160;</xsl:if>
           </xsl:for-each>
 
-          <!-- Publication or revision year -->
+          <!- - Publication year - ->
           <xsl:variable name="publicationDate"
-                        select="mdb:identificationInfo/*/mri:citation/*/cit:date/*[
-                                cit:dateType/*/@codeListValue = ('publication','revision')]/
-                                  cit:date/gco:*"/>
+                        select="mri:identificationInfo/*/mri:citation/*/cit:date/*[
+                                    cit:dateType/*/@codeListValue = 'publication']/
+                                      cit:date/gco:*"/>
 
           <xsl:if test="$publicationDate != ''">
-            (<xsl:value-of select="substring($publicationDate[1], 1, 4)"/>)
+            (<xsl:value-of select="substring($publicationDate, 1, 4)"/>)
           </xsl:if>
 
-          <!-- Title -->
-          <xsl:for-each select="mdb:identificationInfo/*/mri:citation/*/cit:title">
-            <p><b>
-            <xsl:call-template name="get-iso19115-3.2018-localised">
+          <xsl:text>. </xsl:text>
+
+          <!- - Title - ->
+          <xsl:for-each select="mri:identificationInfo/*/cit:citation/*/cit:title">
+            <xsl:call-template name="get-iso19115-3-localised">
               <xsl:with-param name="langId" select="$langId"/>
             </xsl:call-template>
-            </b></p>
           </xsl:for-each>
 
-          <!-- Point of contact -->
-          <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact/
-                              *[cit:role/*/@codeListValue = 'pointOfContact']">
-            <p>
+          <xsl:text>. </xsl:text>
+
+          <!- - Publishers - ->
+           <xsl:for-each select="mri:identificationInfo/*/mri:pointOfContact/
+                                  *[cit:role/*/@codeListValue = 'publisher']">
             <xsl:value-of select="cit:party/*/cit:name/*"/>
             <xsl:if test="position() != last()">&#160;-&#160;</xsl:if>
-            </p>
           </xsl:for-each>
 
-          <!-- Link -->
+          <!- - Link - ->
           <xsl:variable name="url"
-                        select="concat($nodeUrl, 'eng/catalog.search', '#', '/metadata/', $metadataUuid)"/>
+                        select="concat($nodeUrl, 'api/records/', $metadataUuid)"/>
           <a itemprop="url"
               itemscope="itemscope"
-              itemtype="http://schema.org/url" href="{$url}" target="blank">
-            <xsl:value-of select="$url"/>
+              itemtype="http://schema.org/url" href="{url}">
+            {{ '<xsl:value-of select="$url"/>' | limitTo:75 }}...
           </a>
         </td>
       </tr>
-    </table>
+    </table> -->
   </xsl:template>
 
   <!-- Data quality section is rendered in a table / Disabled
@@ -225,6 +326,36 @@
                 match="mdb:dataQualityInfo[position() > 1]"
                 priority="9999"/>-->
 
+  <!-- DQ template -->
+  <xsl:template mode="render-field" match="*//mdq:DQ_DataQuality" priority="100">
+    <xsl:apply-templates mode="render-field" select="mdq:scope" />
+    <div class="entry name">
+      <xsl:for-each select="mdq:report">
+        <dl>
+          <dt>
+            <xsl:value-of select="tr:node-label(tr:create($schema), name(*[1]), null)"/>
+          </dt>
+          <dd>
+            <xsl:apply-templates mode="render-value" select="*[1]/mdq:result/mdq:DQ_ConformanceResult/mdq:specification/cit:CI_Citation" />
+          </dd>
+          <dd>
+            <xsl:apply-templates mode="render-value" select="*[1]/mdq:result/mdq:DQ_ConformanceResult/mdq:explanation" />
+          </dd>
+          <!-- <dd>
+            <xsl:choose>
+              <xsl:when test="*[1]/mdq:result/mdq:DQ_ConformanceResult/mdq:pass/gco:Boolean">
+                <i class="fa fa-fw fa-check-circle-o">&#160;</i> Passed
+              </xsl:when>
+              <xsl:otherwise>
+                <i class="fa fa-fw fa-question-circle-o">&#160;</i> Not passed or not undertaken
+              </xsl:otherwise>
+            </xsl:choose>
+          </dd> -->
+        </dl>
+      </xsl:for-each>
+    </div>
+  </xsl:template>
+
 
   <!-- Most of the elements are ... -->
   <xsl:template mode="render-field"
@@ -234,9 +365,9 @@
                        *[gco:Distance != '']|*[gco:Angle != '']|*[gco:Scale != '']|
                        *[gco:Record != '']|*[gco:RecordType != '']|
                        *[gco:LocalName != '']|*[lan:PT_FreeText != '']|
-                       *[gml32:beginPosition != '']|*[gml32:endPosition != '']|
+                       *[gml:beginPosition != '']|*[gml:endPosition != '']|
                        *[gco:Date != '']|*[gco:DateTime != '']|*[*/@codeListValue]|*[@codeListValue]|
-                       gml32:beginPosition[. != '' or @indeterminatePosition]|gml32:endPosition[. != '' or @indeterminatePosition]"
+                       gml:beginPosition[. != '']|gml:endPosition[. != '']"
                 priority="500">
     <xsl:param name="fieldName" select="''" as="xs:string"/>
 
@@ -253,10 +384,7 @@
             <!-- Do not render codeList text element. -->
             <xsl:apply-templates mode="render-value" select="@codeListValue|*/@codeListValue"/>
           </xsl:when>
-          <xsl:when test="@indeterminatePosition"> <!-- gml times -->
-            <span style="text-transform:capitalize;"><xsl:value-of select="@indeterminatePosition"/></span>
-          </xsl:when>
-          <!-- Display the value for simple field eg. gml32:beginPosition. -->
+          <!-- Display the value for simple field eg. gml:beginPosition. -->
           <xsl:when test="count(*) = 0 and not(*/@codeListValue)">
             <xsl:apply-templates mode="render-value" select="text()"/>
           </xsl:when>
@@ -268,8 +396,6 @@
       </dd>
     </dl>
   </xsl:template>
-
-
 
   <!-- Some elements are only containers so bypass them -->
   <xsl:template mode="render-field"
@@ -312,6 +438,16 @@
     </div>
   </xsl:template>
 
+  <!-- Convert GML polygon string to  -->
+  <xsl:function name="gn-fn-render:processPosList">
+    <xsl:param name="posList"/>
+		<xsl:text>POLYGON((</xsl:text>
+			<xsl:for-each select="tokenize(replace(replace($posList,'\s+$',''),'^\s+',''), '[,\s\n\r]+')">
+				<xsl:variable name="t" select="." />
+				<xsl:value-of select="concat($t, if (position() = last()) then '' else if ((position() mod 2) = 0) then ', ' else ' ')" />
+			</xsl:for-each>
+		<xsl:text>))</xsl:text>
+	</xsl:function>
 
   <!-- Bbox is displayed with an overview and the geom displayed on it
   and the coordinates displayed around -->
@@ -327,57 +463,13 @@
     <br/>
   </xsl:template>
 
-  <xsl:template mode="render-field" 
-                match="gex:EX_BoundingPolygon"
-                priority="100">
-    <xsl:variable name="gml31stuff">
-      <gml:MultiSurface srsName="EPSG:4326" srsDimension="2">
-        <xsl:for-each select=".//gml32:Polygon">
-          <gml:surfaceMember>
-            <xsl:apply-templates mode="gml32-to-gml" select="."/>
-          </gml:surfaceMember>
-        </xsl:for-each>
-      </gml:MultiSurface>
-    </xsl:variable>
+  <xsl:template mode="render-field"
+                match="*//gml:Polygon/gml:exterior/gml:LinearRing/gml:posList" priority="200">
+    <h4 style="color: red !important"><i class="fa fa-fw fa-exclamation-triangle">&#160;</i>Extent stored as GML polygon</h4>
+    <h4>WKT:</h4>
+    <xsl:variable name="geom" select="gn-fn-render:processPosList(text())"/>
+    <pre><xsl:copy-of select="$geom"/></pre>
 
-    <gn-bounding-polygon polygon-xml="{saxon:serialize($gml31stuff,
-                                                         'default-serialize-mode')}"
-                         identifier="{generate-id()}"
-                         read-only="{true()}"
-                         viewer-only="{true()}"
-                         style="pointer-events:auto;">
-    </gn-bounding-polygon>
-    <br/>
-    <br/>
-
-  </xsl:template>
-
-  <xsl:template mode="gml32-to-gml" match="@*">
-    <xsl:choose>
-      <xsl:when test="namespace-uri()='http://www.opengis.net/gml/3.2'">
-       <xsl:variable name="name" select="concat('gml:',local-name())"/>
-       <xsl:attribute name="{$name}"><xsl:value-of select="."/></xsl:attribute>
-      </xsl:when>
-      <xsl:otherwise>
-       <xsl:if test="name()!='srsName'"><xsl:copy-of select="."/></xsl:if>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
-
-  <xsl:template mode="gml32-to-gml" match="*">
-    <xsl:variable name="name" select="concat('gml:',local-name())"/>
-    <xsl:element name="{$name}">
-      <xsl:apply-templates mode="gml32-to-gml" select="@*"/>
-      <xsl:choose>
-         <xsl:when test="count(*)>0">
-           <xsl:apply-templates mode="gml32-to-gml" select="*"/>
-         </xsl:when>
-         <xsl:otherwise>
-           <xsl:value-of select="."/>
-         </xsl:otherwise>
-      </xsl:choose>
-    </xsl:element> 
   </xsl:template>
 
   <!-- A contact is displayed with its role as header -->
@@ -385,7 +477,8 @@
                 match="*[cit:CI_Responsibility]"
                 priority="100">
     <xsl:variable name="email">
-      <xsl:for-each select="*/cit:party/*/cit:contactInfo//cit:address/*/cit:electronicMailAddress[not(@gco:nilReason)]|*/cit:party//cit:CI_Individual/cit:contactInfo//cit:address/*/cit:electronicMailAddress[not(@gco:nilReason)]">
+      <xsl:for-each select="*/cit:party/*/cit:contactInfo/
+                                      */cit:address/*/cit:electronicMailAddress[not(gco:nilReason)]">
         <xsl:apply-templates mode="render-value" select="."/>
         <xsl:if test="position() != last()">, </xsl:if>
       </xsl:for-each>
@@ -396,25 +489,25 @@
       <xsl:choose>
         <xsl:when
                 test="*/cit:party/cit:CI_Organisation/cit:name and
-                      *//cit:CI_Individual/cit:name">
+                      */cit:CI_Individual/cit:name">
           <!-- Org name may be multilingual -->
           <xsl:apply-templates mode="render-value"
                                select="*/cit:party/cit:CI_Organisation/cit:name"/>
           -
-          <xsl:value-of select="*//cit:CI_Individual/cit:name"/>
-          <xsl:if test="*//cit:CI_Individual/cit:positionName">&#160;
+          <xsl:value-of select="*/cit:CI_Individual/cit:name"/>
+          <xsl:if test="*/cit:CI_Individual/cit:positionName">&#160;
             (<xsl:apply-templates mode="render-value"
-                                  select="*//cit:CI_Individual/cit:positionName"/>)
+                                  select="*/cit:CI_Individual/cit:positionName"/>)
           </xsl:if>
         </xsl:when>
         <xsl:otherwise>
           <xsl:value-of select="*/cit:party/cit:CI_Organisation/cit:name|
-                                *//cit:CI_Individual/cit:name"/>
+                                */cit:CI_Individual/cit:name"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
 
-    <div class="gn-contact" style="pointer-events:auto;">
+    <div class="gn-contact">
       <h4>
         <i class="fa fa-envelope">&#160;</i>
         <xsl:apply-templates mode="render-value"
@@ -422,7 +515,7 @@
       </h4>
       <div class="row">
         <div class="col-md-6">
-          <!-- Needs improvements as contact/org are more flexible in iso19115-3 -->
+          <!-- Needs improvements as contact/org are more flexible in ISO19115-3 -->
           <address itemprop="author"
                    itemscope="itemscope"
                    itemtype="http://schema.org/Organization">
@@ -477,7 +570,7 @@
                 </xsl:variable>
                 <i class="fa fa-fax">&#160;</i>
                 <a href="tel:{normalize-space($phoneNumber)}">
-                  <xsl:value-of select="normalize-space($phoneNumber)"/>&#160;
+                  <xsl:value-of select="normalize-space($phoneNumber)"/>
                 </a>
               </xsl:for-each>
               <xsl:for-each select="cit:onlineResource/*/cit:linkage[normalize-space(.) != '']">
@@ -485,10 +578,10 @@
                   <xsl:apply-templates mode="render-value" select="."/>
                 </xsl:variable>
                 <i class="fa fa-link">&#160;</i>
-                <a href="{normalize-space($linkage)}" target="_blank">
+                <a href="{normalize-space($linkage)}">
                   <xsl:value-of select="if (../cit:name)
                                         then ../cit:name/* else
-                                        normalize-space(linkage)"/>&#160;
+                                        normalize-space(linkage)"/>
                 </a>
               </xsl:for-each>
               <xsl:for-each select="cit:hoursOfService">
@@ -502,10 +595,163 @@
               <xsl:apply-templates mode="render-field"
                                    select="cit:contactInstructions"/>
             </address>
+
+            <!-- INDIVIDUALS -->
+            <xsl:for-each select="../../cit:individual/*">
+              <div class="party">
+                <h4><xsl:value-of select="gn-fn-render:get-schema-strings($schemaStrings, local-name(../.))"/></h4>
+                <ul>
+                  <li><xsl:value-of select="."/></li>
+                </ul>
+              </div>
+            </xsl:for-each>
+
           </xsl:for-each>
+          
+          
         </div>
       </div>
     </div>
+  </xsl:template>
+
+  <!-- FIELD RENDERING -->
+  <!-- time period fields -->
+  <xsl:template mode="render-field" match="gml:TimePeriod" priority="600">
+      <xsl:param name="fieldName" select="''" as="xs:string"/>
+
+      <xsl:variable name="elementName" select="if (@codeListValue) then name(..) else name(.)"/>
+      <dl>
+        <dt>
+          <xsl:value-of select="if ($fieldName)
+                                  then $fieldName
+                                  else tr:node-label(tr:create($schema), $elementName, null)"/>
+        </dt>
+        <dd>
+          <xsl:choose>
+            <xsl:when test="gml:beginPosition != ''">
+              <xsl:apply-templates mode="render-value" select="gml:beginPosition"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:apply-templates mode="render-value" select="gml:beginPosition/@indeterminatePosition"/>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:text> - </xsl:text>
+          <xsl:choose>
+            <xsl:when test="gml:endPosition != ''">
+              <xsl:apply-templates mode="render-value" select="gml:endPosition"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:apply-templates mode="render-value" select="gml:endPosition/@indeterminatePosition"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </dd>
+      </dl>
+  </xsl:template>
+
+  <!-- Render indeterminatePosition value -->
+  <xsl:template mode="render-value"
+                match="gml:beginPosition/@indeterminatePosition|gml:endPosition/@indeterminatePosition">
+    <xsl:variable name="id" select="."/>
+    <xsl:variable name="codelistTranslation"
+                  select="tr:codelist-value-label(
+                            tr:create($schema),
+                            name(), $id)"/>
+    <xsl:choose>
+      <xsl:when test="$codelistTranslation != ''">
+
+        <xsl:variable name="codelistDesc"
+                      select="tr:codelist-value-desc(
+                            tr:create($schema),
+                            name(), $id)"/>
+        <span title="{$codelistDesc}"><xsl:value-of select="$codelistTranslation"/></span>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$id"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  
+
+  <!-- Time period handling - catch elements with no contents. I.e. indeterminatePosition attribute is set -->
+  <!-- <xsl:template mode="render-field" match="gml:beginPosition[not(normalize-space())]">
+    <dl>
+      <dt>
+        <xsl:value-of select="tr:node-label(tr:create($schema), name(), null)"/>
+      </dt>
+      <dd>
+        <xsl:value-of select="tr:node-label(tr:create($schema), @indeterminatePosition, null)" />
+      </dd>
+    </dl>
+    
+  </xsl:template> -->
+
+  <!-- render attributes -->
+  <!-- TODO CLEAN UP -->
+  <xsl:template mode="render-field" match="mdb:contentInfo/mrc:MD_CoverageDescription/mrc:attributeGroup" priority="200">
+    <h4>
+      Attributes
+    </h4>
+    <dl>
+      <dt>
+        <xsl:value-of select="tr:node-label(tr:create($schema), mrc:MD_AttributeGroup/mrc:contentType/name(), null)"/>
+      </dt>
+      <dd>
+        <xsl:apply-templates mode="render-value" select="mrc:MD_AttributeGroup/mrc:contentType/mrc:MD_CoverageContentTypeCode/@codeListValue"/>
+      </dd>
+    </dl>
+    <style type="text/css">
+      .tab-head {
+        font-weight: 700;
+      }
+      .tab-row {
+        width: 100%;
+        word-break: break-all;
+        font-size: 0.8em;
+      }
+
+      .tab-cell {
+        float: left;
+        width: 13.2%;
+        min-width: 13.2%;
+        padding-right: 1%;
+        padding-top: 5px;
+      }
+      .tab-odd {
+        background-color: rgb(249, 249, 249);
+      }
+    </style>
+    <div class="tab-row clearfix"> 
+      <div class="tab-cell tab-head">Name</div>
+      <div class="tab-cell tab-head">Obligation</div>
+      <div class="tab-cell tab-head">Unique</div>
+      <div class="tab-cell tab-head">Data type</div>
+      <div class="tab-cell tab-head">Length</div>
+      <div class="tab-cell tab-head">Ref. table</div>
+      <div class="tab-cell tab-head">Comments</div>
+    </div>
+    <!-- <xsl:for-each select="mrc:MD_SampleDimension/mrc:otherProperty/gco:Record/delwp:MD_Attribute/*[name() != 'delwp:name']"> -->
+    <xsl:for-each select="mrc:MD_AttributeGroup/mrc:attribute/mrc:MD_SampleDimension/mrc:otherProperty/gco:Record/delwp:MD_Attribute">
+    <xsl:sort select="delwp:name"/>
+    <xsl:variable name="oddEven">
+      <xsl:choose>
+        <xsl:when test="(position() mod 2) != 1">
+          <xsl:text>tab-even</xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:text>tab-odd</xsl:text>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+      <div class="tab-row {$oddEven} clearfix">
+        <div class="tab-cell"><xsl:apply-templates mode="render-value" select="delwp:name" />&#160;</div>
+        <div class="tab-cell"><xsl:apply-templates mode="render-value" select="delwp:obligation" />&#160;</div>
+        <div class="tab-cell"><xsl:apply-templates mode="render-value" select="delwp:unique" />&#160;</div>
+        <div class="tab-cell"><xsl:apply-templates mode="render-value" select="delwp:dataType" />&#160;</div>
+        <div class="tab-cell"><xsl:apply-templates mode="render-value" select="delwp:dataLength" />&#160;</div>
+        <div class="tab-cell"><xsl:apply-templates mode="render-value" select="delwp:refTabTableName" />&#160;</div>
+        <div class="tab-cell"><xsl:apply-templates mode="render-value" select="delwp:comments" />&#160;</div>
+      </div>
+    </xsl:for-each>
   </xsl:template>
 
   <!-- Metadata linkage -->
@@ -523,11 +769,12 @@
         <xsl:apply-templates mode="render-value" select="*"/>
         <xsl:apply-templates mode="render-value" select="@*"/>
 
-        <a class="btn btn-link" href="{$nodeUrl}api/records/{$metadataId}/formatters/xml" target="_blank">
+        <a class="btn btn-link" href="{$nodeUrl}api/records/{$metadataId}/formatters/xml">
           <i class="fa fa-file-code-o fa-2x">&#160;</i>
           <span><xsl:value-of select="$schemaStrings/metadataInXML"/></span>
         </a>
       </dd>
+      
     </dl>
   </xsl:template>
 
@@ -535,7 +782,7 @@
   <xsl:template mode="render-field"
                 match="*[cit:CI_OnlineResource and */cit:linkage/* != '']"
                 priority="100">
-    <dl class="gn-link" style="pointer-events:auto;">
+    <dl class="gn-link">
       <dt>
         <xsl:value-of select="tr:node-label(tr:create($schema), name(), null)"/>
       </dt>
@@ -544,32 +791,13 @@
           <xsl:apply-templates mode="render-value"
                                select="*/cit:description"/>
         </xsl:variable>
-        <a href="{*/cit:linkage/*}" target="_blank">
+        <a href="{*/cit:linkage/*}">
           <xsl:apply-templates mode="render-value"
-                               select="*/cit:name"/>&#160;
+                               select="*/cit:name"/>
         </a>
         <p>
           <xsl:value-of select="normalize-space($linkDescription)"/>
         </p>
-      </dd>
-    </dl>
-  </xsl:template>
-
-  <xsl:template mode="render-field"
-                match="mco:MD_LegalConstraints[mco:graphic and mco:reference]"
-                priority="100">
-
-    <dl class="gn-link" style="pointer-events:auto;">
-      <dt>
-        <xsl:value-of select="mco:reference/cit:CI_Citation/cit:title/*"/>
-      </dt>
-      <dd>
-        <ul>
-          <xsl:if test="mco:graphic//cit:linkage/gco:CharacterString!=''">
-            <li style="list-style-type: none;"><img src="{mco:graphic//cit:linkage/gco:CharacterString}"/></li>
-          </xsl:if>
-          <li style="list-style-type: none;"><a href="{mco:reference//cit:linkage/gco:CharacterString}" target="_blank">License Text</a></li>
-        </ul>
       </dd>
     </dl>
   </xsl:template>
@@ -598,8 +826,16 @@
         </p>
       </dd>
     </dl>
+    <!-- Add handling for description field -->
+    <dl class="gn-code">
+      <dt>
+        <xsl:value-of select="tr:node-label(tr:create($schema), */mcc:description/name(), null)"/>
+      </dt>
+      <dd>
+        <xsl:value-of select="*/mcc:description"/>
+      </dd>
+    </dl>
   </xsl:template>
-
 
 
   <!-- Display thesaurus name and the list of keywords -->
@@ -694,122 +930,139 @@
     </dl>
   </xsl:template>
 
+  <!-- TODO ADD COMMENTS -->
+  <!-- MAC and DELWP fields -->
+  <xsl:template mode="render-field"
+                match="delwp:surveyDetails"
+                priority="100">
+
+    <h4><xsl:value-of select="tr:node-label(tr:create($schema), name(delwp:MD_SurveyDetails/delwp:aerialSurveyDetails/delwp:MD_AerialSurveyDetails), null)" /></h4>  
+
+    <xsl:for-each select="delwp:MD_SurveyDetails/delwp:aerialSurveyDetails/delwp:MD_AerialSurveyDetails/*">
+      <xsl:choose>
+        <xsl:when test="@gco:nilReason">
+          <dl>
+            <dt>
+              <xsl:value-of select="tr:node-label(tr:create($schema), name(), null)" />
+            </dt>
+            <dd>
+                Missing
+              </dd>
+          </dl>
+        </xsl:when>
+        <xsl:when test="*//@codeListValue">
+          <dl>
+            <dt>
+              <xsl:value-of select="tr:node-label(tr:create($schema), name(), null)" />
+            </dt>
+            <dd>
+              <xsl:value-of select="tr:node-label(tr:create($schema), */@codeListValue, null)" />
+            </dd>
+          </dl>
+        </xsl:when>
+        <xsl:when test="gco:Integer">
+          <dl>
+            <dt>
+              <xsl:value-of select="tr:node-label(tr:create($schema), name(), null)" />
+            </dt>
+            <dd>
+              <xsl:apply-templates mode="render-value" select="gco:Integer" />
+            </dd>
+          </dl>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates mode="render-field" />
+        </xsl:otherwise>
+      </xsl:choose>
+
+      <!-- TODO  -->
+
+    </xsl:for-each>
+
+  </xsl:template>
+
+  <xsl:template mode="render-field"
+                match="delwp:dataDetails"
+                priority="100">
+    
+    <h4><xsl:value-of select="tr:node-label(tr:create($schema), name(delwp:MD_DataDetails/delwp:rasterDetails/delwp:MD_RasterDetails), null)" /></h4>
+
+    <xsl:for-each select="delwp:MD_DataDetails/delwp:rasterDetails/delwp:MD_RasterDetails/*">
+      <xsl:choose>
+        <xsl:when test="@gco:nilReason">
+          <dl>
+            <dt>
+              
+            </dt>
+            <dd>
+                Missing
+              </dd>
+          </dl>
+        </xsl:when>
+        <xsl:when test="gco:Integer">
+          <dl>
+            <dt>
+              <xsl:value-of select="tr:node-label(tr:create($schema), name(), null)" />
+            </dt>
+            <dd>
+              <xsl:apply-templates mode="render-value" select="gco:Integer" />
+            </dd>
+          </dl>
+        </xsl:when>
+        <xsl:when test="name() != 'delwp:rasterTypeSpecificProperties'">
+          <dl>
+            <dt>
+              <xsl:value-of select="tr:node-label(tr:create($schema), name(), null)" />
+            </dt>
+            <dd>
+              <xsl:value-of select="tr:node-label(tr:create($schema), */@codeListValue, null)" />
+            </dd>
+          </dl>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates mode="render-field" />
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
+
+  </xsl:template>
+  
+  <xsl:template mode="render-field" match="*//mac:operation/mac:MI_Operation" priority="100">
+    
+    <div class="entry name">
+      <h4><xsl:value-of select="gn-fn-render:get-schema-strings($schemaStrings, local-name(../.))"/></h4>
+      <dl> 
+        <dt>
+           <xsl:value-of select="tr:node-label(tr:create($schema), name(mac:status), null)"/>
+        </dt>
+        <dd>
+          <xsl:value-of select="tr:node-label(tr:create($schema), mac:status/*/@codeListValue, null)"/>
+        </dd>
+      </dl>
+      <xsl:for-each select="mac:otherProperty/gco:Record">
+        <div class="entry name">
+
+          <xsl:for-each select="delwp:datasetDetails/delwp:MD_DatasetDetails">
+
+            <xsl:apply-templates mode="render-field" />
+
+          </xsl:for-each>
+        </div>
+        
+      </xsl:for-each>
+    </div>
+
+  </xsl:template>
+
+  
 
   <xsl:template mode="render-field"
                 match="mrd:distributionFormat[position() > 1]"
                 priority="100"/>
 
-  <!-- delwp specific stuff -->
-
-  <xsl:template mode="render-field"
-                match="mrc:attributeGroup[descendant::delwp:MD_Attribute]"
-                priority="100">
-
-    <!-- We need this sequence to get the columns in the order we want them
-         Adjust the ordering here to suit user requirements if change is required -->
-    <xsl:variable name="aheaders" select="(
-       'delwp:name',
-       'delwp:obligation',
-       'delwp:unique',
-       'delwp:dataType',
-       'delwp:dataLength',
-       'delwp:dataPrecision',
-       'delwp:dataScale',
-       'delwp:refTabOwnerName',
-       'delwp:refTabTableName',
-       'delwp:refTabCodeColumnName',
-       'delwp:shortColumnName',
-       'delwp:definition')"/>
-
-    <dl class="gn-format">
-      <dt>
-        <!-- <xsl:value-of select="tr:node-label(tr:create($schema), name(), null)"/> -->
-      </dt>
-      <dd>
-        <!-- <table class="table table-bordered table-striped"> -->
-        <!-- striped table somewhat wasteful of space -->
-        <table class="table table-bordered">
-          <tr>
-            <!-- HACK: this crazy variable is necessary because null is somehow context
-                 dependent and doesn't like being used inside an iteration on a sequence!
-                 Wholly bizarre errors result and the line number reported is wrong! -->
-            <xsl:variable name="nullity" select="null"/>
-            <xsl:for-each select="$aheaders">
-              <xsl:variable name="name" select="."/>
-              <th>
-                <xsl:value-of select="tr:node-label(tr:create($schema), $name, $nullity)"/>
-              </th>
-            </xsl:for-each>
-          </tr>
-          <xsl:for-each select="descendant::delwp:MD_Attribute">
-            <tr>
-              <xsl:variable name="columns">
-                <columns>
-                  <xsl:for-each select="*">
-                    <td id="{name()}">
-                      <xsl:value-of select="."/> 
-                    </td>
-                  </xsl:for-each>
-                </columns>
-              </xsl:variable>
-              <xsl:for-each select="$aheaders">
-                <xsl:variable name="name" select="."/>
-                <xsl:choose>
-                  <xsl:when test="count($columns/columns/td[@id=$name])=1">
-                    <xsl:copy-of select="$columns/columns/td[@id=$name]"/>
-                  </xsl:when>
-                  <xsl:otherwise>
-                     <td></td>
-                  </xsl:otherwise>
-                </xsl:choose>
-              </xsl:for-each>
-            </tr>      
-          </xsl:for-each>
-        </table>
-      </dd>
-    </dl>
-  </xsl:template>
-
-  <xsl:template mode="render-field"
-                match="delwp:classification"
-                priority="100">
-
-    <xsl:if test="descendant::delwp:classLevel">
-      <xsl:apply-templates mode="render-field" select="descendant::delwp:classLevel"/>
-    </xsl:if>
-
-    <xsl:if test="descendant::delwp:classAccuracy">
-      <xsl:apply-templates mode="render-field" select="descendant::delwp:classAccuracy"/>
-    </xsl:if>
-
-    <dl class="gn-format">
-      <dt>
-        <xsl:value-of select="tr:node-label(tr:create($schema), name(), null)"/>
-      </dt>
-      <dd>
-       <table  class="table table-bordered table-striped">
-         <tr>
-           <xsl:for-each select="descendant::*[starts-with(name(),'delwp:class')]">
-             <th>
-               <xsl:value-of select="tr:node-label(tr:create($schema), name(), null)"/>
-             </th>
-           </xsl:for-each>
-         </tr>
-         <tr>
-           <xsl:for-each select="descendant::*[starts-with(name(),'delwp:class')]">
-             <td>
-               <xsl:value-of select="*"/> 
-             </td>
-           </xsl:for-each>
-         </tr>      
-       </table>
-      </dd>
-    </dl>
-  </xsl:template>
-
   <!-- Date -->
   <xsl:template mode="render-field"
-                match="cit:date|mdb:dateInfo|mmi:maintenanceDate"
+                match="cit:date|mdb:dateInfo"
                 priority="100">
     <dl class="gn-date">
       <dt>
@@ -871,18 +1124,18 @@
     <!-- Only render the first element of this kind and render a list of
     following siblings. -->
     <xsl:variable name="isFirstOfItsKind"
-                  select="count(preceding-sibling::node()[name() = $nodeName]) = 0"/>
+                  select="count(preceding-sibling::node()[name() = $nodeName]) = 0" />
     <xsl:if test="$isFirstOfItsKind">
-      <dl class="gn-md-associated-resources" style="pointer-events:auto;">
+      <dl class="gn-md-associated-resources">
         <dt>
-          <xsl:value-of select="tr:node-label(tr:create($schema), name(), null)"/>
+          <xsl:value-of select="tr:node-label(tr:create($schema), name(), null)" />
         </dt>
         <dd>
           <ul>
             <xsl:for-each select="parent::node()/*[name() = $nodeName]">
-              <li><a href="#uuid={@uuidref}" target="_blank">
+              <li><a href="#uuid={@uuidref}">
                 <i class="fa fa-link">&#160;</i>
-                <xsl:value-of select="gn-fn-render:getMetadataTitle(@uuidref, $language)"/>
+                <xsl:value-of select="gn-fn-render:getMetadataTitle(@uuidref, $language)" />
               </a></li>
             </xsl:for-each>
           </ul>
@@ -921,13 +1174,13 @@
                 match="gco:Integer|gco:Decimal|
                        gco:Boolean|gco:Real|gco:Measure|gco:Length|gco:Angle|
                        gco:Scale|gco:Record|gco:RecordType|
-                       gco:LocalName|gml32:beginPosition|gml32:endPosition">
+                       gco:LocalName|gml:beginPosition|gml:endPosition">
     <xsl:choose>
       <xsl:when test="contains(., 'http')">
         <!-- Replace hyperlink in text by an hyperlink -->
         <xsl:variable name="textWithLinks"
                       select="replace(., '([a-z][\w-]+:/{1,3}[^\s()&gt;&lt;]+[^\s`!()\[\]{};:'&apos;&quot;.,&gt;&lt;?«»“”‘’])',
-                                    '&lt;a target=''_blank'' href=''$1''&gt;$1&lt;/a&gt;')"/>
+                                    '&lt;a href=''$1''&gt;$1&lt;/a&gt;')"/>
 
         <xsl:if test="$textWithLinks != ''">
           <xsl:copy-of select="saxon:parse(
@@ -958,10 +1211,9 @@
 
 
   <xsl:template mode="render-value"
-                match="gco:Distance|gco:Measure">
+                match="gco:Distance">
     <span><xsl:value-of select="."/>&#10;<xsl:value-of select="@uom"/></span>
   </xsl:template>
-
 
   <!-- ... Dates - formatting is made on the client side by the directive  -->
   <xsl:template mode="render-value"
@@ -1063,7 +1315,6 @@
                 priority="100">
     <i class="fa fa-lock text-warning" title="{{{{'withheld' | translate}}}}">&#160;</i>
   </xsl:template>
-
   <xsl:template mode="render-value"
                 match="@*"/>
 
