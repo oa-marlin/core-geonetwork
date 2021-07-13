@@ -529,5 +529,8 @@
   "GUForganization": "Your Organization",
   "printUnsupportedLayerTypes": "The following layer types are present but cannot be printed",
   "rssFeed": "RSS feed",
-  "approve": "Approve"
+  "approve": "Approve",
+  "jurisdiction": "Jurisdiction",
+  "ownerGroup": "Group that owns metadata",
+  "altTitle": "Resource Name" 
 }

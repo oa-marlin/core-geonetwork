@@ -71,7 +71,7 @@ goog.require('gn_alert');
           'humanizeDates': true
         },
         'footer':{
-          'enabled': true,
+          'enabled': false,
           'showSocialBarInFooter': true
         },
         'header': {
@@ -119,7 +119,9 @@ goog.require('gn_alert');
             'hitsPerPage': 20
           },
           'mapFilterCollapsed': false,
-          'facetsSummaryType': 'details',
+          // DELWP Addition
+          'facetsSummaryType': 'delwp',
+          // END DELWP Addition
           'defaultSearchString': '',
           'facetTabField': '',
           'facetConfig': [

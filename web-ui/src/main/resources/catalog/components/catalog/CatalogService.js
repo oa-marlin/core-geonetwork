@@ -852,6 +852,10 @@
           return '';
         }
       },
+      getLastModifiedDate: function() {
+        lastModifiedDate = new Date(this['geonet:info'].changeDate);
+        return lastModifiedDate.toISOString().slice(0, 10);
+      },
       isWorkflowEnabled: function() {
         var st = this.mdStatus;
         var res = st &&

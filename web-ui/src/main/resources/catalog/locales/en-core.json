@@ -540,5 +540,12 @@
     "batchApproveDirect": "Approve the metadata without requiring to be in submitted status",
     "metadataInfoReport": "Metadata information",
     "metadataErrorReport": "Metadata errors",
-    "wmtsFailedToParseCapabilities": "Failed to parse GetCapabilities operation response."
+    "wmtsFailedToParseCapabilities": "Failed to parse GetCapabilities operation response.",
+    "rasterType": "Resource Type",
+    "rasterAssemblyType": "Raster Assembly Type",
+    "sdmCategory": "DELWP Categories",
+    "resClassification": "Resource Constraints",
+    "mdClassification": "Metadata Constraints",
+    "stakeholderType": "Contact Type",
+    "platformType": "Raster Platform Type" 
 }
