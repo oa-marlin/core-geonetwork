@@ -353,17 +353,35 @@
             <xsl:for-each select="$nonExistingChildParent/*/gn:child[@name = $childName]">
               <xsl:variable name="name" select="concat(@prefix, ':', @name)"/>
 
+              <!-- DELWP Addition -->
+              <xsl:variable name="directive"
+                            select="gn-fn-metadata:getFieldAddDirective($editorConfig, $name)"/>
+              <!-- End DELWP Addition -->
+
               <xsl:variable name="labelConfig"
                             select="gn-fn-metadata:getLabel($schema, $name, $labels)"/>
 
-              <saxon:call-template name="{concat('dispatch-', $schema)}">
+              <!-- DELWP Addition -->
+              <!--<saxon:call-template name="{concat('dispatch-', $schema)}">
                 <xsl:with-param name="base" select="."/>
                 <xsl:with-param name="overrideLabel"
                                 select="if ($configName != '')
                                         then $strings/*[name() = $configName]
                                         else $labelConfig/label"/>
                 <xsl:with-param name="config" select="$config"/>
-              </saxon:call-template>
+              </saxon:call-template>-->
+              <xsl:call-template name="render-element-to-add">
+                <xsl:with-param name="label"
+                                select="if ($configName != '')
+                          then $strings/*[name() = $configName]
+                          else $labelConfig/label"/>
+                <xsl:with-param name="btnLabel" select="if ($labelConfig/btnLabel) then $labelConfig/btnLabel else ''"/>
+                <xsl:with-param name="btnClass" select="if ($labelConfig/btnClass) then $labelConfig/btnClass else ''"/>
+                <xsl:with-param name="directive" select="$directive"/>
+                <xsl:with-param name="childEditInfo" select="."/>
+                <xsl:with-param name="parentEditInfo" select="../gn:element"/>
+              </xsl:call-template>
+              <!-- End DELWP Addition -->
             </xsl:for-each>
           </xsl:if>
 

@@ -129,7 +129,9 @@
             </xsl:call-template>
           </xsl:if>
 
-          <div data-gn-toggle=""/>
+          <!-- DELWP Addition - remove this useless toggle -->
+          <!-- <div data-gn-toggle=""/> -->
+          <!-- END DELWP Addition -->
 
           <xsl:choose>
             <xsl:when test="$service != 'md.element.add' and $tabConfig/section">
