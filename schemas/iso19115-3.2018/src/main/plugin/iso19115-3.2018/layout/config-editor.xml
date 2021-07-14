@@ -1005,7 +1005,7 @@
     </view>
 
     <!-- rastermeta: datasets with spatialRepresentation = grid, pointCloud or contour -->
-    <view name="default" displayIfRecord="(count(mdb:MD_Metadata/mdb:metadataScope/mdb:MD_MetadataScope/mdb:resourceScope/mcc:MD_ScopeCode[@codeListValue=('','dataset')]) + count(mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:spatialRepresentationType/mcc:MD_SpatialRepresentationTypeCode[@codeListValue=('grid','pointCloud','contour')])) = 2">
+    <view name="default" displayIfRecord="(count(mdb:MD_Metadata/mdb:metadataScope/mdb:MD_MetadataScope/mdb:resourceScope/mcc:MD_ScopeCode[@codeListValue=('','dataset')]) + count(mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:spatialRepresentationType/mcc:MD_SpatialRepresentationTypeCode[@codeListValue=('grid','pointCloud','contour')]) + count(mdb:MD_Metadata/mdb:acquisitionInformation)) = 3">
       <sidePanel>
         <directive data-gn-onlinesrc-list=""/>
         <directive gn-geo-publisher=""
@@ -1647,7 +1647,7 @@
  
       <tab id="projectExtents" mode="flat">
         <section>
-          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:extent/gex:EX_Extent/gex:description"/>
+          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:extent/gex:EX_Extent/gex:description" or="description" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:extent/gex:EX_Extent"/>
           <!-- mac:scope/mcc:extent/gex:EX_Extent/gex:temporalExtent = rastermeta Year of Acquisition -->
           <field xpath="/mdb:MD_Metadata/mdb:acquisitionInformation/mac:MI_AcquisitionInformation/mac:scope/mcc:MD_Scope/mcc:extent/gex:EX_Extent/gex:temporalElement/gex:EX_TemporalExtent"/>
 				</section>
