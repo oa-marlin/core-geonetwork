@@ -12,6 +12,7 @@
   xmlns:cit="http://standards.iso.org/iso/19115/-3/cit/2.0"
   xmlns:mri="http://standards.iso.org/iso/19115/-3/mri/1.0"
   xmlns:mrd="http://standards.iso.org/iso/19115/-3/mrd/1.0"
+  xmlns:mrl="http://standards.iso.org/iso/19115/-3/mrl/2.0"
   xmlns:dqm="http://standards.iso.org/iso/19157/-2/dqm/1.0"
   xmlns:dqc="http://standards.iso.org/iso/19157/-2/dqc/1.0"
   xmlns:mdq="http://standards.iso.org/iso/19157/-2/mdq/1.0"
@@ -818,9 +819,10 @@
 
 
 
-  <!-- Remove empty DQ elements, empty transfer options. -->
-  <!--<xsl:template match="mdb:dataQualityInfo[count(*) = 0]"/>-->
+  <!-- Remove empty DQ elements, empty transfer options, empty lineage -->
+  <xsl:template match="mdb:dataQualityInfo[count(*) = 0]"/>
   <xsl:template match="mrd:transferOptions[mrd:MD_DigitalTransferOptions/count(*) = 0]"/>
+  <xsl:template match="mdb:resourceLineage[mrl:LI_Lineage/count(*) = 0]"/>
 
   <!-- copy everything else as is -->
   <xsl:template match="@*|node()">

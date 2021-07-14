@@ -1115,21 +1115,21 @@
 
       <tab id="resourceFormat" mode="flat">
         <section>
-          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceFormat"/>
-          <action type="add" name="resourceFormat" or="resourceFormat" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification">
+					<field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceFormat/mrd:MD_Format/mrd:formatSpecificationCitation/cit:CI_Citation/cit:title" del="../../../../.."/>
+					<action type="add" name="resourceFormat" or="resourceFormat" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification" if="count(mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceFormat)=0">
             <template>
               <snippet>
-                <mri:resourceFormat>
-                  <mrd:MD_Format>
-                    <mrd:formatSpecificationCitation>
-                      <cit:CI_Citation>
-                        <cit:title>
-                          <gco:CharacterString></gco:CharacterString>
-                        </cit:title>
-                      </cit:CI_Citation>
-                    </mrd:formatSpecificationCitation>
-                  </mrd:MD_Format>
-                </mri:resourceFormat>
+            <mri:resourceFormat>
+              <mrd:MD_Format>
+                <mrd:formatSpecificationCitation>
+                  <cit:CI_Citation>
+                    <cit:title>
+                      <gco:CharacterString></gco:CharacterString>
+                    </cit:title>
+                  </cit:CI_Citation>
+                </mrd:formatSpecificationCitation>
+              </mrd:MD_Format>
+            </mri:resourceFormat>
               </snippet>
             </template>
           </action>
