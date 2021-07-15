@@ -572,7 +572,6 @@
       <description>Reference to resources that are parts of this resource
       </description>
     </entry>
-    <!--
     <entry>
       <code>collectiveTitle</code>
       <label>Collective Title</label>
@@ -598,7 +597,6 @@
       <label>Revision Of</label>
       <description>Resource is a revision of associated resource</description>
     </entry>
-    -->
   </codelist>
   <codelist name="mri:DS_InitiativeTypeCode" alias="initiativeType">
     <!--
@@ -607,12 +605,14 @@
       <label>Campaign</label>
       <description>Series of organized planned actions</description>
     </entry>
+    -->
     <entry>
       <code>collection</code>
       <label>Collection</label>
       <description>Accumulation of datasets assembled for a specific purpose
       </description>
     </entry>
+    <!--
     <entry>
       <code>exercise</code>
       <label>Exercise</label>
