@@ -1194,12 +1194,10 @@
               </snippet>
             </template>
           </action>
-          <field xpath="/mdb:MD_Metadata/mdb:resourceLineage/mrl:LI_Lineage/mrl:processStep" del="../.."/>
-					<action type="add" name="resourceLineage" or="resourceLineage" in="/mdb:MD_Metadata" if="count(mdb:MD_Metadata/mdb:resourceLineage)=0">
+          <field xpath="/mdb:MD_Metadata/mdb:resourceLineage/mrl:LI_Lineage/mrl:processStep"/>
+					<action type="add" name="processStep" or="processStep" in="/mdb:MD_Metadata/mdb:resourceLineage/mrl:LI_Lineage" if="count(mdb:MD_Metadata/mdb:resourceLineage/mrl:LI_Lineage/mrl:processStep)=0">
 						<template>
 							<snippet>
-                <mdb:resourceLineage>
-                  <mrl:LI_Lineage>
                 <mrl:processStep>
                   <mrl:LI_ProcessStep>
                     <mrl:description>
@@ -1207,8 +1205,6 @@
                     </mrl:description>
                   </mrl:LI_ProcessStep>
                 </mrl:processStep>
-                  </mrl:LI_Lineage>
-                </mdb:resourceLineage>
 							</snippet>
 						</template>
 					</action>

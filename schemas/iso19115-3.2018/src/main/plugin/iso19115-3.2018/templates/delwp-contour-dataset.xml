@@ -214,19 +214,11 @@
       </mrc:cloudCoverPercentage>
     </mrc:MD_ImageDescription>
   </mdb:contentInfo>
-  <!--
   <mdb:resourceLineage>
     <mrl:LI_Lineage>
-      <mrl:processStep>
-        <mrl:LI_ProcessStep>
-          <mrl:description>
-            <gco:CharacterString></gco:CharacterString>
-          </mrl:description>
-        </mrl:LI_ProcessStep>
-      </mrl:processStep>
+      <mrl:statement><gco:CharacterString></gco:CharacterString></mrl:statement>
     </mrl:LI_Lineage>
   </mdb:resourceLineage>
-  -->
   <mdb:metadataConstraints>
     <mco:MD_SecurityConstraints>
       <mco:useLimitation>

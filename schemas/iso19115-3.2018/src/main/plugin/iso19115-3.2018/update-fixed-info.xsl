@@ -822,8 +822,6 @@
   <!-- Remove empty DQ elements, empty transfer options, empty lineage -->
   <xsl:template match="mdb:dataQualityInfo[count(*) = 0]"/>
   <xsl:template match="mrd:transferOptions[mrd:MD_DigitalTransferOptions/count(*) = 0]"/>
-  <!-- remove empty lineage for rastermeta datasets only -->
-  <xsl:template match="mdb:resourceLineage[mrl:LI_Lineage/count(*) = 0 and count(//mdb:acquisitionInformation) = 1]"/>
 
   <!-- copy everything else as is -->
   <xsl:template match="@*|node()">

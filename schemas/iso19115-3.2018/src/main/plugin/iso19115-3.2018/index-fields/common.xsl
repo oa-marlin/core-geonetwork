@@ -679,7 +679,7 @@
 
         <!-- DELWP Addition -->
         <!-- Add separate field for DELWP res constraints - not indexed -->
-        <xsl:for-each select="mco:MD_SecurityConstraints/mco:classification">                                                     
+        <xsl:for-each select="mco:classification">                                                     
           <xsl:copy-of select="gn-fn-iso19115-3.2018:index-field('resClassification', mco:MD_ClassificationCode/@codeListValue, $langId
 , true(), false())"/>
         </xsl:for-each>
