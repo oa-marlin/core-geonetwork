@@ -129,8 +129,9 @@
           <i class="fa fa-fw fa-tags"></i>&nbsp;<span translate>updateCategories</span>
         </a>
       </li>
+      <!-- DELWP Addition - only Administrators can delete metadata records -->
       <li  data-ng-show="!excludePattern.test('delete')"
-           data-ng-if="user.isEditorOrMore()">
+           data-ng-if="user.isAdministratorOrMore()">
         <a href="" data-ng-click="mdService.deleteMd(undefined, searchResults.selectionBucket)"
            data-gn-confirm-click="{{'deleteSelectedRecordConfirm' | translate:searchResults}}">
           <i class="fa fa-fw fa-trash"></i>&nbsp;<span translate>delete</span>

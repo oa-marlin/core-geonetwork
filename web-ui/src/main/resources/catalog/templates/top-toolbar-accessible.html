@@ -82,21 +82,23 @@
               <span class="fa fa-fw fa-plus"></span>&nbsp;<span translate>addRecord</span>
             </a>
           </li>
-          <li class="gn-menuitem-xs" role="menuitem">
+          <!-- DELWP Addition - make following buttons accessible only to Admins -->
+          <li class="gn-menuitem-xs" role="menuitem" ng-if="user.isAdministratorOrMore()">
             <a data-gn-active-tb-item="{{gnCfg.mods.editor.appUrl}}#/import">
               <span class="fa fa-fw fa-upload"></span><span translate>ImportRecord</span>
             </a>
           </li>
-          <li class="gn-menuitem-xs" role="menuitem">
+          <li class="gn-menuitem-xs" role="menuitem" ng-if="user.isAdministratorOrMore()">
             <a data-gn-active-tb-item="{{gnCfg.mods.editor.appUrl}}#/directory">
               <span class="fa fa-fw fa-bookmark"></span><span translate>directoryManager</span>
             </a>
           </li>
-          <li class="gn-menuitem-xs" role="menuitem">
+          <li class="gn-menuitem-xs" role="menuitem" ng-if="user.isAdministratorOrMore()">
             <a data-gn-active-tb-item="{{gnCfg.mods.editor.appUrl}}#/batchedit">
               <span class="fa fa-fw fa-pencil"></span><span translate>batchEditing</span>
             </a>
           </li>
+          <!-- END DELWP Addition -->
           <li class="gn-menuitem-xs" role="menuitem" ng-if="user.isAdministratorOrMore() && healthCheck.IndexHealthCheck === true">
             <a data-gn-active-tb-item="{{gnCfg.mods.editor.appUrl}}#/accessManager">
               <span class="fa fa-fw fa-lock"/><span data-translate="">accessManager</span>

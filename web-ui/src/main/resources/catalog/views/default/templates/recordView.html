@@ -100,9 +100,10 @@
 
           <!-- delete -->
           <div class="btn-group pull-left" role="group">
+             <!-- DELWP Addition - only admins can delete records! -->
             <a class="btn btn-default"
                href
-               data-ng-show="user.canEditRecord(mdView.current.record) && (user.isReviewerOrMore() || mdView.current.record.mdStatus != 4 || !isMdWorkflowEnable)"
+               data-ng-show="user.canEditRecord(mdView.current.record) && (user.isAdministratorOrMore() || mdView.current.record.mdStatus != 4 || !isMdWorkflowEnable)"
                data-gn-click-and-spin="deleteRecord(mdView.current.record)"
                data-gn-confirm-click="{{(mdView.current.record.draft != 'y') ? 'deleteRecordConfirm' : 'deleteWorkingCopyRecordConfirm' | translate:mdView.current.record}}"
                title="{{(mdView.current.record.draft != 'y') ? 'delete' : 'cancelWorkingCopy' | translate}}">

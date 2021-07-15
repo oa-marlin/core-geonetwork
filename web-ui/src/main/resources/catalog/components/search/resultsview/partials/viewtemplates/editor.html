@@ -62,15 +62,17 @@
                title="{{'edit' | translate}}">
               <i class="fa fa-pencil"></i>
             </a>
+             <!-- DELWP Addition - only admins can delete records! -->
             <a class="btn btn-default"
-               data-ng-show="user.canEditRecord(md) && md.isTemplate != 's' && (user.isReviewerOrMore() || md.mdStatus != 4 || !isMdWorkflowEnable) && md.draft != 'e'"
+               data-ng-show="user.canEditRecord(md) && md.isTemplate != 's' && (user.isAdministratorOrMore() || md.mdStatus != 4 || !isMdWorkflowEnable) && md.draft != 'e'"
                data-gn-click-and-spin="deleteRecord(md)"
                data-gn-confirm-click="{{'deleteRecordConfirm' | translate:md}}"
                title="{{'delete' | translate}}">
               <i class="fa fa-trash text-danger"></i>
             </a>
+             <!-- DELWP Addition - only admins can create child records! -->
             <a class="btn btn-default"
-               data-ng-show="user.canEditRecord(md) && md.isTemplate != 's'"
+               data-ng-show="user.canEditRecord(md) && md.isTemplate != 's' && user.isAdministratorOrMore()"
                data-ng-href="#/create?childOf={{md['geonet:info'].id}}"
                title="{{'createChild' | translate}}">
               <i class="fa fa-sitemap text-muted"></i>

@@ -21,8 +21,9 @@
           <span data-translate="">privileges</span>
         </a>
       </li>
+      <!-- DELWP Addition - Transfer Ownership is restricted to Administrators -->
       <li role="menuitem"
-          data-ng-if="md.isOwned() && user.isUserAdminOrMore()">
+          data-ng-if="md.isOwned() && user.isAdministratorOrMore()">
         <a href=""
            data-ng-click="mdService.openTransferOwnership(md, null, getCatScope())">
           <span class="fa fa-fw fa-user"></span>&nbsp;
@@ -177,9 +178,10 @@
           <span data-translate="">duplicate</span>
         </a>
       </li>
+      <!-- DELWP Addition - only admins can create child records -->
       <li role="menuitem">
         <a href=""
-           data-ng-if="user.isEditorOrMore() && md.draft != 'y'"
+           data-ng-if="user.isAdministratorOrMore() && md.draft != 'y'"
            data-ng-click="mdService.createChild(md)">
           <span class="fa fa-fw fa-sitemap"></span>&nbsp;
           <span data-translate="">createChild</span>

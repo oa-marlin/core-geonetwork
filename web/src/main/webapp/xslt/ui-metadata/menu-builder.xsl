@@ -55,9 +55,10 @@
         </button>
         <ul class="dropdown-menu" role="menu">
           <!-- links -->
+          <!-- DELWP Addition - users cannot switch views or show attributes, only Admins -->
           <xsl:choose>
             <xsl:when test="$isTemplate = 's'">
-              <li role="menuitem">
+              <li role="menuitem" ng-if="user.isAdministratorOrMore()">
                 <xsl:if test="'simple' = $currentView/@name">
                   <xsl:attribute name="class">disabled</xsl:attribute>
                 </xsl:if>
@@ -65,7 +66,7 @@
                   <xsl:value-of select="$strings/*[name() = 'simple']"/>
                 </a>
               </li>
-              <li role="menuitem">
+              <li role="menuitem" ng-if="user.isAdministratorOrMore()">
                 <xsl:if test="'xml' = $currentView/@name">
                   <xsl:attribute name="class">disabled</xsl:attribute>
                 </xsl:if>
@@ -86,7 +87,7 @@
 
 
                 <xsl:if test="$isViewDisplayed">
-                  <li role="menuitem">
+                  <li role="menuitem" ng-if="user.isAdministratorOrMore()">
                     <xsl:if test="@name = $currentView/@name">
                       <xsl:attribute name="class">disabled</xsl:attribute>
                     </xsl:if>
@@ -101,8 +102,8 @@
                 </xsl:if>
               </xsl:for-each>
 
-              <li class="divider" role="menuitem"/>
-              <li role="menuitem">
+              <li class="divider" role="menuitem" ng-if="user.isAdministratorOrMore()"/>
+              <li role="menuitem" ng-if="user.isAdministratorOrMore()">
                 <a data-ng-click="toggleAttributes(true)" href="">
                   <i class="fa"
                      data-ng-class="gnCurrentEdit.displayAttributes ? 'fa-check-square-o' : 'fa-square-o'"/>
