@@ -5936,7 +5936,14 @@
     <label>Reference System</label>
     <description>The spatial reference system used for coordinates in the dataset.</description>
     <helper>
-      <option value="MGA Zone 55 GDA94">MGA Zone 55 GDA94</option>
+      <option value="Geographicals on GDA94">Geographicals on GDA94</option>
+      <option value="Geographicals on GDA2020">Geographicals on GDA2020</option>
+      <option value="MGA 1994 Zone 55">MGA 1994 Zone 55</option>
+      <option value="MGA 1994 Zone 54">MGA 1994 Zone 54</option>
+      <option value="MGA 2020 Zone 55">MGA 2020 Zone 55</option>
+      <option value="MGA 2020 Zone 54">MGA 2020 Zone 54</option>
+      <option value="VicGrid on GDA94">VicGrid on GDA94</option>
+      <option value="VicGrid on GDA2020">VicGrid on GDA2020</option>
     </helper>
   </element>
 </labels>

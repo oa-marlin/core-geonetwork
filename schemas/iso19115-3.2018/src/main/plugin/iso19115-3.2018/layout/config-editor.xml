@@ -427,7 +427,7 @@
           </action>
           <field xpath="/mdb:MD_Metadata/mdb:metadataScope/mdb:MD_MetadataScope/mdb:resourceScope"/>
           <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:abstract"/>
-          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:purpose"/>
+          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:purpose" or="purpose" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification"/>
           <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:credit" or="credit" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification"/>
           <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:supplementalInformation" or="supplementalInformation" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification"/>
 				</section>
@@ -1031,51 +1031,10 @@
               </snippet>
             </template>
           </action>
-          <!-- FIXME: RasterMeta dataset shouldn't offer abstract? -->
           <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:abstract"/>
-				</section>
-			</tab>
-
-      <tab id="resourceKeywords" mode="flat">
-        <section>
-          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:topicCategory"/>
-				</section>
-			</tab>
-
-      <tab id="contacts" mode="flat">
-        <section>
-          <text ref="custodianIsMandatory" if="count(mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue='custodian']/cit:*) = 1"/>
-					<field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty" or="citedResponsibleParty" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation"/>
-        </section>
-      </tab>
-
-      <tab id="resourceSpatial" mode="flat">
-        <section>
-          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:spatialResolution/mri:MD_Resolution//mri:distance"/>
-          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:spatialResolution/mri:MD_Resolution//mri:vertical"/>
-          <field xpath="/mdb:MD_Metadata/mdb:referenceSystemInfo/mrs:MD_ReferenceSystem/mrs:referenceSystemIdentifier/mcc:MD_Identifier/mcc:code" del="../../../.."/>
-          <!-- show the add reference system info directive only if there
-               is no reference system -->
-          <action type="add" name="referenceSystemInfo" or="referenceSystemInfo" if="count(mdb:MD_Metadata/mdb:referenceSystemInfo)=0" in="/mdb:MD_Metadata">
-            <template>
-              <snippet>
-          <mdb:referenceSystemInfo>
-            <mrs:MD_ReferenceSystem>
-              <mrs:referenceSystemIdentifier>
-                <mcc:MD_Identifier>
-                  <mcc:code>
-                    <gco:CharacterString>WGS 84 (EPSG:4326)</gco:CharacterString>
-                  </mcc:code>
-                  <mcc:description>
-                    <gco:CharacterString>EPSG Geodetic Parameter</gco:CharacterString>
-                  </mcc:description>
-                </mcc:MD_Identifier>
-              </mrs:referenceSystemIdentifier>
-            </mrs:MD_ReferenceSystem>
-          </mdb:referenceSystemInfo>
-              </snippet>
-            </template>
-          </action>
+          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:purpose" or="purpose" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification"/>
+          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:credit" or="credit" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification"/>
+          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:supplementalInformation" or="supplementalInformation" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification"/>
 				</section>
 			</tab>
 
@@ -1113,6 +1072,55 @@
         </section>
       </tab>
 
+      <tab id="resourceSpatial" mode="flat">
+        <section>
+          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:spatialResolution/mri:MD_Resolution//mri:distance"/>
+          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:spatialResolution/mri:MD_Resolution//mri:vertical"/>
+          <field xpath="/mdb:MD_Metadata/mdb:referenceSystemInfo/mrs:MD_ReferenceSystem/mrs:referenceSystemIdentifier/mcc:MD_Identifier/mcc:code" del="../../../.."/>
+          <!-- show the add reference system info directive only if there
+               is no reference system -->
+          <action type="add" name="referenceSystemInfo" or="referenceSystemInfo" if="count(mdb:MD_Metadata/mdb:referenceSystemInfo)=0" in="/mdb:MD_Metadata">
+            <template>
+              <snippet>
+          <mdb:referenceSystemInfo>
+            <mrs:MD_ReferenceSystem>
+              <mrs:referenceSystemIdentifier>
+                <mcc:MD_Identifier>
+                  <mcc:code>
+                    <gco:CharacterString>WGS 84 (EPSG:4326)</gco:CharacterString>
+                  </mcc:code>
+                  <mcc:description>
+                    <gco:CharacterString>EPSG Geodetic Parameter</gco:CharacterString>
+                  </mcc:description>
+                </mcc:MD_Identifier>
+              </mrs:referenceSystemIdentifier>
+            </mrs:MD_ReferenceSystem>
+          </mdb:referenceSystemInfo>
+              </snippet>
+            </template>
+          </action>
+				</section>
+			</tab>
+
+      <tab id="resourceMaintenance" mode="flat">
+        <section>
+          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceMaintenance/mmi:MD_MaintenanceInformation/mmi:maintenanceAndUpdateFrequency" del="../../.."/>
+          <action type="add" name="resourceMaintenance" or="resourceMaintenance" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification" if="count(mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceMaintenance)=0">
+            <template>
+              <snippet>
+            <mri:resourceMaintenance>
+              <mmi:MD_MaintenanceInformation>
+                <mmi:maintenanceAndUpdateFrequency>
+                  <mmi:MD_MaintenanceFrequencyCode codeList="codeListLocation#MD_MaintenanceFrequencyCode" codeListValue="" />
+                </mmi:maintenanceAndUpdateFrequency>
+              </mmi:MD_MaintenanceInformation>
+            </mri:resourceMaintenance>
+              </snippet>
+            </template>
+          </action>
+        </section>
+      </tab>
+
       <tab id="resourceFormat" mode="flat">
         <section>
 					<field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceFormat/mrd:MD_Format/mrd:formatSpecificationCitation/cit:CI_Citation/cit:title" del="../../../../.."/>
@@ -1136,15 +1144,56 @@
         </section>
       </tab>
 
+      <tab id="resourceContacts" mode="flat">
+        <section>
+          <text ref="pointOfContactIsMandatory" if="count(mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:pointOfContact/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue='pointOfContact']/cit:*) = 0"/>
+          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:pointOfContact" or="pointOfContact" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification"/>
+          <text ref="custodianIsMandatory" if="count(mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode/@codeListValue='custodian']/cit:*) = 1"/>
+					<field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty" or="citedResponsibleParty" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation"/>
+        </section>
+      </tab>
+
+      <tab id="resourceKeywords" mode="flat">
+        <section>
+          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:topicCategory"/>
+          <!-- TODO: Should be just SDM Product Categories Thesaurus and nothing else -->
+          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:descriptiveKeywords" or="descriptiveKeywords" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification"/>
+				</section>
+			</tab>
+
       <tab id="resourceConstraints" mode="flat">
         <section>
-          <!-- mri:resourceConstraints//mco:MD_ClassificationCode = rastermeta availability -->
+          <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceConstraints/mco:MD_SecurityConstraints/mco:useLimitation"/>
+          <action type="add" name="useLimitation" or="useLimitation" if="count(mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceConstraints/mco:MD_SecurityConstraints/mco:useLimitation)=0" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceConstraints/mco:MD_SecurityConstraints">
+            <template>
+              <snippet>
+                <mco:useLimitation>
+                  <gco:CharacterString/>
+                </mco:useLimitation>
+              </snippet>
+            </template>
+          </action>
           <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceConstraints/mco:MD_SecurityConstraints/mco:classification"/>
         </section>
       </tab>
 
       <tab id="resourceLineage" mode="flat">
         <section>
+          <field xpath="/mdb:MD_Metadata/mdb:resourceLineage/mrl:LI_Lineage/mrl:statement" or="statement" in="/mdb:MD_Metadata/mdb:resourceLineage/mrl:LI_Lineage"/>
+          <field xpath="/mdb:MD_Metadata/mdb:resourceLineage/mrl:LI_Lineage/mrl:source"/>
+          <action type="add" name="source" or="source" in="/mdb:MD_Metadata/mdb:resourceLineage/mrl:LI_Lineage" if="count(mdb:MD_Metadata/mdb:resourceLineage/mrl:LI_Lineage/mrl:source)=0">
+            <template>
+              <snippet>
+                <mrl:source>
+                  <mrl:LI_Source>
+                    <mrl:description>
+                      <gco:CharacterString></gco:CharacterString>
+                    </mrl:description>
+                  </mrl:LI_Source>
+                </mrl:source>
+              </snippet>
+            </template>
+          </action>
           <field xpath="/mdb:MD_Metadata/mdb:resourceLineage/mrl:LI_Lineage/mrl:processStep" del="../.."/>
 					<action type="add" name="resourceLineage" or="resourceLineage" in="/mdb:MD_Metadata" if="count(mdb:MD_Metadata/mdb:resourceLineage)=0">
 						<template>
@@ -1166,17 +1215,35 @@
 				</section>
 			</tab>
 
-      <!-- dataQuality Logical Consistency and Dataset Completeness -->
+      <!-- metadataConstraints -->
+      <tab id="metadataConstraints" mode="flat">
+        <section>
+          <field xpath="/mdb:MD_Metadata/mdb:metadataConstraints/mco:MD_SecurityConstraints/mco:useLimitation"/>
+          <action type="add" name="useLimitation" or="useLimitation" if="count(mdb:MD_Metadata/mdb:metadataConstraints/mco:MD_SecurityConstraints/mco:useLimitation)=0" in="/mdb:MD_Metadata/mdb:metadataConstraints/mco:MD_SecurityConstraints">
+            <template>
+              <snippet>
+                <mco:useLimitation>
+                  <gco:CharacterString/>
+                </mco:useLimitation>
+              </snippet>
+            </template>
+          </action>
+          <field xpath="/mdb:MD_Metadata/mdb:metadataConstraints/mco:MD_SecurityConstraints/mco:classification"/>
+        </section>
+      </tab>
+
+      <!-- dataQuality: DQ_NonQuantitativeAttributeCorrectness, DQ_AbsoluteExternalPositionalAccuracy, DQ_ConceptualConsistency, DQ_CompletenessOmission, DQ_CompletenessCommission -->
+
       <tab id="dataQuality" mode="flat">
         <section>
 
-          <!-- DQ_CompletenessOmission -->
-          <field name="completenessOmission" templateModeOnly="true" 
-                 xpath="/mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_CompletenessOmission/mdq:result[count(mdq:DQ_ConformanceResult/mdq:explanation/gco:CharacterString)>0]" 
-                 if="count(mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_CompletenessOmission/mdq:result/mdq:DQ_ConformanceResult/mdq:explanation/gco:CharacterString)>0" del="../..">
+          <!-- DQ_NonQuantitativeAttributeCorrectness -->
+          <field name="nonQuantitativeAttributeCorrectness" templateModeOnly="true" 
+                 xpath="/mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_NonQuantitativeAttributeCorrectness/mdq:result[count(mdq:DQ_ConformanceResult/mdq:explanation/gco:CharacterString)>0]" 
+                 if="count(mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_NonQuantitativeAttributeCorrectness/mdq:result/mdq:DQ_ConformanceResult/mdq:explanation/gco:CharacterString)>0" del="../..">
             <template>
               <values>
-                <key label="explanation" xpath="mdq:DQ_ConformanceResult/mdq:explanation/gco:CharacterString" use="textarea" tooltip="dq_completenessomission_explanation"/>
+                <key label="explanation" xpath="mdq:DQ_ConformanceResult/mdq:explanation/gco:CharacterString" use="textarea" tooltip="dq_nonquantitativeattributecorrectness_explanation"/>
               </values>
               <snippet>
                 <mdq:result>
@@ -1208,13 +1275,13 @@
             </template>
           </field>
 
-          <action type="add" name="completenessOmission" or="report"
+          <action type="add" name="nonQuantitativeAttributeCorrectness" or="report"
                   in="/mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality"
-                  if="count(mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_CompletenessOmission)=0">
+                  if="count(mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_NonQuantitativeAttributeCorrectness)=0">
             <template>
               <snippet>
                <mdq:report>
-               <mdq:DQ_CompletenessOmission>
+               <mdq:DQ_NonQuantitativeAttributeCorrectness>
                 <mdq:result>
                   <mdq:DQ_ConformanceResult>
                     <mdq:specification>
@@ -1228,7 +1295,71 @@
                     <mdq:pass gco:nilReason="inapplicable"/>
                   </mdq:DQ_ConformanceResult>
                 </mdq:result>
-               </mdq:DQ_CompletenessOmission>
+               </mdq:DQ_NonQuantitativeAttributeCorrectness>
+               </mdq:report>
+              </snippet>
+            </template>
+          </action>
+
+          <!-- DQ_AbsoluteExternalPositionalAccuracy -->
+          <field name="absoluteExternalPositionalAccuracy" templateModeOnly="true" 
+                 xpath="/mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_AbsoluteExternalPositionalAccuracy/mdq:result[count(mdq:DQ_ConformanceResult/mdq:explanation/gco:CharacterString)>0]" 
+                 if="count(mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_AbsoluteExternalPositionalAccuracy/mdq:result/mdq:DQ_ConformanceResult/mdq:explanation/gco:CharacterString)>0" del="../..">
+            <template>
+              <values>
+                <key label="explanation" xpath="mdq:DQ_ConformanceResult/mdq:explanation/gco:CharacterString" use="textarea" tooltip="dq_absoluteexternalpositionalaccuracy_explanation"/>
+              </values>
+              <snippet>
+                <mdq:result>
+                  <mdq:DQ_ConformanceResult>
+                    <mdq:specification>
+                      <cit:CI_Citation>
+                        <cit:title gco:nilReason="inapplicable"/>
+                        <gn:copy select="cit:alternateTitle"/>
+                        <gn:copy select="cit:date"/>
+                        <gn:copy select="cit:edition"/>
+                        <gn:copy select="cit:editionDate"/>
+                        <gn:copy select="cit:identifier"/>
+                        <gn:copy select="cit:citedResponsibleParty"/>
+                        <gn:copy select="cit:presentationForm"/>
+                        <gn:copy select="cit:series"/>
+                        <gn:copy select="cit:otherCitationDetails"/>
+                        <gn:copy select="cit:collectiveTitle"/>
+                        <gn:copy select="cit:ISBN"/>
+                        <gn:copy select="cit:ISSN"/>
+                      </cit:CI_Citation>
+                    </mdq:specification>
+                    <mdq:explanation>
+                      <gco:CharacterString>{{explanation}}</gco:CharacterString>
+                    </mdq:explanation>
+                    <mdq:pass gco:nilReason="inapplicable"/>
+                  </mdq:DQ_ConformanceResult>
+                </mdq:result>
+              </snippet>
+            </template>
+          </field>
+
+          <action type="add" name="absoluteExternalPositionalAccuracy" or="report"
+                  in="/mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality"
+                  if="count(mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_AbsoluteExternalPositionalAccuracy)=0">
+            <template>
+              <snippet>
+               <mdq:report>
+               <mdq:DQ_AbsoluteExternalPositionalAccuracy>
+                <mdq:result>
+                  <mdq:DQ_ConformanceResult>
+                    <mdq:specification>
+                      <cit:CI_Citation>
+                        <cit:title gco:nilReason="inapplicable"/>
+                      </cit:CI_Citation>
+                    </mdq:specification>
+                    <mdq:explanation>
+                      <gco:CharacterString></gco:CharacterString>
+                    </mdq:explanation>
+                    <mdq:pass gco:nilReason="inapplicable"/>
+                  </mdq:DQ_ConformanceResult>
+                </mdq:result>
+               </mdq:DQ_AbsoluteExternalPositionalAccuracy>
                </mdq:report>
               </snippet>
             </template>
@@ -1297,6 +1428,135 @@
               </snippet>
             </template>
           </action>
+
+          <!-- DQ_CompletenessOmission -->
+          <field name="completenessOmission" templateModeOnly="true" 
+                 xpath="/mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_CompletenessOmission/mdq:result[count(mdq:DQ_ConformanceResult/mdq:explanation/gco:CharacterString)>0]" 
+                 if="count(mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_CompletenessOmission/mdq:result/mdq:DQ_ConformanceResult/mdq:explanation/gco:CharacterString)>0" del="../..">
+            <template>
+              <values>
+                <key label="explanation" xpath="mdq:DQ_ConformanceResult/mdq:explanation/gco:CharacterString" use="textarea" tooltip="dq_completenessomission_explanation"/>
+              </values>
+              <snippet>
+                <mdq:result>
+                  <mdq:DQ_ConformanceResult>
+                    <mdq:specification>
+                      <cit:CI_Citation>
+                        <cit:title gco:nilReason="inapplicable"/>
+                        <gn:copy select="cit:alternateTitle"/>
+                        <gn:copy select="cit:date"/>
+                        <gn:copy select="cit:edition"/>
+                        <gn:copy select="cit:editionDate"/>
+                        <gn:copy select="cit:identifier"/>
+                        <gn:copy select="cit:citedResponsibleParty"/>
+                        <gn:copy select="cit:presentationForm"/>
+                        <gn:copy select="cit:series"/>
+                        <gn:copy select="cit:otherCitationDetails"/>
+                        <gn:copy select="cit:collectiveTitle"/>
+                        <gn:copy select="cit:ISBN"/>
+                        <gn:copy select="cit:ISSN"/>
+                      </cit:CI_Citation>
+                    </mdq:specification>
+                    <mdq:explanation>
+                      <gco:CharacterString>{{explanation}}</gco:CharacterString>
+                    </mdq:explanation>
+                    <mdq:pass gco:nilReason="inapplicable"/>
+                  </mdq:DQ_ConformanceResult>
+                </mdq:result>
+              </snippet>
+            </template>
+          </field>
+
+          <action type="add" name="completenessOmission" or="report"
+                  in="/mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality"
+                  if="count(mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_CompletenessOmission)=0">
+            <template>
+              <snippet>
+               <mdq:report>
+               <mdq:DQ_CompletenessOmission>
+                <mdq:result>
+                  <mdq:DQ_ConformanceResult>
+                    <mdq:specification>
+                      <cit:CI_Citation>
+                        <cit:title gco:nilReason="inapplicable"/>
+                      </cit:CI_Citation>
+                    </mdq:specification>
+                    <mdq:explanation>
+                      <gco:CharacterString></gco:CharacterString>
+                    </mdq:explanation>
+                    <mdq:pass gco:nilReason="inapplicable"/>
+                  </mdq:DQ_ConformanceResult>
+                </mdq:result>
+               </mdq:DQ_CompletenessOmission>
+               </mdq:report>
+              </snippet>
+            </template>
+          </action>
+
+          <!-- DQ_CompletenessCommission -->
+          <field name="completenessCommission" templateModeOnly="true" 
+                 xpath="/mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_CompletenessCommission/mdq:result[count(mdq:DQ_ConformanceResult/mdq:explanation/gco:CharacterString)>0]" 
+                 if="count(mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_CompletenessCommission/mdq:result/mdq:DQ_ConformanceResult/mdq:explanation/gco:CharacterString)>0" del="../..">
+            <template>
+              <values>
+                <key label="explanation" xpath="mdq:DQ_ConformanceResult/mdq:explanation/gco:CharacterString" use="textarea" tooltip="dq_completenesscomission_explanation"/>
+              </values>
+              <snippet>
+                <mdq:result>
+                  <mdq:DQ_ConformanceResult>
+                    <mdq:specification>
+                      <cit:CI_Citation>
+                        <cit:title gco:nilReason="inapplicable"/>
+                        <gn:copy select="cit:alternateTitle"/>
+                        <gn:copy select="cit:date"/>
+                        <gn:copy select="cit:edition"/>
+                        <gn:copy select="cit:editionDate"/>
+                        <gn:copy select="cit:identifier"/>
+                        <gn:copy select="cit:citedResponsibleParty"/>
+                        <gn:copy select="cit:presentationForm"/>
+                        <gn:copy select="cit:series"/>
+                        <gn:copy select="cit:otherCitationDetails"/>
+                        <gn:copy select="cit:collectiveTitle"/>
+                        <gn:copy select="cit:ISBN"/>
+                        <gn:copy select="cit:ISSN"/>
+                      </cit:CI_Citation>
+                    </mdq:specification>
+                    <mdq:explanation>
+                      <gco:CharacterString>{{explanation}}</gco:CharacterString>
+                    </mdq:explanation>
+                    <mdq:pass gco:nilReason="inapplicable"/>
+                  </mdq:DQ_ConformanceResult>
+                </mdq:result>
+              </snippet>
+            </template>
+          </field>
+
+          <action type="add" name="completenessCommission" or="report"
+                  in="/mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality"
+                  if="count(mdb:MD_Metadata/mdb:dataQualityInfo/mdq:DQ_DataQuality/mdq:report/mdq:DQ_CompletenessCommission)=0">
+            <template>
+              <snippet>
+               <mdq:report>
+               <mdq:DQ_CompletenessCommission>
+                <mdq:result>
+                  <mdq:DQ_ConformanceResult>
+                    <mdq:specification>
+                      <cit:CI_Citation>
+                        <cit:title gco:nilReason="inapplicable"/>
+                      </cit:CI_Citation>
+                    </mdq:specification>
+                    <mdq:explanation>
+                      <gco:CharacterString></gco:CharacterString>
+                    </mdq:explanation>
+                    <mdq:pass gco:nilReason="inapplicable"/>
+                  </mdq:DQ_ConformanceResult>
+                </mdq:result>
+               </mdq:DQ_CompletenessCommission>
+               </mdq:report>
+              </snippet>
+            </template>
+          </action>
+
         </section>
       </tab>
 

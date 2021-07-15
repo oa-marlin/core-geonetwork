@@ -227,6 +227,16 @@
     </mrl:LI_Lineage>
   </mdb:resourceLineage>
   -->
+  <mdb:metadataConstraints>
+    <mco:MD_SecurityConstraints>
+      <mco:useLimitation>
+        <gco:CharacterString>Unknown</gco:CharacterString>
+      </mco:useLimitation>
+      <mco:classification>
+        <mco:MD_ClassificationCode codeList="http://standards.iso.org/iso/19115/resources/Codelist/cat/codelists.xml#MD_ClassificationCode" codeListValue="unknown" />
+      </mco:classification>
+    </mco:MD_SecurityConstraints>
+  </mdb:metadataConstraints>
   <mdb:acquisitionInformation>
     <mac:MI_AcquisitionInformation>
       <mac:scope>
