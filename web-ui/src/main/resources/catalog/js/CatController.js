@@ -119,9 +119,9 @@ goog.require('gn_alert');
             'hitsPerPage': 20
           },
           'mapFilterCollapsed': false,
-          // DELWP Addition
-          'facetsSummaryType': 'delwp',
-          // END DELWP Addition
+          // MARLIN Addition
+          'facetsSummaryType': 'marlin',
+          // END MARLIN Addition
           'defaultSearchString': '',
           'facetTabField': '',
           'facetConfig': [
@@ -281,7 +281,7 @@ goog.require('gn_alert');
         },
         'recordview': {
           'enabled': true,
-          'isSocialbarEnabled': true
+          'isSocialbarEnabled': false
         },
         'editor': {
           'enabled': true,

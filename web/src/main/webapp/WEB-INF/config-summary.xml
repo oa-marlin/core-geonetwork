@@ -115,19 +115,14 @@
     <facet name="groupOwner" indexKey="_groupOwner" label="groupOwners"/>
     <facet name="publishedForGroup" indexKey="_groupPublished" label="publishedForGroup"/>
 	  <facet name="isPublishedToAll" indexKey="_isPublishedToAll" label="isPublishedToAll" />
-    <!-- DELWP Additions -->
-    <facet name="altTitle" indexKey="altTitle" label="alttitles"/>
-    <facet name="rasterType" indexKey="rasterType" label="rasterType" />
-    <facet name="rasterAssemblyType" indexKey="rasterAssemblyType" label="rasterAssemblyType" />
-    <facet name="sensorType" indexKey="sensorType" label="sensorType" />
-    <facet name="platformType" indexKey="platformType" label="platformType" />
-    <facet name="stakeholderType" indexKey="stakeholderType" label="stakeholderType" />
-    <facet name="spatialRepresentationType" indexKey="spatialRepresentationType" label="spatialRepresentationType" />
-    <facet name="sdmCategory" label="sdmCategory" indexKey="thesaurus-local.theme.DELWPCategories"/>
-    <facet name="resClassification" label="resClassification" indexKey="resClassification"/>
-    <facet name="mdClassification" label="mdClassification" indexKey="mdClassification"/>
-    <facet name="jurisdiction" label="jurisdiction" indexKey="jurisdiction"/>
-    <!-- END DELWP Additions -->
+    <!-- MARLIN Additions -->
+    <facet name="source" label="sources" indexKey="source"/>
+    <facet name="survey" label="surveys" indexKey="survey"/>
+    <facet name="project" label="projects" indexKey="project"/>
+    <facet name="gcmd" label="gcmds" indexKey="gcmd_reverse"/>
+    <facet name="dataParams" label="dataParams" indexKey="dataParam"/>
+    <facet name="otherkeyword" label="otherkeywords" indexKey="otherkeyword"/>
+    <!-- END MARLIN Additions -->
     <!--
     Example configuration for hierarchical facet based on
     the GeoNetwork region thesaurus or GEMET.
@@ -149,23 +144,17 @@
   </facets>
 
   <summaryTypes>
-    <!-- DELWP Addition -->
-    <summaryType name="delwp" format="DIMENSION">
-      <item facet="rasterType" max="40" translator="codelist:mcc:MD_ScopeCode"/>
-      <item facet="rasterAssemblyType" max="40" translator="codelist:delwp:MD_AssemblyCode"/>
-      <item facet="platformType" max="40" translator="codelist:delwp:MD_PlatformTypeCode"/>
-      <item facet="spatialRepresentationType"
-            translator="codelist:mcc:MD_SpatialRepresentationTypeCode"/>
-      <item facet="sensorType" max="40"/>
-      <item facet="sdmCategory" max="40"/>
-      <item facet="resClassification" max="40"/>
-      <item facet="mdClassification" max="40"/>
-      <item facet="jurisdiction" max="40"/>
-      <item facet="category" max="99" sortBy="value"
-            translator="db:org.fao.geonet.repository.MetadataCategoryRepository:findOneByName"/>
-      <!--<item facet="classification" max="99" />-->
+    <!-- MARLIN Addition -->
+    <summaryType name="marlin" format="DIMENSION">
+      <item facet="orgName" max="15"/>
+      <item facet="source" max="40"/>
+      <item facet="survey" max="40"/>
+      <item facet="project" max="15"/>
+      <item facet="gcmd" max="15"/>
+      <item facet="dataParams" max="15"/>
+      <item facet="otherkeyword" max="15"/>
     </summaryType>
-    <!-- END DELWP Addition -->
+    <!-- END MARLIN Addition -->
     <summaryType name="details" format="DIMENSION">
       <item facet="type" translator="codelist:gmd:MD_ScopeCode"/>
       <item facet="mdActions"/>
@@ -240,13 +229,16 @@
       <item facet="denominator" sortBy="numValue" sortOrder="desc"/>
       <item facet="resolution" sortBy="numValue" sortOrder="desc"/>
       <!--<item facet="metadataPOC" max="15"/>-->
+      <!-- MARLIN Addition -->
+      <item facet="orgName" max="15"/>
+      <item facet="source" max="40"/>
+      <item facet="survey" max="40"/>
+      <item facet="project" max="15"/>
+      <item facet="gcmd" max="15"/>
+      <item facet="otherkeyword" max="15"/>
+      <!-- END MARLIN Addition -->
     </summaryType>
     <summaryType name="subtemplates">
-      <!-- DELWP Addition -->
-      <item facet="platformType" max="40" translator="codelist:delwp:MD_PlatformTypeCode"/>
-      <item facet="sensorType" max="40"/>
-      <item facet="orgName" max="40"/>
-      <!-- END DELWP Addition -->
       <item facet="subTemplateType"/>
       <item facet="groupOwner" max="99" sortBy="value"
             translator="db:org.fao.geonet.repository.GroupRepository:findOne:int"/>
@@ -266,17 +258,14 @@
       <item facet="keyword" max="100"/>
     </summaryType>
     <summaryType name="results_with_summary">
-      <!-- DELWP Addition -->
-      <item facet="sdmCategory" max="40"/>
-      <item facet="resClassification" max="40"/>
-      <item facet="mdClassification" max="40"/>
-      <item facet="rasterType" max="40" translator="codelist:mcc:MD_ScopeCode"/>
-      <item facet="rasterAssemblyType" max="40" translator="codelist:delwp:MD_AssemblyCode"/>
-      <item facet="platformType" max="40" translator="codelist:delwp:MD_PlatformTypeCode"/>
-      <item facet="spatialRepresentationType"
-            translator="codelist:mcc:MD_SpatialRepresentationTypeCode"/>
-      <item facet="sensorType" max="40"/>
-      <!-- END DELWP Addition -->
+      <!-- MARLIN Addition -->
+      <item facet="orgName" max="15"/>
+      <item facet="source" max="40"/>
+      <item facet="survey" max="40"/>
+      <item facet="project" max="15"/>
+      <item facet="gcmd" max="15"/>
+      <item facet="otherkeyword" max="15"/>
+      <!-- END MARLIN Addition -->
       <item facet="keyword" max="15"/>
       <item facet="inspireTheme" sortBy="value" sortOrder="asc" max="35"/>
       <item facet="denominator" sortBy="value" sortOrder="asc" max="20"/>
@@ -290,9 +279,6 @@
     </summaryType>
     <summaryType name="suggestions">
       <item facet="keyword"/>
-      <!-- DELWP Addition -->
-      <item facet="altTitle" sortOrder="desc" max="100"/>
-      <!-- END DELWP Addition -->
       <item facet="title" sortOrder="desc" max="100"/>
       <item facet="inspireTheme" sortBy="value" sortOrder="asc"/>
       <item facet="denominator" sortBy="value" sortOrder="asc"/>
