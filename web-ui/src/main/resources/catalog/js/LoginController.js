@@ -42,11 +42,11 @@
       ['$scope', '$http', '$rootScope', '$translate',
        '$location', '$window', '$timeout',
        'gnUtilityService', 'gnConfig', 'gnGlobalSettings',
-       'vcRecaptchaService', 'gnUrlUtils', '$q',
+       'vcRecaptchaService', 'gnUrlUtils', '$q', 'gnLangs',
        function($scope, $http, $rootScope, $translate,
            $location, $window, $timeout,
                gnUtilityService, gnConfig, gnGlobalSettings,
-               vcRecaptchaService, gnUrlUtils, $q) {
+               vcRecaptchaService, gnUrlUtils, $q, gnLangs) {
           $scope.formAction = '../../signin#' +
          $location.path();
           $scope.registrationStatus = null;
@@ -149,7 +149,11 @@
 
            $scope.userInfo.email = $scope.userInfo.username;
 
-           return $http.put('../api/0.1/user/actions/register', $scope.userInfo)
+           return $http.put('../api/0.1/user/actions/register', $scope.userInfo, {
+               headers: {
+                 'Accept-Language': gnLangs.current
+               }
+             })
            .success(function(data) {
              $rootScope.$broadcast('StatusUpdated', {
                title: data,
@@ -167,9 +171,12 @@
           * Remind user password.
           */
          $scope.remindMyPassword = function() {
-           $http.get('../api/0.1/user/' +
-           $scope.usernameToRemind +
-                        '/actions/forgot-password')
+           $http.put('../api/0.1/user/actions/forgot-password?username=' + $scope.usernameToRemind, null,
+             {
+               headers: {
+                'Accept-Language': gnLangs.current
+               }
+             })
             .success(function(data) {
              $scope.sendPassword = false;
              $rootScope.$broadcast('StatusUpdated', {
@@ -193,6 +200,10 @@
            $http.patch('../api/0.1/user/' + $scope.userToRemind, {
              password: $scope.password,
              changeKey: $scope.changeKey
+           }, {
+             headers: {
+               'Accept-Language': gnLangs.current
+             }
            })
             .success(function(data) {
              $rootScope.$broadcast('StatusUpdated', {

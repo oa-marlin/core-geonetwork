@@ -1,5 +1,5 @@
 //=============================================================================
-//===	Copyright (C) 2001-2021 Food and Agriculture Organization of the
+//===	Copyright (C) 2001-2022 Food and Agriculture Organization of the
 //===	United Nations (FAO-UN), United Nations World Food Programme (WFP)
 //===	and United Nations Environment Programme (UNEP)
 //===
@@ -664,6 +664,7 @@ public final class Geonet {
         public static final String DATABASE_CREATE_DATE = "_createDate";
         public static final String DATABASE_CHANGE_DATE = "_changeDate";
         public static final String SOURCE = "_source";
+        public static final String HARVESTUUID = "_harvesterUuid";
         public static final String IS_TEMPLATE = "_isTemplate";
         public static final String UUID = "_uuid";
         public static final String IS_HARVESTED = "_isHarvested";
@@ -683,6 +684,7 @@ public final class Geonet {
         public static final String CAT = "_cat";
         public static final String STATUS = "_status";
         public static final String STATUS_CHANGE_DATE = "_statusChangeDate";
+        public static final String STATUS_WORKFLOW = "_statusWorkflow";
         public static final String VALID = "_valid";
         public static final String VALID_INSPIRE = "_valid_inspire";
         public static final String ID = "_id";

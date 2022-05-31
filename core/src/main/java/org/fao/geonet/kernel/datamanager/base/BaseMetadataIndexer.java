@@ -1,5 +1,5 @@
 //=============================================================================
-//===	Copyright (C) 2001-2011 Food and Agriculture Organization of the
+//===	Copyright (C) 2001-2022 Food and Agriculture Organization of the
 //===	United Nations (FAO-UN), United Nations World Food Programme (WFP)
 //===	and United Nations Environment Programme (UNEP)
 //===
@@ -124,7 +124,7 @@ public class BaseMetadataIndexer implements IMetadataIndexer, ApplicationEventPu
     @Autowired
     private GeonetworkDataDirectory geonetworkDataDirectory;
     @Autowired
-    private MetadataStatusRepository statusRepository;
+    protected MetadataStatusRepository statusRepository;
 
     private IMetadataUtils metadataUtils;
     private IMetadataManager metadataManager;
@@ -483,6 +483,11 @@ public class BaseMetadataIndexer implements IMetadataIndexer, ApplicationEventPu
                 SearchManager.makeField(Geonet.IndexFieldNames.IS_TEMPLATE, metadataType.codeString, true, true));
             moreFields.add(SearchManager.makeField(Geonet.IndexFieldNames.UUID, uuid, true, true));
             moreFields.add(SearchManager.makeField(Geonet.IndexFieldNames.IS_HARVESTED, isHarvested, true, true));
+
+            if (fullMd.getHarvestInfo().isHarvested()) {
+                moreFields.add(SearchManager.makeField(Geonet.IndexFieldNames.HARVESTUUID, fullMd.getHarvestInfo().getUuid(), true, true));
+            }
+
             moreFields.add(SearchManager.makeField(Geonet.IndexFieldNames.OWNER, owner, true, true));
             moreFields.add(SearchManager.makeField(Geonet.IndexFieldNames.DUMMY, "0", false, true));
             moreFields.add(SearchManager.makeField(Geonet.IndexFieldNames.POPULARITY, popularity, true, true));
@@ -602,6 +607,7 @@ public class BaseMetadataIndexer implements IMetadataIndexer, ApplicationEventPu
                 moreFields.add(SearchManager.makeField(Geonet.IndexFieldNames.STATUS_CHANGE_DATE, statusChangeDate,
                     true, true));
             }
+
 
             // getValidationInfo
             // -1 : not evaluated

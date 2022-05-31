@@ -117,6 +117,7 @@ public class Settings {
     public static final String SYSTEM_THREADEDINDEXING_MAXTHREADS = "system/threadedindexing/maxthreads";
     public static final String SYSTEM_RESOURCE_PREFIX = "metadata/resourceIdentifierPrefix";
     public static final String SYSTEM_INSPIRE_REMOTE_VALIDATION_URL = "system/inspire/remotevalidation/url";
+    public static final String SYSTEM_INSPIRE_REMOTE_VALIDATION_URL_QUERY = "system/inspire/remotevalidation/urlquery";
     public static final String SYSTEM_INSPIRE_REMOTE_VALIDATION_APIKEY = "system/inspire/remotevalidation/apikey";
     public static final String REGION_GETMAP_BACKGROUND = "region/getmap/background";
     public static final String REGION_GETMAP_MAPPROJ = "region/getmap/mapproj";
@@ -129,6 +130,7 @@ public class Settings {
     public static final String METADATA_WORKFLOW_ALLOW_PUBLISH_NON_APPROVED_MD = "metadata/workflow/allowPublishNonApprovedMd";
 
     public static final String METADATA_IMPORT_RESTRICT = "metadata/import/restrict";
+    public static final String METADATA_IMPORT_USERPROFILE = "metadata/import/userprofile";
     public static final String METADATA_BACKUPARCHIVE_ENABLE = "metadata/backuparchive/enable";
     public static final String METADATA_VCS = "metadata/vcs/enable";
     public static final String VIRTUAL_SETTINGS_SUFFIX_ISDEFINED = "IsDefined";
@@ -140,6 +142,7 @@ public class Settings {
     public static final String SYSTEM_SECURITY_PASSWORDENFORCEMENT_MAXLENGH = "system/security/passwordEnforcement/maxLength";
     public static final String SYSTEM_SECURITY_PASSWORDENFORCEMENT_USEPATTERN = "system/security/passwordEnforcement/usePattern";
     public static final String SYSTEM_SECURITY_PASSWORDENFORCEMENT_PATTERN = "system/security/passwordEnforcement/pattern";
+    public static final String SYSTEM_SECURITY_PASSWORD_ALLOWADMINRESET = "system/security/password/allowAdminReset";
 
     public static class GNSetting {
         private String name;

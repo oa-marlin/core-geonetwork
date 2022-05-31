@@ -53,8 +53,11 @@
                 <a href="#/create" class="btn btn-primary btn-truncate" title="{{'addRecord' | translate}}">
                   <i class="fa fa-fw fa-plus"/><span class=" hidden-sm" data-translate="">addRecord</span>
                 </a>
-                <!-- DELWP Addition - only Administrators can import, validate and batch edit -->
-                <a href="#/import" class="btn btn-default btn-truncate" title="{{'ImportRecord' | translate}}" ng-if="user.isAdministratorOrMore()">
+                <!-- Marlin Addition - only Administrators can import, validate and batch edit -->
+                <a href="#/import"
+                     data-ng-if="user.isAdministratorOrMore()"
+                     class="btn btn-default btn-truncate"
+                     title="{{'ImportRecord' | translate}}">
                   <i class="fa fa-fw fa-upload"/><span class="hidden-xs hidden-sm" data-translate="">ImportRecord</span>
                 </a>
                 <a href="#/directory" class="btn btn-default btn-truncate" title="{{'directoryManager' | translate}}" ng-if="user.isAdministratorOrMore()">

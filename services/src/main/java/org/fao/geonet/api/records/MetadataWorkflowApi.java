@@ -86,8 +86,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.sun.istack.NotNull;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -368,9 +366,15 @@ public class MetadataWorkflowApi {
         AbstractMetadata metadata = ApiUtils.canEditRecord(metadataUuid, context);
         boolean isMdWorkflowEnable = settingManager.getValueAsBool(Settings.METADATA_WORKFLOW_ENABLE);
 
-        if (!isMdWorkflowEnable) {
+        int author = context.getUserSession().getUserIdAsInt();
+        MetadataStatus metadataStatus = convertParameter(metadata.getId(), metadata.getUuid(), status, author);
+
+        if (metadataStatus.getStatusValue().getType() == StatusValueType.workflow
+          && !isMdWorkflowEnable) {
             throw new FeatureNotEnabledException(
-                    "Metadata workflow is disabled, can not be set the status of metadata");
+                "Metadata workflow is disabled, can not be set the status of metadata")
+                .withMessageKey("exception.resourceNotEnabled.workflow")
+                .withDescriptionKey("exception.resourceNotEnabled.workflow.description");
         }
 
         // --- only allow the owner of the record to set its status
@@ -388,7 +392,9 @@ public class MetadataWorkflowApi {
             boolean isInvalid = MetadataUtils.retrieveMetadataValidationStatus(metadata, context);
 
             if (isInvalid) {
-                throw new Exception("Metadata is invalid: can't be submitted or approved");
+                throw new NotAllowedException("Metadata is invalid: can't be submitted or approved")
+                    .withMessageKey("exception.resourceInvalid.metadata")
+                    .withDescriptionKey("exception.resourceInvalid.metadata.description");
             }
         }
 
@@ -396,14 +402,22 @@ public class MetadataWorkflowApi {
         // --- change status and carry out behaviours for status changes
         StatusActions sa = statusActionFactory.createStatusActions(context);
 
-        int author = context.getUserSession().getUserIdAsInt();
-        MetadataStatus metadataStatus = convertParameter(metadata.getId(), metadata.getUuid(), status, author);
         List<MetadataStatus> listOfStatusChange = new ArrayList<>(1);
         listOfStatusChange.add(metadataStatus);
         sa.onStatusChange(listOfStatusChange);
 
         // --- reindex metadata
         metadataIndexer.indexMetadata(String.valueOf(metadata.getId()), true, null);
+
+        // Reindex the metadata table record to update the field _statusWorkflow that contains the composite
+        // status of the published and draft versions
+        if (metadata instanceof MetadataDraft) {
+            Metadata metadataApproved = metadataRepository.findOneByUuid(metadata.getUuid());
+
+            if (metadataApproved != null) {
+                metadataIndexer.indexMetadata(String.valueOf(metadataApproved.getId()), true, null);
+            }
+        }
       }
     }
 
@@ -720,7 +734,6 @@ public class MetadataWorkflowApi {
      * Build a list of status with additional information about users (author and
      * owner of the status change).
      */
-    @NotNull
     private List<MetadataStatusResponse> buildMetadataStatusResponses(List<MetadataStatus> listOfStatus,
                                                                       boolean details, String language) {
         List<MetadataStatusResponse> response = new ArrayList<>();
@@ -758,9 +771,18 @@ public class MetadataWorkflowApi {
                 }
             }
 
+            status.setDateChange(s.getChangeDate().getDateAndTime());
+
             if (s.getStatusValue().getType().equals(StatusValueType.event)) {
                 status.setCurrentStatus(extractCurrentStatus(s));
                 status.setPreviousStatus(extractPreviousStatus(s));
+            } else if (s.getStatusValue().getType().equals(StatusValueType.task)) {
+                if (s.getDueDate() != null) {
+                    status.setDateDue(s.getDueDate().getDateAndTime());
+                }
+                if (s.getCloseDate() != null) {
+                    status.setDateClose(s.getCloseDate().getDateAndTime());
+                }
             }
 
 

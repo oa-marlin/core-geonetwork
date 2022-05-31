@@ -75,7 +75,6 @@
   <xsl:function name="gn-fn-render:geometry">
     <xsl:param name="geometry" as="xs:string"/>
 
-    <!-- TODO get system config -->
     <xsl:if test="$geometry">
       <xsl:variable name="background"
                     select="util:getSettingValue('region/getmap/background')"/>

@@ -602,6 +602,12 @@ form.gn-tab-inspire {
     to be higher than view port
     as the modal does not have overflow. */
     max-height: 50vh;
+    @media (max-height: 786px) {
+      max-height: 35vh;
+    }
+    @media (max-height: 550px) {
+      max-height: 23vh;
+    }
   }
 
   .gn-record {
@@ -610,6 +616,22 @@ form.gn-tab-inspire {
     }
   }
 
+}
+.onlinesrc-container {
+  .gn-layers-grid-container {
+    hr {
+      display: none;
+    }
+    .gn-layer-tree {
+      padding-left: 0;
+      .gn-layer-tree {
+        padding-left: 20px;
+        li {
+          padding: 5px 0;
+        }
+      }
+    }
+  }
 }
 
 table.gn-data-store {
