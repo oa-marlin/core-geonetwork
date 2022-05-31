@@ -18,12 +18,14 @@
     <Arg>jdbc/geonetwork</Arg>
     <Arg>
       <New class="org.apache.commons.dbcp.BasicDataSource">
-        <!--<Set name="driverClassName">org.postgis.DriverWrapper</Set>
-        <Set name="url">jdbc:postgresql_postGIS://localhost:5432/gndb</Set>-->
+        <Set name="driverClassName">org.postgis.DriverWrapper</Set>
+        <Set name="url">jdbc:postgresql_postGIS://localhost:5432/geonetwork</Set>-->
+        <!--
         <Set name="driverClassName">org.h2.Driver</Set>
         <Set name="url">jdbc:h2:gn;LOCK_TIMEOUT=20000;DB_CLOSE_ON_EXIT=FALSE;MVCC=TRUE</Set>
-        <Set name="username">www-data</Set>
-        <Set name="password">www-data</Set>
+        -->
+        <Set name="username">geonetwork</Set>
+        <Set name="password">geonetwork</Set>
         <Set name="validationQuery">SELECT 1</Set>
         <Set name="maxActive">10</Set>
         <Set name="maxIdle">10</Set>
@@ -45,6 +47,7 @@
   <New id="gnparameters" class="org.eclipse.jetty.plus.jndi.Resource">
     <Arg></Arg>
     <Arg>gnDatabaseDialect</Arg>
-    <Arg>H2</Arg>
+    <!--<Arg>H2</Arg>-->
+    <Arg>POSTGRESQL</Arg>
   </New>
 </Configure>

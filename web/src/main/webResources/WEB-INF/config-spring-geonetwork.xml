@@ -125,6 +125,7 @@
     In that case you may want to use a custom dialect
     <entry key="hibernate.dialect" value="org.fao.geonet.dialect.CustomPostgreSQLDialect" />
     -->
+    <entry key="hibernate.dialect" value="org.fao.geonet.dialect.CustomPostgreSQLDialect" />
   </util:map>
 
   <util:list id="wro4jUrlsToInitialize" value-type="java.lang.String">
