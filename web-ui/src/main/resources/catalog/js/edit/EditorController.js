@@ -207,7 +207,7 @@
                   //  }
                   //  return defaultTab;
                   //}
-                  'iso19115-3.2018': function(md) { return 'description'; }
+                  'iso19115-3.2018': function(md) { return 'resourceCitation'; }
                 };
                 if (schemaCustomConfig) {
                   var fn = schemaCustomConfig[$scope.mdSchema];
