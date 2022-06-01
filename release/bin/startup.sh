@@ -29,10 +29,10 @@ find logs -maxdepth 1 -name 'geonetwork.log.*' -type f -exec mv -t logs/archive/
 find logs -maxdepth 1 -name 'geoserver.log.*' -type f -exec mv -t logs/archive/ '{}' +
 
 # Set custom data directory location using system property
-#export geonetwork_dir=/app/geonetwork_data_dir
+export geonetwork_dir=/opt/GEONET_DATA
 #export geonetwork_lucene_dir=/ssd/geonetwork_lucene_dir
 
-export JAVA_MEM_OPTS="-Xms512m -Xmx1g"
+export JAVA_MEM_OPTS="-Xms512m -Xmx8g"
 # try changing the Xmx parameter if your machine has little RAM
 #export JAVA_MEM_OPTS="-Xms48m -Xmx512m"
 
