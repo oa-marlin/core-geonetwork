@@ -135,6 +135,7 @@
               <xsl:call-template name="addCurrentUserAsParty"/>
             </cit:CI_Responsibility>
           </mdb:contact>
+          <xsl:call-template name="addIDCAsPointOfContact"/>
         </xsl:when>
         <!-- Add current user as processor, then process everything except the 
              existing processor which will be excluded from the output
@@ -153,12 +154,14 @@
                   <xsl:call-template name="addCurrentUserAsParty"/>
                 </cit:CI_Responsibility>
               </mdb:contact>
+              <xsl:call-template name="addIDCAsPointOfContact"/>              
               <!-- copy any other metadata contacts with the exception of processors and 
                    pointOfContact so we make sure that IDC is point of contact -->
               <xsl:apply-templates select="mdb:contact[not(cit:CI_Responsibility/cit:role/cit:CI_RoleCode='processor' or cit:CI_Responsibility/cit:role/cit:CI_RoleCode='pointOfContact')]"/>
             </xsl:when>
             <xsl:otherwise>
               <!-- admin does not replace a processor, so add IDC and then grab all mdb:contact except pointOfContact -->
+              <xsl:call-template name="addIDCAsPointOfContact"/>
               <xsl:apply-templates select="mdb:contact[cit:CI_Responsibility/cit:role/cit:CI_RoleCode!='pointOfContact']"/>
             </xsl:otherwise>
           </xsl:choose>
@@ -350,7 +353,7 @@
         <cit:role>
           <cit:CI_RoleCode codeList="{concat($codelistloc,'#CI_RoleCode')}" codeListValue="pointOfContact">pointOfContact</cit:CI_RoleCode>
         </cit:role>
-        <cit:party xlink:href="local://xml.metadata.get?uuid=urn:marlin.csiro.au:person:125_person_organisation"/>
+        <cit:party xlink:href="local://srv/api/registries/entries/urn:marlin.csiro.au:person:125_person_organisation"/>
       </cit:CI_Responsibility>
     </mdb:contact>
   </xsl:template>
