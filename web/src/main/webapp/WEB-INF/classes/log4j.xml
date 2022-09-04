@@ -254,7 +254,7 @@
   </logger>
 
   <logger name="com.github.isrsal.logging.LoggingFilter">
-      <level value="WARN"/>
+      <level value="DEBUG"/>
   </logger>
   <!-- Turn off logging except when explicitly declared below -->
   <root>

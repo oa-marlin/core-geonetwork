@@ -112,9 +112,9 @@ public abstract class BaseAligner<P extends AbstractParams> extends AbstractAlig
     public void addPrivileges(String id, Iterable<Privileges> privilegesIterable, GroupMapper localGroups, ServiceContext context) throws Exception {
         OperationAllowedRepository operationAllowedRepository = context.getBean(OperationAllowedRepository.class);
         DataManager dataManager = context.getBean(DataManager.class);
-        if (!params.isIfRecordExistAppendPrivileges()) {
+        //if (!params.isIfRecordExistAppendPrivileges()) {
             operationAllowedRepository.deleteAllByMetadataId(Integer.parseInt(id));
-        }
+        //}
         for (Privileges priv : privilegesIterable) {
             String name = localGroups.getName(priv.getGroupId());
 

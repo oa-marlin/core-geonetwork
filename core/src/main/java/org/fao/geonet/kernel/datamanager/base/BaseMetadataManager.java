@@ -825,12 +825,12 @@ public class BaseMetadataManager implements IMetadataManager {
             if (!index) {
                 metadataIndexer.indexMetadata(metadataId, true, null);
             }
-            MetaSearcher searcher = searcherForReferencingMetadata(context, metadata);
-            Map<Integer, AbstractMetadata> result = ((LuceneSearcher) searcher).getAllMdInfo(context, 500);
-            for (Integer id : result.keySet()) {
-                IndexingList list = context.getBean(IndexingList.class);
-                list.add(id);
-            }
+            //MetaSearcher searcher = searcherForReferencingMetadata(context, metadata);
+            //Map<Integer, AbstractMetadata> result = ((LuceneSearcher) searcher).getAllMdInfo(context, 500);
+            //for (Integer id : result.keySet()) {
+                //IndexingList list = context.getBean(IndexingList.class);
+                //list.add(id);
+            //}
         }
 
         Log.trace(Geonet.DATA_MANAGER, "Finishing update of record with id " + metadataId);
