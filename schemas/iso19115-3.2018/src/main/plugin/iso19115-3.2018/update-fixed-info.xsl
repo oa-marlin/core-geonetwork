@@ -11,6 +11,8 @@
   xmlns:lan="http://standards.iso.org/iso/19115/-3/lan/1.0"
   xmlns:cit="http://standards.iso.org/iso/19115/-3/cit/2.0"
   xmlns:mri="http://standards.iso.org/iso/19115/-3/mri/1.0"
+  xmlns:mmi="http://standards.iso.org/iso/19115/-3/mmi/1.0"
+  xmlns:gex="http://standards.iso.org/iso/19115/-3/gex/1.0"
   xmlns:mrd="http://standards.iso.org/iso/19115/-3/mrd/1.0"
   xmlns:mrl="http://standards.iso.org/iso/19115/-3/mrl/2.0"
   xmlns:dqm="http://standards.iso.org/iso/19157/-2/dqm/1.0"
@@ -32,6 +34,25 @@
   <xsl:include href="layout/utility-fn.xsl"/>
 
   <xsl:variable name="codelistloc" select="'http://standards.iso.org/iso/19115/resources/Codelist/cat/codelists.xml'"/>
+
+  <xsl:variable name="mapping" select="document('mcp-equipment/equipmentToDataParamsMapping.xml')"/>
+
+  <!-- The csv layout for each element in the above file is:
+                          1)OA_EQUIPMENT_ID,
+                          2)OA_EQUIPMENT_LABEL,
+                          3)AODN_PLATFORM,
+                          4)Platform IRI,
+                          5)AODN_INSTRUMENT,
+                          6)Instrument IRI,
+                          7)AODN_PARAMETER,
+                          8)Parameter IRI,
+                          9)AODN_UNITS,
+                          10)UNITS IRI
+        NOTE: can be multiple rows for each equipment keyword -->
+
+  <xsl:variable name="equipThesaurus" select="'geonetwork.thesaurus.register.equipment.urn:marlin.csiro.au:Equipment'"/>
+
+  <xsl:variable name="idcContact" select="document('http://marlin-dev.it.csiro.au/geonetwork/srv/eng/subtemplate?uuid=urn:marlin.csiro.au:person:125_person_organisation')"/>
 
   <xsl:variable name="editorConfig"
                 select="document('layout/config-editor.xml')"/>
@@ -180,8 +201,21 @@
       <xsl:for-each select="mdb:dateInfo">
         <xsl:variable name="currentDateType" select="*/cit:dateType/*/@codeListValue"/>
 
-        <!-- Update revision date-->
         <xsl:choose>
+          <!-- Update creation date if changed -->
+          <xsl:when test="$currentDateType = 'creation' and /root/env/created">
+            <mdb:dateInfo>
+              <cit:CI_Date>
+                <cit:date>
+                  <gco:DateTime><xsl:value-of select="format-dateTime(current-dateTime(),'[Y0001]-[M01]-[D01]T[H01]:[m01]:[s01]')"/></gco:DateTime>
+                </cit:date>
+                <cit:dateType>
+                  <cit:CI_DateTypeCode codeList="{concat($codelistloc,'#CI_DateTypeCode')}" codeListValue="creation"/>
+                </cit:dateType>
+              </cit:CI_Date>
+            </mdb:dateInfo>
+          </xsl:when>
+          <!-- Update revision date-->
           <xsl:when test="$currentDateType = 'revision' and /root/env/changeDate">
             <mdb:dateInfo>
               <cit:CI_Date>
@@ -250,7 +284,53 @@
       <xsl:apply-templates select="mdb:referenceSystemInfo"/>
       <xsl:apply-templates select="mdb:metadataExtensionInfo"/>
       <xsl:apply-templates select="mdb:identificationInfo"/>
-      <xsl:apply-templates select="mdb:contentInfo"/>
+
+      <!-- Add/Overwrite data parameters if we have an equipment keyword that matches one in our mapping -->
+      <!-- if we have an equipment thesaurus with a match keyword then we process -->
+
+      <xsl:variable name="equipPresent">
+       <xsl:for-each select="//mri:descriptiveKeywords/mri:MD_Keywords[normalize-space(mri:thesaurusName/cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:code/gcx:Anchor)=$equipThesaurus]/mri:keyword/gcx:Anchor">
+        <xsl:element name="dp">
+           <xsl:variable name="currentKeyword" select="text()"/>
+           <!-- <xsl:message>Automatically created dp from <xsl:value-of select="$currentKeyword"/></xsl:message> -->
+           <xsl:for-each select="$mapping/map/equipment">
+              <xsl:variable name="tokens" select="tokenize(string(),',')"/>
+              <!-- <xsl:message>Checking <xsl:value-of select="$tokens[2]"/></xsl:message> -->
+              <xsl:if test="$currentKeyword=$tokens[2]">
+                 <!-- <xsl:message>KW MATCHED TOKEN: <xsl:value-of select="$tokens[2]"/></xsl:message> -->
+                 <xsl:call-template name="fillOutDataParameters">
+                    <xsl:with-param name="tokens" select="$tokens"/>
+                 </xsl:call-template>
+              </xsl:if>
+           </xsl:for-each>
+        </xsl:element>
+       </xsl:for-each>
+      </xsl:variable>
+
+      <!-- Now copy the constructed data parameters into the record -->
+      <xsl:choose>
+        <xsl:when test="count($equipPresent/dp/*) > 0">
+          <mdb:contentInfo>
+            <mrc:MD_CoverageDescription>
+              <mrc:attributeDescription gco:nilReason="inapplicable" />
+              <mrc:attributeGroup>
+                <mrc:MD_AttributeGroup>
+                  <mrc:contentType>
+                    <mrc:MD_CoverageContentTypeCode codeList="{concat($codelistloc,'#MD_CoverageContentTypeCode')}" codeListValue="physicalMeasurement" />
+                  </mrc:contentType>
+                  <xsl:for-each select="$equipPresent/dp/*">
+                    <xsl:copy-of select="."/>
+                  </xsl:for-each>
+                </mrc:MD_AttributeGroup>
+              </mrc:attributeGroup>
+            </mrc:MD_CoverageDescription>
+          </mdb:contentInfo>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates select="mdb:contentInfo"/>
+        </xsl:otherwise>
+      </xsl:choose>
+
       <xsl:apply-templates select="mdb:distributionInfo"/>
       <xsl:apply-templates select="mdb:dataQualityInfo"/>
       <xsl:apply-templates select="mdb:resourceLineage"/>
@@ -260,6 +340,19 @@
       <xsl:apply-templates select="mdb:metadataMaintenance"/>
       <xsl:apply-templates select="mdb:acquisitionInformation"/>
     </xsl:copy>
+  </xsl:template>
+
+  <!-- ================================================================= -->
+
+  <xsl:template name="addIDCAsPointOfContact">
+    <mdb:contact>
+      <cit:CI_Responsibility>
+        <cit:role>
+          <cit:CI_RoleCode codeList="{concat($codelistloc,'#CI_RoleCode')}" codeListValue="pointOfContact">pointOfContact</cit:CI_RoleCode>
+        </cit:role>
+        <cit:party xlink:href="local://xml.metadata.get?uuid=urn:marlin.csiro.au:person:125_person_organisation"/>
+      </cit:CI_Responsibility>
+    </mdb:contact>
   </xsl:template>
 
   <!-- ================================================================= -->
@@ -281,37 +374,184 @@
     </cit:party>
   </xsl:template>
 
-  <!-- ================================================================= -->
-
-  <xsl:template match="cit:CI_Citation[name(..)='mri:citation']">
+	<!-- ================================================================= -->
+ 
+  <xsl:template match="mri:MD_DataIdentification" priority="100">
     <xsl:copy>
-      <xsl:apply-templates select="cit:title"/>
-      <xsl:apply-templates select="cit:alternateTitle"/>
-      <xsl:apply-templates select="cit:date"/>
-      <xsl:apply-templates select="cit:edition"/>
-      <xsl:apply-templates select="cit:editionDate"/>
-      <xsl:apply-templates select="cit:identifier"/>
-      <xsl:if test="count(cit:citedResponsibleParty/cit:CI_Responsibility/cit:role/cit:CI_RoleCode[@codeListValue='custodian'])=0">
-        <cit:citedResponsibleParty>
+      <xsl:copy-of select="@*"/>
+      <xsl:apply-templates select="mri:citation"/>
+      <xsl:apply-templates select="mri:abstract"/>
+      <xsl:apply-templates select="mri:purpose"/>
+      <xsl:apply-templates select="mri:credit"/>
+      <xsl:apply-templates select="mri:status"/>
+      <xsl:apply-templates select="mri:pointOfContact"/>
+			<!-- If no custodian then copy in a resource contact with
+           role custodian, then copy the other resource contact -->
+      <xsl:if test="count(mri:pointOfContact/cit:CI_Responsibility/cit:role/cit:CI_RoleCode[@codeListValue='custodian'])=0">
+        <mri:pointOfContact>
           <cit:CI_Responsibility>
             <cit:role>
               <cit:CI_RoleCode codeList="{concat($codelistloc,'#CI_RoleCode')}"
-                               codeListValue="custodian">custodian</cit:CI_RoleCode>
+                          codeListValue="custodian">custodian</cit:CI_RoleCode>
             </cit:role>
           </cit:CI_Responsibility>
-        </cit:citedResponsibleParty>
+        </mri:pointOfContact>
       </xsl:if>
-      <xsl:apply-templates select="cit:citedResponsibleParty"/>
-      <xsl:apply-templates select="cit:presentationForm"/>
-      <xsl:apply-templates select="cit:series"/>
-      <xsl:apply-templates select="cit:otherCitationDetails"/>
-      <xsl:apply-templates select="cit:ISBN"/>
-      <xsl:apply-templates select="cit:ISSN"/>
-      <xsl:apply-templates select="cit:onlineResource"/>
-      <xsl:apply-templates select="cit:graphic"/>
+      <xsl:apply-templates select="mri:spatialRepresentationType"/>
+      <xsl:apply-templates select="mri:spatialResolution"/>
+      <xsl:apply-templates select="mri:temporalResolution"/>
+      <xsl:apply-templates select="mri:topicCategory"/>
+      <xsl:apply-templates select="mri:extent"/>
+      <xsl:apply-templates select="mri:additionalDocumentation"/> 
+      <xsl:apply-templates select="mri:processingLevel"/> 
+      <xsl:apply-templates select="mri:resourceMaintenance"/>
+      <xsl:apply-templates select="mri:graphicOverview"/>
+      <xsl:apply-templates select="mri:resourceFormat"/>
+      <xsl:apply-templates select="mri:descriptiveKeywords[descendant::mri:type/mri:MD_KeywordTypeCode[not(@codeListValue='platform') and not(@codeListValue='dataParameter') and not(@codeListValue='instrument')]]"/>
+      <xsl:variable name="equipPresent">
+       <xsl:for-each select="mri:descriptiveKeywords/mri:MD_Keywords[normalize-space(mri:thesaurusName/cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:code/gcx:Anchor)=$equipThesaurus]/mri:keyword/gcx:Anchor">
+        <xsl:element name="dp">
+           <xsl:variable name="currentKeyword" select="text()"/>
+           <!-- <xsl:message>Automatically created dp from <xsl:value-of select="$currentKeyword"/></xsl:message> -->
+           <xsl:for-each select="$mapping/map/equipment">
+              <xsl:variable name="tokens" select="tokenize(string(),',')"/>
+              <!-- <xsl:message>Checking <xsl:value-of select="$tokens[2]"/></xsl:message> -->
+              <xsl:if test="$currentKeyword=$tokens[2]">
+                 <!-- <xsl:message>KW MATCHED TOKEN: <xsl:value-of select="$tokens[2]"/></xsl:message> -->
+                 <xsl:call-template name="fillOutDataParameters">
+ 										<xsl:with-param name="tokens" select="$tokens"/> 
+                 </xsl:call-template>
+              </xsl:if>
+           </xsl:for-each>
+        </xsl:element>
+		   </xsl:for-each>
+      </xsl:variable>
+
+      <!-- Now construct data parameter keywords and put them into the record -->
+      <!-- data parameter -->
+      <xsl:if test="count($equipPresent/dp/mrc:attribute//mrc:name) > 0">
+        <mri:descriptiveKeywords>
+          <mri:MD_Keywords>
+            <xsl:for-each-group select="$equipPresent/dp/mrc:attribute//mrc:name//mcc:code/*" group-by="text()">
+              <mri:keyword>
+                <xsl:copy-of select="."/>
+              </mri:keyword>
+            </xsl:for-each-group> 
+          </mri:MD_Keywords> 
+          <mri:type>
+            <mri:MD_KeywordTypeCode codeList="http://schemas.aodn.org.au/mcp-3.0/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="dataParameter">dataParameter</mri:MD_KeywordTypeCode>
+          </mri:type>
+        </mri:descriptiveKeywords>
+      </xsl:if>
+
+      <!-- platform -->
+      <xsl:if test="count($equipPresent/dp/mrc:attribute//mrc:otherProperty//mac:platform/mac:MI_Platform/mac:identifier//mcc:code) > 0">
+        <mri:descriptiveKeywords>
+          <mri:MD_Keywords>
+            <xsl:for-each-group select="$equipPresent/dp/mrc:attribute//mrc:otherProperty//mac:platform/mac:MI_Platform/mac:identifier//mcc:code/*" group-by="text()">
+              <mri:keyword>
+                <xsl:copy-of select="."/>
+              </mri:keyword>
+            </xsl:for-each-group> 
+          </mri:MD_Keywords> 
+          <mri:type>
+            <mri:MD_KeywordTypeCode codeList="http://schemas.aodn.org.au/mcp-3.0/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="platform">platform</mri:MD_KeywordTypeCode>
+          </mri:type>
+        </mri:descriptiveKeywords>
+      </xsl:if>
+
+      <!-- instrument -->
+      <xsl:if test="count($equipPresent/dp/mrc:attribute//mrc:otherProperty//mac:platform//mac:instrument//mcc:code) > 0">
+        <mri:descriptiveKeywords>
+          <mri:MD_Keywords>
+            <xsl:for-each-group select="$equipPresent/dp/mrc:attribute//mrc:otherProperty//mac:platform//mac:instrument//mcc:code/*" group-by="text()">
+              <mri:keyword>
+                <xsl:copy-of select="."/>
+              </mri:keyword>
+            </xsl:for-each-group> 
+          </mri:MD_Keywords> 
+          <mri:type>
+            <mri:MD_KeywordTypeCode codeList="http://schemas.aodn.org.au/mcp-3.0/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="instrument">instrument</mri:MD_KeywordTypeCode>
+          </mri:type>
+        </mri:descriptiveKeywords>
+      </xsl:if>
+
+      <xsl:apply-templates select="mri:resourceSpecificUsage"/>
+      <xsl:apply-templates select="mri:resourceConstraints"/>
+      <xsl:apply-templates select="mri:associatedResource"/>
+      <xsl:apply-templates select="mri:defaultLocale"/>
+      <xsl:apply-templates select="mri:environmentDescription"/>
+      <xsl:apply-templates select="mri:supplementalInformation"/> 
     </xsl:copy>
   </xsl:template>
 
+	<!-- ================================================================= -->
+
+  <xsl:template name="fillOutDataParameters">
+    <xsl:param name="tokens"/>
+
+      <mrc:attribute>
+        <mrc:MD_SampleDimension>>
+					<mrc:name>
+						<mcc:MD_Identifier>
+              <mcc:code>
+                <gcx:Anchor xlink:href="{$tokens[8]}"><xsl:value-of select="$tokens[7]"/></gcx:Anchor>
+              </mcc:code>
+            </mcc:MD_Identifier>
+          </mrc:name>
+					<mrc:units>
+            <gml:BaseUnit gml:id="{generate-id()}">
+              <gml:identifier codeSpace="{$tokens[10]}"><xsl:value-of select="$tokens[10]"/></gml:identifier>
+              <gml:name><xsl:value-of select="$tokens[9]"/></gml:name>
+              <gml:unitsSystem />
+            </gml:BaseUnit>
+          </mrc:units>
+				  <mrc:maxValue gco:nilReason="missing"/>
+				  <mrc:minValue gco:nilReason="missing"/>
+          <mrc:otherProperty>
+            <gco:Record xsi:type="mac:MI_AcquisitionInformation_PropertyType">
+              <mac:MI_AcquisitionInformation>
+                <mac:scope>
+                  <mcc:MD_Scope>
+                    <mcc:level>
+                      <mcc:MD_ScopeCode codeList="{concat($codelistloc,'#MD_ScopeCode')}" codeListValue="collectionHardware" />
+                    </mcc:level>
+                  </mcc:MD_Scope>
+                </mac:scope>
+                <mac:platform>
+                  <mac:MI_Platform>
+                    <mac:identifier>
+                      <mcc:MD_Identifier>
+                        <mcc:code>
+                          <gcx:Anchor xlink:href="{$tokens[4]}"><xsl:value-of select="$tokens[3]"/></gcx:Anchor>
+                        </mcc:code>
+                      </mcc:MD_Identifier>
+                    </mac:identifier>
+                    <mac:description>
+                      <gco:CharacterString>Platform used to capture data</gco:CharacterString>
+                    </mac:description>
+                    <mac:instrument>
+                      <mac:MI_Instrument>
+                        <mac:identifier>
+                          <mcc:MD_Identifier>
+                            <mcc:code>
+                              <gcx:Anchor xlink:href="{$tokens[6]}"><xsl:value-of select="$tokens[5]"/></gcx:Anchor>
+                            </mcc:code>
+                          </mcc:MD_Identifier>
+                        </mac:identifier>
+                        <mac:type gco:nilReason="inapplicable" />
+                      </mac:MI_Instrument>
+                    </mac:instrument>
+                  </mac:MI_Platform>
+                </mac:platform>
+              </mac:MI_AcquisitionInformation>
+            </gco:Record>
+          </mrc:otherProperty>
+        </mrc:MD_SampleDimension>
+      </mrc:attribute>
+
+  </xsl:template>
+	
   <!-- ================================================================= -->
 
   <!-- Update revision date -->
@@ -546,7 +786,7 @@
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:attribute name="codeList">
-        <xsl:value-of select="concat('http://standards.iso.org/iso/19115/resources/Codelists/cat/codelists.xml#',local-name(.))"/>
+        <xsl:value-of select="concat($codelistloc,local-name(.))"/>
       </xsl:attribute>
     </xsl:copy>
   </xsl:template>
@@ -748,6 +988,9 @@
   <!-- Remove empty DQ elements, empty transfer options, empty lineage -->
   <xsl:template match="mdb:dataQualityInfo[count(*) = 0]"/>
   <xsl:template match="mrd:transferOptions[mrd:MD_DigitalTransferOptions/count(*) = 0]"/>
+  <!-- templates to match empty elements left by some editor actions - they are removed -->
+  <xsl:template match="mri:resourceMaintenance[count(mmi:MD_MaintenanceInformation/*)=0]"/>
+  <xsl:template match="gex:geographicElement[count(*)=0]"/>
 
   <!-- copy everything else as is -->
   <xsl:template match="@*|node()">
