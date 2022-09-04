@@ -80,10 +80,10 @@
     Add try/catch block to log out when a label id duplicated
     in loc files. XSLv3 could be useful for that.
     -->
-    <xsl:message>#gn-fn-metadata:getLabel</xsl:message>
+    <!--<xsl:message>#gn-fn-metadata:getLabel</xsl:message>
     <xsl:message>#Element name: <xsl:value-of select="$name"/></xsl:message>
     <xsl:message>#XPath: <xsl:value-of select="$xpath"/></xsl:message>
-    <xsl:message>#Parent: <xsl:value-of select="$parent"/></xsl:message>
+    <xsl:message>#Parent: <xsl:value-of select="$parent"/></xsl:message>-->
 
     <xsl:variable name="escapedName">
       <xsl:choose>
