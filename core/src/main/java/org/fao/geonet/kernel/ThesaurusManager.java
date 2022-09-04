@@ -188,6 +188,7 @@ public class ThesaurusManager implements ThesaurusFinder {
                 final String thesaurusDirName = thesauriDirectory.getFileName().toString();
 
                 final Thesaurus gst;
+/*Disable auto loading of thesauri from register records
                 if (root.equals(Geonet.CodeList.REGISTER)) {
                     if (Log.isDebugEnabled(Geonet.THESAURUS_MAN)) {
                         Log.debug(Geonet.THESAURUS_MAN, "Creating thesaurus : " + aRdfDataFile);
@@ -206,8 +207,11 @@ public class ThesaurusManager implements ThesaurusFinder {
                     gst = new Thesaurus(getIsoLanguagesMapper(context), rdfFileName, root, thesaurusDirName, outputRdf, siteURL);
 
                 } else {
+*/
                     gst = new Thesaurus(getIsoLanguagesMapper(context), rdfFileName, root, thesaurusDirName, thesauriDirectory.resolve(aRdfDataFile), siteURL);
+/*
                 }
+*/
 
                 try {
                     addThesaurus(gst, false);
@@ -434,10 +438,12 @@ public class ThesaurusManager implements ThesaurusFinder {
             elFname.addContent(fname);
 
             Element elTitle = new Element("title");
-            String title = currentTh.getTitles(context.getApplicationContext()).get(context.getLanguage());
-            if (title == null) {
-                title = currentTh.getTitle();
-            }
+            // Simon Pigot: get the title and forget about multilingual titles other a urn will fail because of 
+            // invalid XPATH! September, 2022
+            //String title = currentTh.getTitles(context.getApplicationContext()).get(context.getLanguage());
+            //if (title == null) {
+                String title = currentTh.getTitle();
+            //}
             elTitle.addContent(title);
 
             //add multilingual titles in to response
@@ -505,11 +511,13 @@ public class ThesaurusManager implements ThesaurusFinder {
 
             // By default thesaurus are enabled (if nothing defined in db)
             char activated = Constants.YN_TRUE;
-            final ThesaurusActivationRepository activationRepository = context.getBean(ThesaurusActivationRepository.class);
-            final ThesaurusActivation activation = activationRepository.findOne(currentTh.getKey());
-            if (activation != null && !activation.isActivated()) {
-                activated = Constants.YN_FALSE;
-            }
+            // Simon Pigot: Assume they are all activated, otherwise trying to search on a urn will fail because of 
+            // invalid XPATH! September, 2022
+            //final ThesaurusActivationRepository activationRepository = context.getBean(ThesaurusActivationRepository.class);
+            //final ThesaurusActivation activation = activationRepository.findOne(currentTh.getKey());
+            //if (activation != null && !activation.isActivated()) {
+            //    activated = Constants.YN_FALSE;
+            //}
             elActivated.setText("" + activated);
 
             elLoop.addContent(elKey);
