@@ -4648,11 +4648,11 @@
     <label>Time position</label>
     <description/>
   </element>
-  <element name="gml:timePosition" id="71000.0" context="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:extent/gex:EX_Extent/gex:temporalElement/gex:EX_TemporalExtent/gex:extent/gml:TimePeriod/gml:begin/gml:TimeInstant/gml:timePosition">
+  <element name="gml:timePosition" id="71000.0" context="gml:TimeInstant">
     <label>Start Date</label>
     <description>Start of dataset temporal extent</description>
   </element>
-  <element name="gml:timePosition" id="71001.0" context="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:extent/gex:EX_Extent/gex:temporalElement/gex:EX_TemporalExtent/gex:extent/gml:TimePeriod/gml:end/gml:TimeInstant/gml:timePosition">
+  <element name="gml:timePosition" id="71001.0" context="gml:TimeInstant">
     <label>End Date</label>
     <description>End of dataset temporal extent</description>
   </element>

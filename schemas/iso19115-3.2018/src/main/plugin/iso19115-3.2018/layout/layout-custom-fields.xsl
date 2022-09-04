@@ -325,7 +325,7 @@
        </mcp:party>
   -->
   <xsl:template mode="mode-iso19115-3.2018" match="cit:party[@xlink:href!='']" priority="33000">
-    <xsl:param name="schema" select="'iso191115-3'" required="no"/>
+    <xsl:param name="schema" select="$schema" required="no"/>
     <xsl:param name="labels" select="$labels" required="no"/>
     <xsl:param name="title" select="'Party'"/>
 
@@ -343,7 +343,7 @@
 
   <!-- XLINK'd mri:resourceConstraints -->
   <xsl:template mode="mode-iso19115-3.2018" match="mri:resourceConstraints[@xlink:href!='']" priority="33000">
-    <xsl:param name="schema" select="'iso191115-3'" required="no"/>
+    <xsl:param name="schema" select="$schema" required="no"/>
     <xsl:param name="labels" select="$labels" required="no"/>
     <xsl:variable name="title" select="if (mco:MD_LegalConstraints/mco:reference/cit:CI_Citation/cit:title/gco:CharacterString) then mco:MD_LegalConstraints/mco:reference/cit:CI_Citation/cit:title/gco:CharacterString else 'Unknown license'"/>
     <xsl:call-template name="render-boxed-element">
