@@ -233,9 +233,9 @@
     <name>msr:projection</name>
     <name>srv:containsOperations</name>
     <name>srv:SV_CoupledResource</name>
-    <!-- DELWP Additions -->
-    <name>mac:MI_Sensor</name>
-    <name>delwp:classification</name>
+    <!-- CSIRO Additions -->
+    <name>mrl:source</name>
+    <name>mri:additionalDocumentation</name>
   </fieldsWithFieldset>
 
   <multilingualFields>
